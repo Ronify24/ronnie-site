@@ -1,586 +1,307 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Ronnie Cleland — Digital Innovation with 3D and Real-Time</title>
-    <style>
-        a {
-            color: var(--fg);
-            text-decoration: none
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ronnie Cleland — Digital Innovation with 3D and Real-Time</title>
+  <style>
+    a{ color:var(--fg); text-decoration:none }
+    a:hover{ color:var(--accent) }
+    :root{
+      --bg:#0a0d12;
+      --fg:#e9edf1;
+      --muted:#9aa4ad;
+      --accent:#49e0c8;
+      --accent-2:#8ad1ff;
+      --accent-3:#caa7ff;
+      --card:#10141d;
+      --card2:#0d1218;
+      --edge:#141c24;
+      --radius:18px;
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:
+        radial-gradient(900px 500px at 85% 15%, rgba(137,209,255,0.08), transparent 60%),
+        radial-gradient(900px 500px at 15% 85%, rgba(202,167,255,0.08), transparent 60%),
+        linear-gradient(180deg,#0b0f15, #080b10 60%);
+      color:var(--fg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      line-height:1.45;
+      overflow:hidden;
+    }
+    .frame{height:100%;width:100%;display:grid;grid-template-rows:84px 1fr 56px;gap:14px;padding:18px 20px;}
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+    .brand{display:flex;align-items:center;gap:14px;}
+    .avatar{
+      width:52px;height:52px;border-radius:12px;
+      background:#0d1117;overflow:hidden;border:1px solid var(--edge);box-shadow:var(--shadow);
+    }
+    .avatar img{width:100%;height:100%;object-fit:cover;display:block}
+    h1{margin:0;font-size:28px;letter-spacing:.2px;}
+    .subtitle{color:var(--muted);font-size:25px;margin-top:2px;}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;}
+    .btn{
+      border:1px solid var(--edge);
+      background:linear-gradient(180deg, #121824, #0f141e);
+      color:var(--fg);padding:10px 14px;border-radius:12px;cursor:pointer;
+      transition:all .15s ease;box-shadow:var(--shadow);font-weight:600;letter-spacing:.2px;
+    }
+    .btn:hover{transform:translateY(-1px);border-color:#21303b}
+    .btn.accent{background:linear-gradient(180deg,#132022,#0f1a19);border-color:#1e3431;box-shadow:0 0 0 1px rgba(73,224,200,.12) inset;}
+    .grid{display:grid;grid-template-columns:180px 1fr;gap:16px;min-height:0;}
+    nav{
+      background:var(--card);border:1px solid var(--edge);border-radius:var(--radius);padding:14px;
+      box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px;overflow:hidden;
+    }
+    .tab{
+      width:100%;text-align:left;padding:12px;border-radius:12px;background:transparent;color:var(--fg);
+      border:1px solid transparent;cursor:pointer;font-weight:600;letter-spacing:.2px;
+    }
+    .tab:hover{background:#0f1822;border-color:#1a2532}
+    .tab.active{background:#12202a;border-color:#223444;color:#e9fffb;box-shadow:0 0 0 1px rgba(73,224,200,.12) inset;}
+    .panel{
+      background:var(--card2);border:1px solid var(--edge);border-radius:var(--radius);
+      padding:16px;box-shadow:var(--shadow);min-height:0;overflow:hidden;display:none;
+    }
+    .panel.active{display:grid;grid-template-rows:auto 1fr;gap:10px;}
+    .panel h2{margin:0 0 4px 0;font-size:23px;}
+    .content{
+      background:linear-gradient(180deg,#0b1118,#0a0f15);border:1px solid var(--edge);border-radius:14px;padding:14px;overflow:auto;
+    }
+    .kv{display:grid;gap:8px;}
+    .kv .k{color:var(--muted);font-size:30px;text-transform:uppercase;letter-spacing:.8px;}
+    .kv .v{font-size:25px}
+    .skills{display:grid;gap:30px;}
+    .skills .row{display:grid;grid-template-columns:260px 1fr;gap:22px;align-items:start;}
+    .skills .cat{color:var(--muted);font-size:20px;text-transform:uppercase;letter-spacing:.8px;padding-top:4px}
+    .skills .vals{font-size:23px}
+    .reel-wrap{display:grid;gap:10px}
+    .reel{
+      position:relative;
+      aspect-ratio:16/9;
+      padding-top:56.25%; /* fallback */
+      border-radius:14px;
+      overflow:hidden;
+      background:#091017;
+      border:1px solid var(--edge);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .reel iframe,.reel video{position:absolute;inset:0;width:100%;height:100%;border:0} .reel video{object-fit:contain}
+    .reel video{ object-fit:contain; }
+    .reel-controls{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px}
+    .dots{display:flex;gap:12px;align-items:center;justify-content:center}
+    .dot{
+      width:16px;height:16px;border-radius:999px;
+      border:2px solid #2b3a44;
+      background:#0f1620;
+      cursor:pointer;
+      box-shadow:0 0 0 1px rgba(138,209,255,.18) inset;
+      transition:transform .12s ease, box-shadow .12s ease;
+    }
+    .dot.active{background:var(--accent);box-shadow:0 0 0 2px rgba(73,224,200,.35);transform:scale(1.15)}
+    .prevnext{display:flex;gap:8px;justify-self:start}
+    .pn{border:1px solid var(--edge);background:#121824;color:var(--fg);padding:8px 10px;border-radius:10px;cursor:pointer;} .reel-controls .dots{justify-self:center} .reel-controls .prevnext{justify-self:start} .reel-controls .next{justify-self:end}
+    .pn:hover{border-color:#223444}
+    footer{display:flex;align-items:center;justify-content:space-between;gap:10px;color:var(--muted);font-size:16px;}
+    .links{display:flex;gap:12px;flex-wrap:wrap}
+    .links a{color:var(--fg);text-decoration:none;border-bottom:1px dotted #2a3a3f} .links a:hover{ color:var(--accent) }
+    @media (max-width: 980px){.grid{grid-template-columns:1fr;grid-template-rows:auto 1fr} nav{flex-direction:row;flex-wrap:wrap;gap:8px} .tab{flex:1 1 140px}}
+  #panel-reel .content{overflow:hidden}
+  
+#panel-reel .content{
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:12px 12px 16px;
+}
+.reel-wrap{ width:min(96%, 1580px); margin:0 auto; }
+.reel{ width:100%; aspect-ratio:16/9; }
+.reel-controls{ padding:10px 0 2px; }
 
-            a:hover {
-                color: var(--accent)
-            }
-
-        :root {
-            --bg: #0a0d12;
-            --fg: #e9edf1;
-            --muted: #9aa4ad;
-            --accent: #49e0c8;
-            --accent-2: #8ad1ff;
-            --accent-3: #caa7ff;
-            --card: #10141d;
-            --card2: #0d1218;
-            --edge: #141c24;
-            --radius: 18px;
-            --shadow: 0 10px 30px rgba(0,0,0,.35);
-        }
-
-        * {
-            box-sizing: border-box
-        }
-
-        html, body {
-            height: 100%
-        }
-
-        body {
-            margin: 0;
-            background: radial-gradient(900px 500px at 85% 15%, rgba(137,209,255,0.08), transparent 60%), radial-gradient(900px 500px at 15% 85%, rgba(202,167,255,0.08), transparent 60%), linear-gradient(180deg,#0b0f15, #080b10 60%);
-            color: var(--fg);
-            font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-            line-height: 1.45;
-            overflow: hidden;
-        }
-
-        .frame {
-            height: 100%;
-            width: 100%;
-            display: grid;
-            grid-template-rows: 84px 1fr 56px;
-            gap: 14px;
-            padding: 18px 20px;
-        }
-
-        header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .avatar {
-            width: 52px;
-            height: 52px;
-            border-radius: 12px;
-            background: #0d1117;
-            overflow: hidden;
-            border: 1px solid var(--edge);
-            box-shadow: var(--shadow);
-        }
-
-            .avatar img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                display: block
-            }
-
-        h1 {
-            margin: 0;
-            font-size: 28px;
-            letter-spacing: .2px;
-        }
-
-        .subtitle {
-            color: var(--muted);
-            font-size: 25px;
-            margin-top: 2px;
-        }
-
-        .actions {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            border: 1px solid var(--edge);
-            background: linear-gradient(180deg, #121824, #0f141e);
-            color: var(--fg);
-            padding: 10px 14px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all .15s ease;
-            box-shadow: var(--shadow);
-            font-weight: 600;
-            letter-spacing: .2px;
-        }
-
-            .btn:hover {
-                transform: translateY(-1px);
-                border-color: #21303b
-            }
-
-            .btn.accent {
-                background: linear-gradient(180deg,#132022,#0f1a19);
-                border-color: #1e3431;
-                box-shadow: 0 0 0 1px rgba(73,224,200,.12) inset;
-            }
-
-        .grid {
-            display: grid;
-            grid-template-columns: 180px 1fr;
-            gap: 16px;
-            min-height: 0;
-        }
-
-        nav {
-            background: var(--card);
-            border: 1px solid var(--edge);
-            border-radius: var(--radius);
-            padding: 14px;
-            box-shadow: var(--shadow);
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            overflow: hidden;
-        }
-
-        .tab {
-            width: 100%;
-            text-align: left;
-            padding: 12px;
-            border-radius: 12px;
-            background: transparent;
-            color: var(--fg);
-            border: 1px solid transparent;
-            cursor: pointer;
-            font-weight: 600;
-            letter-spacing: .2px;
-        }
-
-            .tab:hover {
-                background: #0f1822;
-                border-color: #1a2532
-            }
-
-            .tab.active {
-                background: #12202a;
-                border-color: #223444;
-                color: #e9fffb;
-                box-shadow: 0 0 0 1px rgba(73,224,200,.12) inset;
-            }
-
-        .panel {
-            background: var(--card2);
-            border: 1px solid var(--edge);
-            border-radius: var(--radius);
-            padding: 16px;
-            box-shadow: var(--shadow);
-            min-height: 0;
-            overflow: hidden;
-            display: none;
-        }
-
-            .panel.active {
-                display: grid;
-                grid-template-rows: auto 1fr;
-                gap: 10px;
-            }
-
-            .panel h2 {
-                margin: 0 0 4px 0;
-                font-size: 23px;
-            }
-
-        .content {
-            background: linear-gradient(180deg,#0b1118,#0a0f15);
-            border: 1px solid var(--edge);
-            border-radius: 14px;
-            padding: 14px;
-            overflow: auto;
-        }
-
-        .kv {
-            display: grid;
-            gap: 8px;
-        }
-
-            .kv .k {
-                color: var(--muted);
-                font-size: 30px;
-                text-transform: uppercase;
-                letter-spacing: .8px;
-            }
-
-            .kv .v {
-                font-size: 25px
-            }
-
-        .skills {
-            display: grid;
-            gap: 30px;
-        }
-
-            .skills .row {
-                display: grid;
-                grid-template-columns: 260px 1fr;
-                gap: 22px;
-                align-items: start;
-            }
-
-            .skills .cat {
-                color: var(--muted);
-                font-size: 20px;
-                text-transform: uppercase;
-                letter-spacing: .8px;
-                padding-top: 4px
-            }
-
-            .skills .vals {
-                font-size: 23px
-            }
-
-        .reel-wrap {
-            display: grid;
-            gap: 10px
-        }
-
-        .reel {
-            position: relative;
-            aspect-ratio: 16/9;
-            padding-top: 56.25%; /* fallback */
-            border-radius: 14px;
-            overflow: hidden;
-            background: #091017;
-            border: 1px solid var(--edge);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-            .reel iframe, .reel video {
-                position: absolute;
-                inset: 0;
-                width: 100%;
-                height: 100%;
-                border: 0
-            }
-
-            .reel video {
-                object-fit: contain
-            }
-
-            .reel video {
-                object-fit: contain;
-            }
-
-        .reel-controls {
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            align-items: center;
-            gap: 10px
-        }
-
-        .dots {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            justify-content: center
-        }
-
-        .dot {
-            width: 16px;
-            height: 16px;
-            border-radius: 999px;
-            border: 2px solid #2b3a44;
-            background: #0f1620;
-            cursor: pointer;
-            box-shadow: 0 0 0 1px rgba(138,209,255,.18) inset;
-            transition: transform .12s ease, box-shadow .12s ease;
-        }
-
-            .dot.active {
-                background: var(--accent);
-                box-shadow: 0 0 0 2px rgba(73,224,200,.35);
-                transform: scale(1.15)
-            }
-
-        .prevnext {
-            display: flex;
-            gap: 8px;
-            justify-self: start
-        }
-
-        .pn {
-            border: 1px solid var(--edge);
-            background: #121824;
-            color: var(--fg);
-            padding: 8px 10px;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-
-        .reel-controls .dots {
-            justify-self: center
-        }
-
-        .reel-controls .prevnext {
-            justify-self: start
-        }
-
-        .reel-controls .next {
-            justify-self: end
-        }
-
-        .pn:hover {
-            border-color: #223444
-        }
-
-        footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            color: var(--muted);
-            font-size: 16px;
-        }
-
-        .links {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap
-        }
-
-            .links a {
-                color: var(--fg);
-                text-decoration: none;
-                border-bottom: 1px dotted #2a3a3f
-            }
-
-                .links a:hover {
-                    color: var(--accent)
-                }
-
-        @media (max-width: 980px) {
-            .grid {
-                grid-template-columns: 1fr;
-                grid-template-rows: auto 1fr
-            }
-
-            nav {
-                flex-direction: row;
-                flex-wrap: wrap;
-                gap: 8px
-            }
-
-            .tab {
-                flex: 1 1 140px
-            }
-        }
-
-        #panel-reel .content {
-            overflow: hidden
-        }
-
-        #panel-reel .content {
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 12px 12px 16px;
-        }
-
-        .reel-wrap {
-            width: min(96%, 1580px);
-            margin: 0 auto;
-        }
-
-        .reel {
-            width: 100%;
-            aspect-ratio: 16/9;
-        }
-
-        .reel-controls {
-            padding: 10px 0 2px;
-        }
-    </style>
+  </style>
 </head>
 <body>
-    <div class="frame">
-        <header>
-            <div class="brand">
-                <div class="avatar" aria-hidden="true"><img src="./assets/lumify_profpic.png" alt="Profile" /></div>
-                <div>
-                    <h1>Ronnie Cleland</h1>
-                    <div class="subtitle">Digital Innovation with 3D and Real-Time. Creative Tech. Product and Pipeline.</div>
-                </div>
-            </div>
-            <div class="actions">
-                <a class="btn accent" href="#reel" onclick="selectTab('reel')">Watch Reel</a>
-                <!--<a class="btn" href="mailto:hello@example.com">Contact</a>-->
-                <a class="btn" href="#" onclick="alert('https://github.com/Ronify24/ronnie-site/blob/main/assets/RonnieCleland_2025_Resume.pdf');">Download Resume</a>
-            </div>
-        </header>
-
-        <div class="grid">
-            <nav>
-                <button class="tab active" id="tab-overview" onclick="selectTab('overview')">Overview</button>
-                <button class="tab" id="tab-skills" onclick="selectTab('skills')">Skills</button>
-                <button class="tab" id="tab-reel" onclick="selectTab('reel')">Reel</button>
-                <button class="tab" id="tab-projects" onclick="selectTab('projects')">Projects</button>
-                <button class="tab" id="tab-contact" onclick="selectTab('contact')">Contact</button>
-            </nav>
-
-            <section class="panel active" id="panel-overview">
-                <h2>Overview</h2>
-                <div class="content"><div class="kv"><div class="v">I design and operate AI workflows that accelerate creative and digital storytelling.  For the last 19 years, I've been involved with the look development and creative departments in VFX and Animation studios.  I love the creation process and thrive off team collaboration.  I've always been inspired by visual details, so it is only natural that I have established myself in Look Dev/Surfacing Departments.   From assets and locations to world building, I've evolved in my career with the use of Unreal Engine.  Concept to creation is the name of the game and Unreal has propelled me to contribute to almost all spectrums of world building and previs production.  From assembly, blueprints, to look development, I've found my new passion in the next generation real-time creative pipeline.
-            </section>
-
-            <section class="panel" id="panel-skills">
-                <h2>Software and Core Skills</h2>
-                <div class="content">
-                    <div class="skills">
-                        <div class="row"><div class="cat">Generative and vision</div><div class="vals">SDXL, Flux Kontext, Wan 2.2, ControlNet, Real-ESRGAN, Segment Anything, Depth Anything, Diffusers</div></div>
-                        <div class="row"><div class="cat">Video and post</div><div class="vals">DaVinci Resolve Studio, After Effects, Premiere Pro, Photoshop</div></div>
-                        <div class="row"><div class="cat">3D and real time</div><div class="vals">Unreal Engine, Maya, Houdini, USD, Substance Suites</div></div>
-                        <div class="row"><div class="cat">Data science and modeling</div><div class="vals">Jupyter Notebooks, PyTorch, NumPy, Pandas, Hugging Face Hub</div></div>
-                        <div class="row"><div class="cat">Pipeline and backend</div><div class="vals">Flask, REST APIs, WebSockets, JSON schemas, job queues, structured logging</div></div>
-                        <div class="row"><div class="cat">Compute and ops</div><div class="vals">NVIDIA CUDA, RunPod, AWS, Coreweave, Git, GitHub Actions</div></div>
-                        <div class="row"><div class="cat">Governance and PM</div><div class="vals">IBM watsonx.governance, Jira, Google Workspace</div></div>
-                        <div class="row"><div class="cat">Workflow orchestration</div><div class="vals">ComfyUI node graphs, reusable templates, batch runs</div></div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="panel" id="panel-reel">
-                <h2>Reel</h2>
-                <div class="content">
-                    <div class="reel-wrap">
-                        <div class="reel" id="reel-slot"></div>
-                        <div class="reel-controls">
-                            <div class="prevnext">
-                                <button class="pn" onclick="prevVid()">Prev</button>
-                                <button class="pn" onclick="nextVid()">Next</button>
-                            </div>
-                            <div class="dots" id="dots"></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="panel" id="panel-projects">
-                <h2>Projects</h2>
-                <div class="content">
-                    <ul>
-                        <li>Lumify Application and Platform, multimodal image to video pipelines with Flux Kontext and Wan 2.2, Flask API and ComfyUI orchestration.</li>
-                        <li>
-                            Movies-
-                            -Trouble
-                            -Trolls Holiday Special 2
-                            -Croods 2
-                            -How To Train Your Dragon 3 : Hidden World
-                            -Bilby
-                            -Kung Fu Panda 3
-                            -Boss Baby
-                            -Penguins of Madagascar
-                            -Home
-                            -The Croods
-                            -Puss in Boots
-                            -Wallenda
-                            -Unstoppable
-                            -Prince of Persia
-                            -Sorcerers Apprentice
-                            -Verizon Droid / Drop Day Commercial
-                            -The Curious Case of Benjamin Button
-                            -Land of the Lost
-                            -Night at the Museum 2
-                            -Cirque du Freak
-                            -Aliens in the Attic
-                            -Fast and Furious 4
-                            -Rocky Balboa
-                            -Nightmare Before Christmas 3D
-                            -Pirates of the Caribbean 2
-                            -Ghost Rider
-                        </li>
-                    </ul>
-                </div>
-            </section>
-
-            <section class="panel" id="panel-contact">
-                <h2>Contact</h2>
-                <div class="content">
-                    <div class="kv">
-                        <div class="k">Email</div><div class="v"><a href="mailto:ronnie@lumifyai.com">ronnie@lumifyai.com</a></div>
-                        <!--<div class="k">Portfolio</div><div class="v"><a href="https://www.nikkitomaino.tech" target="_blank" rel="noopener">nikkitomaino.tech</a></div>-->
-                        <div class="k">LinkedIn</div><div class="v"><a href="https://www.linkedin.com/public-profile/settings?trk=d_flagship3_profile_self_view_public_profile" target="_blank" rel="noopener">LinkedIn</a></div>
-                        <div class="k">IMDB</div><div class="v"><a href="https://www.imdb.com/name/nm2748136/" target="_blank" rel="noopener">IMDB</a></div>
-                    </div>
-                </div>
-            </section>
+  <div class="frame">
+    <header>
+      <div class="brand">
+        <div class="avatar" aria-hidden="true"><img src="./assets/lumify_profpic.png" alt="Profile" /></div>
+        <div>
+          <h1>Ronnie Cleland</h1>
+          <div class="subtitle">Digital Innovation with 3D and Real-Time. Creative Tech. Product and Pipeline.</div>
         </div>
+      </div>
+      <div class="actions">
+          <a class="btn accent" href="#reel" onclick="selectTab('reel')">Watch Reel</a>
+          <!--<a class="btn" href="mailto:hello@example.com">Contact</a>-->
+          <a class="btn" href="#" onclick="alert('https://github.com/Ronify24/ronnie-site/blob/main/assets/RonnieCleland_2025_Resume.pdf');">Download Resume</a>
+      </div>
+    </header>
 
-        <footer>
-            <div>© <span id="year"></span> Ronnie Cleland</div>
-            <div class="links">
-                <a href="#" onclick="selectTab('overview')">Overview</a>
-                <a href="#" onclick="selectTab('skills')">Skills</a>
-                <a href="#" onclick="selectTab('reel')">Reel</a>
-                <a href="#" onclick="selectTab('projects')">Projects</a>
-                <a href="#" onclick="selectTab('contact')">Contact</a>
+    <div class="grid">
+      <nav>
+        <button class="tab active" id="tab-overview" onclick="selectTab('overview')">Overview</button>
+        <button class="tab" id="tab-skills" onclick="selectTab('skills')">Skills</button>
+        <button class="tab" id="tab-reel" onclick="selectTab('reel')">Reel</button>
+        <button class="tab" id="tab-projects" onclick="selectTab('projects')">Projects</button>
+        <button class="tab" id="tab-contact" onclick="selectTab('contact')">Contact</button>
+      </nav>
+
+      <section class="panel active" id="panel-overview">
+        <h2>Overview</h2>
+        <div class="content"><div class="kv"><div class="v">I design and operate AI workflows that accelerate creative and digital storytelling.  For the last 19 years, I've been involved with the look development and creative departments in VFX and Animation studios.  I love the creation process and thrive off team collaboration.  I've always been inspired by visual details, so it is only natural that I have established myself in Look Dev/Surfacing Departments.   From assets and locations to world building, I've evolved in my career with the use of Unreal Engine.  Concept to creation is the name of the game and Unreal has propelled me to contribute to almost all spectrums of world building and previs production.  From assembly, blueprints, to look development, I've found my new passion in the next generation real-time creative pipeline. 
+      </section>
+
+      <section class="panel" id="panel-skills">
+        <h2>Software and Core Skills</h2>
+        <div class="content">
+            <div class="skills">
+                <div class="row"><div class="cat">Generative and vision</div><div class="vals">SDXL, Flux Kontext, Wan 2.2, ControlNet, Real-ESRGAN, Segment Anything, Depth Anything, Diffusers</div></div>
+                <div class="row"><div class="cat">Video and post</div><div class="vals">DaVinci Resolve Studio, After Effects, Premiere Pro, Photoshop</div></div>
+                <div class="row"><div class="cat">3D and real time</div><div class="vals">Unreal Engine, Maya, Houdini, USD, Substance Suites</div></div>
+                <div class="row"><div class="cat">Data science and modeling</div><div class="vals">Jupyter Notebooks, PyTorch, NumPy, Pandas, Hugging Face Hub</div></div>
+                <div class="row"><div class="cat">Pipeline and backend</div><div class="vals">Flask, REST APIs, WebSockets, JSON schemas, job queues, structured logging</div></div>
+                <div class="row"><div class="cat">Compute and ops</div><div class="vals">NVIDIA CUDA, RunPod, AWS, Coreweave, Git, GitHub Actions</div></div>
+                <div class="row"><div class="cat">Governance and PM</div><div class="vals">IBM watsonx.governance, Jira, Google Workspace</div></div>
+                <div class="row"><div class="cat">Workflow orchestration</div><div class="vals">ComfyUI node graphs, reusable templates, batch runs</div></div>
             </div>
-        </footer>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-reel">
+        <h2>Reel</h2>
+        <div class="content">
+          <div class="reel-wrap">
+            <div class="reel" id="reel-slot"></div>
+            <div class="reel-controls">
+              <div class="prevnext">
+                <button class="pn" onclick="prevVid()">Prev</button>
+                <button class="pn" onclick="nextVid()">Next</button>
+              </div>
+              <div class="dots" id="dots"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-projects">
+        <h2>Projects</h2>
+        <div class="content">
+          <ul>
+            <li>Lumify Application and Platform, multimodal image to video pipelines with Flux Kontext and Wan 2.2, Flask API and ComfyUI orchestration.</li>
+            <li>Movies-
+                -Trouble
+                -Trolls Holiday Special 2
+                -Croods 2
+                -How To Train Your Dragon 3 : Hidden World
+                -Bilby
+                -Kung Fu Panda 3
+                -Boss Baby
+                -Penguins of Madagascar
+                -Home
+                -The Croods
+                -Puss in Boots
+                -Wallenda
+                -Unstoppable
+                -Prince of Persia
+                -Sorcerers Apprentice
+                -Verizon Droid / Drop Day Commercial
+                -The Curious Case of Benjamin Button
+                -Land of the Lost
+                -Night at the Museum 2
+                -Cirque du Freak
+                -Aliens in the Attic
+                -Fast and Furious 4
+                -Rocky Balboa
+                -Nightmare Before Christmas 3D
+                -Pirates of the Caribbean 2
+                -Ghost Rider
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-contact">
+        <h2>Contact</h2>
+        <div class="content">
+          <div class="kv">
+            <div class="k">Email</div><div class="v"><a href="mailto:ronnie@lumifyai.com">ronnie@lumifyai.com</a></div>
+            <!--<div class="k">Portfolio</div><div class="v"><a href="https://www.nikkitomaino.tech" target="_blank" rel="noopener">nikkitomaino.tech</a></div>-->
+            <div class="k">LinkedIn</div><div class="v"><a href="https://www.linkedin.com/public-profile/settings?trk=d_flagship3_profile_self_view_public_profile" target="_blank" rel="noopener">LinkedIn</a></div>
+            <div class="k">IMDB</div><div class="v"><a href="https://www.imdb.com/name/nm2748136/" target="_blank" rel="noopener">IMDB</a></div>
+          </div>
+        </div>
+      </section>
     </div>
 
-    <script>
-        const tabs = ["overview", "skills", "reel", "projects", "contact"];
-        function selectTab(name) {
-            tabs.forEach(t => {
-                document.getElementById("tab-" + t)?.classList.remove("active");
-                document.getElementById("panel-" + t)?.classList.remove("active");
-            });
-            document.getElementById("tab-" + name)?.classList.add("active");
-            document.getElementById("panel-" + name)?.classList.add("active");
-            history.replaceState(null, "", "#" + name);
-        }
-        const hash = location.hash.replace("#", "");
-        if (tabs.includes(hash)) selectTab(hash);
-        document.getElementById("year").textContent = new Date().getFullYear();
+    <footer>
+      <div>© <span id="year"></span> Ronnie Cleland</div>
+      <div class="links">
+        <a href="#" onclick="selectTab('overview')">Overview</a>
+        <a href="#" onclick="selectTab('skills')">Skills</a>
+        <a href="#" onclick="selectTab('reel')">Reel</a>
+        <a href="#" onclick="selectTab('projects')">Projects</a>
+        <a href="#" onclick="selectTab('contact')">Contact</a>
+      </div>
+    </footer>
+  </div>
 
-        /* Reel carousel, replace with your video URLs */
-        const vids = [
-            "https://player.vimeo.com/video/462445892?h=3cdd3f57a6",
-            "https://player.vimeo.com/video/464816152?h=d1eb93eae4",
-            "https://player.vimeo.com/video/70997907?h=29ee618e70",
-            "https://player.vimeo.com/video/8502989?h=81ef88331d"
-        ];
-        let current = 0;
-        const slot = document.getElementById("reel-slot");
-        const dots = document.getElementById("dots");
-        function render() {
-            slot.innerHTML = "";
-            const url = vids[current];
-            if (url.endsWith(".mp4")) {
-                const v = document.createElement("video");
-                v.src = url; v.controls = true; v.playsInline = true; v.setAttribute("playsinline", "");
-                slot.appendChild(v);
-            } else {
-                const f = document.createElement("iframe"); f.setAttribute("scrolling", "no"); f.setAttribute("width", "100%"); f.setAttribute("height", "100%"); f.setAttribute("referrerpolicy", "strict-origin-when-cross-origin"); f.setAttribute("allow", "autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"); f.setAttribute('scrolling', 'no');
-                f.src = url;
-                f.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-                f.allowFullscreen = true; f.title = "Reel";
-                slot.appendChild(f);
-            }
-            dots.innerHTML = "";
-            vids.forEach((_, i) => {
-                const d = document.createElement("div");
-                d.className = "dot" + (i === current ? " active" : "");
-                d.onclick = () => { current = i; render(); };
-                dots.appendChild(d);
-            });
-        }
-        function prevVid() { current = (current + vids.length - 1) % vids.length; render(); }
-        function nextVid() { current = (current + 1) % vids.length; render(); }
-        render();
-    </script>
+  <script>
+    const tabs = ["overview","skills","reel","projects","contact"];
+    function selectTab(name){
+      tabs.forEach(t=>{
+        document.getElementById("tab-"+t)?.classList.remove("active");
+        document.getElementById("panel-"+t)?.classList.remove("active");
+      });
+      document.getElementById("tab-"+name)?.classList.add("active");
+      document.getElementById("panel-"+name)?.classList.add("active");
+      history.replaceState(null,"","#"+name);
+    }
+    const hash = location.hash.replace("#","");
+    if (tabs.includes(hash)) selectTab(hash);
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    /* Reel carousel, replace with your video URLs */
+    const vids = [
+  "https://player.vimeo.com/video/462445892?h=3cdd3f57a6",
+  "https://player.vimeo.com/video/464816152?h=d1eb93eae4",
+  "https://player.vimeo.com/video/70997907?h=29ee618e70",
+  "https://player.vimeo.com/video/8502989?h=81ef88331d"
+];
+    let current = 0;
+    const slot = document.getElementById("reel-slot");
+    const dots = document.getElementById("dots");
+    function render(){
+      slot.innerHTML = "";
+      const url = vids[current];
+      if(url.endsWith(".mp4")){
+        const v = document.createElement("video");
+        v.src = url; v.controls = true; v.playsInline = true; v.setAttribute("playsinline","");
+        slot.appendChild(v);
+      } else {
+        const f = document.createElement("iframe"); f.setAttribute("scrolling","no"); f.setAttribute("width","100%"); f.setAttribute("height","100%"); f.setAttribute("referrerpolicy","strict-origin-when-cross-origin"); f.setAttribute("allow","autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"); f.setAttribute('scrolling','no');
+        f.src = url;
+        f.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+        f.allowFullscreen = true; f.title = "Reel";
+        slot.appendChild(f);
+      }
+      dots.innerHTML = "";
+      vids.forEach((_,i)=>{
+        const d = document.createElement("div");
+        d.className = "dot" + (i===current ? " active" : "");
+        d.onclick = ()=>{ current = i; render(); };
+        dots.appendChild(d);
+      });
+    }
+    function prevVid(){ current = (current + vids.length - 1) % vids.length; render(); }
+    function nextVid(){ current = (current + 1) % vids.length; render(); }
+    render();
+  </script>
 </body>
 </html>
