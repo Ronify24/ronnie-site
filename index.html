@@ -452,44 +452,15 @@
         }
     
 /* Overview responsive layout: text on top, image fills the remaining space */
-#panel-overview .content{
-  display:grid;
-  grid-template-rows:auto 1fr;
-  align-content:start;
-  padding:22px 20px 18px;
-}
+#panel-overview .content{display:grid;grid-template-rows:auto 1fr;align-content:start;padding:22px 20px 18px;row-gap:14px;position:relative;}
 #panel-overview .ov-text{align-self:start;}
-#panel-overview .ov-imgwrap{
-  position:relative;
-  width:min(96%, 1400px);
-  margin:0 auto;
-  align-self:end;
-  min-height:300px;
-  height:100%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-#panel-overview .ov-hero{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:contain; /* show the entire image without cropping */
-  object-position:center bottom; /* prefer anchoring toward the bottom edge */
-  opacity:.98;
-  filter:saturate(1.05) contrast(1.02);
-}
-#panel-overview .ov-vignette{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    radial-gradient(75% 60% at 50% 100%, color-mix(in srgb, var(--accent) 16%, transparent) 0%, transparent 70%),
-    linear-gradient(180deg, transparent 0%, rgba(0,0,0,.35) 80%);
-  mix-blend-mode:screen;
-  pointer-events:none;
-}
+#panel-overview .ov-imgwrap{position:relative;width:min(98%,1400px);margin:0 auto;align-self:stretch;min-height:clamp(320px,60vh,860px);height:100%;display:flex;align-items:flex-end;justify-content:center;}
+#panel-overview .ov-hero{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;opacity:.98;filter:saturate(1.05) contrast(1.02);}
+#panel-overview .ov-vignette{content:"";position:absolute;inset:0;pointer-events:none;background:
+  linear-gradient(180deg, rgba(10,14,18,.55) 0%, rgba(10,14,18,.25) 18%, rgba(10,14,18,0) 38%),
+  radial-gradient(85% 60% at 50% 100%, color-mix(in srgb, var(--accent) 18%, transparent) 0%, transparent 70%),
+  linear-gradient(180deg, transparent 65%, rgba(0,0,0,.55) 100%);
+ mix-blend-mode:screen;}
 
     </style>
 </head>
