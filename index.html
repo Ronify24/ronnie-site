@@ -450,6 +450,44 @@
             font-size: 22px;
             line-height: 1.55;
         }
+    
+/* Overview responsive layout: text on top, image fills the remaining space */
+#panel-overview .content{
+  display:grid;
+  grid-template-rows:auto 1fr;
+  align-content:start;
+  padding:22px 20px 18px;
+}
+#panel-overview .ov-text{align-self:start;}
+#panel-overview .ov-imgwrap{
+  position:relative;
+  width:min(96%, 1400px);
+  margin:0 auto;
+  align-self:end;
+  min-height:260px;
+  /* The image area flexes to whatever space is left after the text */
+  height:100%;
+}
+#panel-overview .ov-hero{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:.98;
+  filter:saturate(1.05) contrast(1.02);
+}
+#panel-overview .ov-vignette{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(75% 60% at 50% 100%, color-mix(in srgb, var(--accent) 16%, transparent) 0%, transparent 70%),
+    linear-gradient(180deg, transparent 0%, rgba(0,0,0,.35) 80%);
+  mix-blend-mode:screen;
+  pointer-events:none;
+}
+
     </style>
 </head>
 <body>
@@ -481,12 +519,16 @@
             <section class="panel active" id="panel-overview">
                 <h2>Overview</h2>
                 <div class="content">
-                    <div class="kv">
-                        <div class="v">
-                            I design and operate AI workflows that accelerate creative and digital storytelling.  For the last 19 years, I've been involved with the look development and creative departments in VFX and Animation studios.  I love the creation process and thrive off team collaboration.  I've always been inspired by visual details, so it is only natural that I have established myself in Look Dev/Surfacing Departments.   From assets and locations to world building, I've evolved in my career with the use of Unreal Engine.  Concept to creation is the name of the game and Unreal has propelled me to contribute to almost all spectrums of world building and previs production.  From assembly, blueprints, to look development, I've found my new passion in the next generation real-time creative pipeline.
-                            <img class="ov-hero" src="./assets/roomWebsite.jpg" alt="Studio environment" />
-                            <div class="ov-vignette"></div>
-            </section>
+        <div class="content">
+          <div class="ov-text kv">
+            <div class="v">I design and operate AI workflows that accelerate creative and digital storytelling.  For the last 19 years, I've been involved with the look development and creative departments in VFX and Animation studios.  I love the creation process and thrive off team collaboration.  I've always been inspired by visual details, so it is only natural that I have established myself in Look Dev/Surfacing Departments.   From assets and locations to world building, I've evolved in my career with the use of Unreal Engine.  Concept to creation is the name of the game and Unreal has propelled me to contribute to almost all spectrums of world building and previs production.  From assembly, blueprints, to look development, I've found my new passion in the next generation real-time creative pipeline.</div>
+          </div>
+          <div class="ov-imgwrap">
+            <img class="ov-hero" src="./assets/roomWebsite.jpg" alt="Studio environment" />
+            <div class="ov-vignette"></div>
+          </div>
+        </div>
+    </section>
 
             <section class="panel" id="panel-skills">
                 <h2>Software and Core Skills</h2>
