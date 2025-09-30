@@ -405,57 +405,50 @@
             padding: 10px 0 2px;
         }
 
-        /* === Overview: cinematic hero === */
         #panel-overview .content {
             position: relative;
             display: grid;
             grid-template-rows: auto 1fr; /* text above, hero below */
             gap: 12px;
             align-content: start;
-            min-height: clamp(560px, 70vh, 920px); /* make the whole pane tall */
-            overflow: hidden; /* no internal scrollbars for the hero */
+            min-height: clamp(560px,70vh,920px); /* tall pane */
+            overflow: hidden; /* no inner scrollbars */
         }
 
-        /* keep your text readable on top */
-        #panel-overview .kv .v {
-            font-size: 22px;
-            line-height: 1.55;
-            z-index: 2;
-        }
-
-        /* hero container lives in grid row 2 and owns the image */
+        /* hero container lives in row 2 and owns the image */
         #panel-overview .hero {
             grid-row: 2;
             position: relative;
             width: 100%;
-            min-height: clamp(280px, 50vh, 680px);
+            min-height: clamp(280px,50vh,680px);
             border-radius: 14px;
             overflow: hidden;
         }
 
-            /* fill the hero area like a banner; bias to show more of the floor/desk */
+            /* fill the hero like a banner; bias toward the bottom */
             #panel-overview .hero .ov-hero {
                 position: absolute;
                 inset: 0;
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
-                object-position: 50% 85%; /* shift focus slightly toward bottom */
+                object-position: 50% 85%;
                 opacity: .98;
                 filter: saturate(1.05) contrast(1.02);
                 pointer-events: none;
             }
 
-            /* sea‑foam tint + top fade so text never fights the image */
+            /* SEAFOAM tint + gentle top/bottom vignette (no blend mode) */
             #panel-overview .hero .ov-vignette {
-                content: "";
                 position: absolute;
                 inset: 0;
                 pointer-events: none;
-                background: radial-gradient(125% 95% at 50% 100%, transparent 62%, rgba(0,0,0,.55) 100%), linear-gradient(180deg, rgba(10,16,22,0) 35%, rgba(10,16,22,.85) 100%), radial-gradient(70% 55% at 50% 100%, color-mix(in srgb, var(--accent) 18%, transparent) 0%, transparent 70%);
+                /* 1) bottom dark feather  2) top fade to dark  3) subtle seafoam wash */
+                background: radial-gradient(125% 95% at 50% 100%, rgba(0,0,0,0) 62%, rgba(0,0,0,.55) 100%), linear-gradient(180deg, rgba(10,16,22,0) 35%, rgba(10,16,22,.85) 100%), radial-gradient(70% 55% at 50% 100%, color-mix(in srgb, var(--accent) 18%, transparent) 0%, transparent 70%);
             }
 
-        @media (max-width: 980px) {
+        /* mobile: keep hero visible but not overwhelming */
+        @media (max-width:980px) {
             #panel-overview .content {
                 min-height: 56vh;
             }
