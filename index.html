@@ -1,781 +1,473 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Ronnie Cleland — Digital Innovation with 3D and Real-Time</title>
-    <style>
-        a {
-            color: var(--fg);
-            text-decoration: none
-        }
-
-            a:hover {
-                color: var(--accent)
-            }
-
-        :root {
-            --bg: #0a0d12;
-            --fg: #e9edf1;
-            --muted: #9aa4ad;
-            --accent: #49e0c8;
-            --accent-2: #8ad1ff;
-            --accent-3: #caa7ff;
-            --card: #10141d;
-            --card2: #0d1218;
-            --edge: #141c24;
-            --radius: 18px;
-            --shadow: 0 10px 30px rgba(0,0,0,.35);
-        }
-
-        * {
-            box-sizing: border-box
-        }
-
-        html, body {
-            height: 100%
-        }
-
-        body {
-            margin: 0;
-            background: radial-gradient(900px 500px at 85% 15%, rgba(137,209,255,0.08), transparent 60%), radial-gradient(900px 500px at 15% 85%, rgba(202,167,255,0.08), transparent 60%), linear-gradient(180deg,#0b0f15, #080b10 60%);
-            color: var(--fg);
-            font-family: "Plus Jakarta Sans", Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-            line-height: 1.45;
-            overflow: hidden;
-        }
-
-        .frame {
-            height: 100%;
-            width: 100%;
-            display: grid;
-            grid-template-rows: 84px 1fr 56px;
-            gap: 14px;
-            padding: 18px 20px;
-        }
-
-        header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .avatar {
-            width: 52px;
-            height: 52px;
-            border-radius: 12px;
-            background: #0d1117;
-            overflow: hidden;
-            border: 1px solid var(--edge);
-            box-shadow: var(--shadow);
-        }
-
-            .avatar img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                display: block
-            }
-
-        h1 {
-            margin: 0;
-            font-size: 28px;
-            letter-spacing: .2px;
-        }
-
-        .subtitle {
-            color: var(--muted);
-            font-size: 25px;
-            margin-top: 2px;
-        }
-
-        .actions {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            border: 1px solid var(--edge);
-            background: linear-gradient(180deg, #121824, #0f141e);
-            color: var(--fg);
-            padding: 10px 14px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all .15s ease;
-            box-shadow: var(--shadow);
-            font-weight: 600;
-            letter-spacing: .2px;
-        }
-
-            .btn:hover {
-                transform: translateY(-1px);
-                border-color: #21303b
-            }
-
-            .btn.accent {
-                background: linear-gradient(180deg,#132022,#0f1a19);
-                border-color: #1e3431;
-                box-shadow: 0 0 0 1px rgba(73,224,200,.12) inset;
-            }
-
-        .grid {
-            display: grid;
-            grid-template-columns: 180px 1fr;
-            gap: 16px;
-            min-height: 0;
-        }
-
-        nav {
-            background: var(--card);
-            border: 1px solid var(--edge);
-            border-radius: var(--radius);
-            padding: 14px;
-            box-shadow: var(--shadow);
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            overflow: hidden;
-        }
-
-        .tab {
-            width: 100%;
-            text-align: left;
-            padding: 12px;
-            border-radius: 12px;
-            background: transparent;
-            color: var(--fg);
-            border: 1px solid transparent;
-            cursor: pointer;
-            font-weight: 600;
-            letter-spacing: .2px;
-        }
-
-            .tab:hover {
-                background: #0f1822;
-                border-color: #1a2532
-            }
-
-            .tab.active {
-                background: #12202a;
-                border-color: #223444;
-                color: #e9fffb;
-                box-shadow: 0 0 0 1px rgba(73,224,200,.12) inset;
-            }
-
-        .panel {
-            background: var(--card2);
-            border: 1px solid var(--edge);
-            border-radius: var(--radius);
-            padding: 16px;
-            box-shadow: var(--shadow);
-            min-height: 0;
-            overflow: hidden;
-            display: none;
-        }
-
-            .panel.active {
-                display: grid;
-                grid-template-rows: auto 1fr;
-                gap: 10px;
-            }
-
-            .panel h2 {
-                margin: 0 0 4px 0;
-                font-size: 23px;
-            }
-
-        .content {
-            background: linear-gradient(180deg,#0b1118,#0a0f15);
-            border: 1px solid var(--edge);
-            border-radius: 14px;
-            padding: 14px;
-            overflow: auto;
-        }
-
-        .kv {
-            display: grid;
-            gap: 8px;
-        }
-
-            .kv .k {
-                color: var(--muted);
-                font-size: 30px;
-                text-transform: uppercase;
-                letter-spacing: .8px;
-            }
-
-            .kv .v {
-                font-size: 25px
-            }
-
-        .skills {
-            display: grid;
-            gap: 30px;
-        }
-
-            .skills .row {
-                display: grid;
-                grid-template-columns: 260px 1fr;
-                gap: 22px;
-                align-items: start;
-            }
-
-            .skills .cat {
-                color: var(--muted);
-                font-size: 20px;
-                text-transform: uppercase;
-                letter-spacing: .8px;
-                padding-top: 4px
-            }
-
-            .skills .vals {
-                font-size: 23px
-            }
-
-        .reel-wrap {
-            display: grid;
-            gap: 10px
-        }
-
-        .reel {
-            position: relative;
-            aspect-ratio: 16/9;
-            padding-top: 56.25%; /* fallback */
-            border-radius: 14px;
-            overflow: hidden;
-            background: #091017;
-            border: 1px solid var(--edge);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-            .reel iframe, .reel video {
-                position: absolute;
-                inset: 0;
-                width: 100%;
-                height: 100%;
-                border: 0
-            }
-
-            .reel video {
-                object-fit: contain
-            }
-
-            .reel video {
-                object-fit: contain;
-            }
-
-        .reel-controls {
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            align-items: center;
-            gap: 10px
-        }
-
-        .dots {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            justify-content: center
-        }
-
-        .dot {
-            width: 16px;
-            height: 16px;
-            border-radius: 999px;
-            border: 2px solid #2b3a44;
-            background: #0f1620;
-            cursor: pointer;
-            box-shadow: 0 0 0 1px rgba(138,209,255,.18) inset;
-            transition: transform .12s ease, box-shadow .12s ease;
-        }
-
-            .dot.active {
-                background: var(--accent);
-                box-shadow: 0 0 0 2px rgba(73,224,200,.35);
-                transform: scale(1.15)
-            }
-
-        .prevnext {
-            display: flex;
-            gap: 8px;
-            justify-self: start
-        }
-
-        .pn {
-            border: 1px solid var(--edge);
-            background: #121824;
-            color: var(--fg);
-            padding: 8px 10px;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-
-        .reel-controls .dots {
-            justify-self: center
-        }
-
-        .reel-controls .prevnext {
-            justify-self: start
-        }
-
-        .reel-controls .next {
-            justify-self: end
-        }
-
-        .pn:hover {
-            border-color: #223444
-        }
-
-        footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            color: var(--muted);
-            font-size: 16px;
-        }
-
-        .links {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap
-        }
-
-            .links a {
-                color: var(--fg);
-                text-decoration: none;
-                border-bottom: 1px dotted #2a3a3f
-            }
-
-                .links a:hover {
-                    color: var(--accent)
-                }
-
-        @media (max-width: 980px) {
-            .grid {
-                grid-template-columns: 1fr;
-                grid-template-rows: auto 1fr
-            }
-
-            nav {
-                flex-direction: row;
-                flex-wrap: wrap;
-                gap: 8px
-            }
-
-            .tab {
-                flex: 1 1 140px
-            }
-        }
-
-        #panel-reel .content {
-            overflow: hidden
-        }
-
-        #panel-reel .content {
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 12px 12px 16px;
-        }
-
-        .reel-wrap {
-            width: min(96%, 1580px);
-            margin: 0 auto;
-        }
-
-        .reel {
-            width: 100%;
-            aspect-ratio: 16/9;
-        }
-
-        .reel-controls {
-            padding: 10px 0 2px;
-        }
-
-        /* === Overview: cinematic hero + smooth vignette === */
-        #panel-overview .content {
-            position: relative;
-            display: grid;
-            grid-template-rows: auto 1fr; /* text above, hero below */
-            gap: 12px;
-            align-content: start;
-            min-height: clamp(560px,70vh,920px); /* tall pane */
-            overflow: hidden; /* no inner scrollbars */
-        }
-
-        /* hero container lives in row 2 and owns the image */
-        #panel-overview .hero {
-            grid-row: 2;
-            position: relative;
-            width: 100%;
-            min-height: clamp(280px,50vh,680px);
-            border-radius: 14px;
-            overflow: hidden;
-        }
-
-            /* fill the hero like a banner; bias toward the bottom */
-            #panel-overview .hero .ov-hero {
-                position: absolute;
-                inset: 0;
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                object-position: 50% 85%;
-                opacity: .98;
-                filter: saturate(1.05) contrast(1.02);
-                pointer-events: none;
-            }
-
-            /* SEAFOAM tint + gentle top/bottom vignette (no blend mode) */
-            #panel-overview .hero .ov-vignette {
-                position: absolute;
-                inset: 0;
-                pointer-events: none;
-                /* 1) bottom dark feather  2) top fade to dark  3) subtle seafoam wash */
-                background: radial-gradient(125% 95% at 50% 100%, rgba(0,0,0,0) 62%, rgba(0,0,0,.55) 100%), linear-gradient(180deg, rgba(10,16,22,0) 35%, rgba(10,16,22,.85) 100%), radial-gradient(70% 55% at 50% 100%, color-mix(in srgb, var(--accent) 18%, transparent) 0%, transparent 70%);
-            }
-
-        /* mobile: keep hero visible but not overwhelming */
-        @media (max-width:980px) {
-            #panel-overview .content {
-                min-height: 56vh;
-            }
-
-            #panel-overview .hero {
-                min-height: 260px;
-            }
-        }
-
-        /* Slightly refine headline/subtitle sizes for the new font */
-        h1 {
-            font-weight: 700;
-            letter-spacing: .1px;
-        }
-
-        .subtitle {
-            font-weight: 500;
-        }
-
-        #panel-overview .kv .v {
-            font-size: 22px;
-            line-height: 1.55;
-        }
-
-        #panel-overview .ov-text {
-            align-self: start;
-        }
-
-        #panel-overview .ov-imgwrap {
-            position: relative;
-            width: min(96%, 1400px);
-            margin: 0 auto;
-            align-self: end;
-            min-height: 300px;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #panel-overview .ov-hero {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: contain; /* show the entire image without cropping */
-            object-position: center bottom; /* prefer anchoring toward the bottom edge */
-            opacity: .98;
-            filter: saturate(1.05) contrast(1.02);
-        }
-        /* ===== Overview — Cinematic hero (fresh, self‑contained) ===== */
-
-        /* 1) Guard against the nested .content adding offsets in Overview */
-        #panel-overview > .content .content {
-            padding: 0; /* remove extra inner padding */
-            margin: 0;
-        }
-
-        /* 2) Make the panel tall enough for a cinematic banner */
-        #panel-overview > .content {
-            position: relative;
-            display: grid;
-            grid-template-rows: auto 1fr; /* text on top, hero below */
-            gap: 12px;
-            align-content: start;
-            min-height: clamp(560px, 70vh, 920px);
-            overflow: hidden;
-        }
-
-        /* 3) The hero container fills the usable width and clips rounded corners */
-        #panel-overview .hero {
-            grid-row: 2;
-            position: relative;
-            width: 100%;
-            min-height: clamp(320px, 56vh, 740px); /* adjust to taste */
-            border-radius: 16px;
-            overflow: hidden; /* clip child corners/vignette */
-            margin: 0; /* no unexpected offsets */
-        }
-
-            /* 4) The image: cover the box, center, and bias slightly toward the floor */
-            #panel-overview .hero > .ov-hero {
-                position: absolute;
-                inset: 0; /* replaces bottom/left/transform hacks */
-                width: 100%;
-                height: 100%;
-                object-fit: cover; /* cinematic crop, edge-to-edge */
-                object-position: 50% 82%; /* show a touch more of the lower area */
-                opacity: .98;
-                filter: saturate(1.04) contrast(1.02);
-                /* Neutralize older rules that caused the “smoke”/misalignment */
-                mask-image: none !important;
-                -webkit-mask-image: none !important;
-                transform: none !important;
-                left: 0 !important;
-                bottom: 0 !important;
-            }
-
-            /* 5) The vignette: smooth top + bottom fade, slight sea‑foam wash.
-   No blend-mode (so it won’t look dusty/smokey). */
-            #panel-overview .hero > .ov-vignette {
-                position: absolute;
-                inset: 0;
-                border-radius: inherit; /* match rounded edges */
-                pointer-events: none;
-                /* layers:
-     a) top fade → dark
-     b) bottom fade → dark
-     c) subtle sea‑foam tint anchored low */
-                background: linear-gradient(to bottom, rgba(10,16,22, .78) 0%, rgba(10,16,22, 0) 28%), linear-gradient(to top, rgba(10,16,22, .62) 0%, rgba(10,16,22, 0) 36%), radial-gradient(75% 55% at 50% 100%, color-mix(in srgb, var(--accent) 18%, transparent) 0%, transparent 70%);
-                /* ensure older mix-blend rules don’t bleed through */
-                mix-blend-mode: normal !important;
-            }
-
-        /* 6) Keep the copy readable and on top */
-        #panel-overview .kv .v {
-            position: relative;
-            z-index: 2;
-            font-size: 22px;
-            line-height: 1.55;
-        }
-
-        /* 7) Responsive: keep proportions without overpowering small screens */
-        @media (max-width: 980px) {
-            #panel-overview > .content {
-                min-height: 56vh;
-            }
-
-            #panel-overview .hero {
-                min-height: 260px;
-                border-radius: 14px;
-            }
-        }
-
-        
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ronnie Cleland — Digital Innovation with 3D and Real‑Time</title>
+
+  <!-- Favicons (unchanged) -->
+  <link rel="icon" href="/lum_web.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/lum_web.png" sizes="180x180">
+
+  <!-- Fonts: Inter to match the app HUD -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@350;400;500;600;700&display=swap" rel="stylesheet">
+
+  <meta name="theme-color" content="#0b0e11">
+  <meta name="description" content="AI workflows, real-time 3D, creative technology, and production pipelines by Ronnie Cleland.">
+
+  <style>
+    /* ------------------------------
+       1) Design Tokens
+       ------------------------------ */
+    :root{
+      /* Surfaces */
+      --bg:        #0b0e11;   /* site background (app-like) */
+      --surface-1: #0f1317;   /* cards / panels */
+      --surface-2: #10141d;   /* alt card */
+      --edge:      #141c24;   /* outlines */
+
+      /* Text */
+      --fg:    #e8f1f2;
+      --muted: #9aa8b2;
+
+      /* Accent family (sea‑foam primary + cyan + violet options) */
+      --accent:   #23e1b6; /* default sea‑foam to match the app */
+      --accent-2: #5cb3ff; /* cyan */
+      --accent-3: #caa7ff; /* violet */
+
+      /* Shape + Layer */
+      --radius: 14px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+
+      /* Container + Rhythm */
+      --container-max: 1480px;
+      --pad: 16px;
+
+      /* Fluid type scale (optical balance on large screens) */
+      --step--1: clamp(.88rem, .84rem + .2vw, .98rem);
+      --step-0:  clamp(1.00rem, .95rem + .35vw, 1.15rem);
+      --step-1:  clamp(1.18rem, 1.06rem + .6vw, 1.45rem);
+      --step-2:  clamp(1.44rem, 1.28rem + .8vw, 1.95rem);
+      --step-3:  clamp(1.85rem, 1.58rem + 1.2vw, 2.6rem);
+      --step-4:  clamp(2.35rem, 2.0rem + 1.6vw, 3.2rem);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      color:var(--fg);
+      background:
+        radial-gradient(900px 500px at 85% 15%, rgba(92,179,255,0.08), transparent 60%),
+        radial-gradient(900px 500px at 15% 85%, rgba(202,167,255,0.08), transparent 60%),
+        linear-gradient(180deg,#0b0f15,#080b10 60%);
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      line-height:1.5;
+      overflow:hidden;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a{color:inherit;text-decoration:none}
+    a:hover{color:var(--accent)}
+    :focus-visible{outline: 2px solid color-mix(in srgb, var(--accent), #fff 10%); outline-offset: 2px;}
+
+    /* Frame */
+    .frame{
+      height:100%;
+      width:100%;
+      display:grid;
+      grid-template-rows: 84px 1fr 56px;
+      gap:14px;
+      padding:18px 20px;
+    }
+
+    /* ------------------------------
+       2) Header
+       ------------------------------ */
+    header{
+      display:flex; align-items:center; justify-content:space-between; gap:16px;
+      max-width:var(--container-max); margin:0 auto; width:100%;
+    }
+    .brand{display:flex; align-items:center; gap:14px;}
+    .avatar{width:52px; height:52px; border-radius:12px; background:#0d1117; overflow:hidden; border:1px solid var(--edge); box-shadow:var(--shadow);}
+    .avatar img{width:100%; height:100%; object-fit:cover; display:block}
+    h1{margin:0; font-size:var(--step-3); font-weight:700; letter-spacing:.1px;}
+    .subtitle{color:var(--muted); font-size:var(--step-1); margin-top:2px; font-weight:500;}
+    .actions{display:flex; gap:10px; flex-wrap:wrap;}
+
+    .btn{
+      border:1px solid var(--edge);
+      background: linear-gradient(180deg, #121824, #0f141e);
+      color:var(--fg);
+      padding:10px 14px;
+      border-radius:12px;
+      cursor:pointer;
+      transition:transform .12s ease, border-color .12s ease, box-shadow .12s ease;
+      box-shadow:var(--shadow);
+      font-weight:600; letter-spacing:.2px; font-size:var(--step--1);
+    }
+    .btn:hover{transform:translateY(-1px); border-color:#21303b}
+    .btn.accent{
+      background: linear-gradient(180deg,#132022,#0f1a19);
+      border-color:#1e3431;
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 18%, transparent) inset;
+    }
+
+    /* Accent toggle (teal / cyan / violet) */
+    .accent-picker{display:flex; gap:8px; align-items:center}
+    .swatch{
+      width:20px; height:20px; border-radius:6px; border:1px solid #22343c; cursor:pointer; box-shadow: inset 0 0 0 1px rgba(255,255,255,.12);
+      transition: transform .08s ease, box-shadow .1s ease;
+    }
+    .swatch:hover{transform: translateY(-1px)}
+    .swatch[data-key="1"]{background: var(--accent);}
+    .swatch[data-key="2"]{background: var(--accent-2);}
+    .swatch[data-key="3"]{background: var(--accent-3);}
+
+    /* ------------------------------
+       3) Main layout (Nav + Panels)
+       ------------------------------ */
+    .grid{
+      display:grid;
+      grid-template-columns: 200px 1fr;
+      gap:16px; min-height:0;
+      max-width:var(--container-max); margin:0 auto; width:100%;
+    }
+
+    nav{
+      background: var(--surface-2);
+      border:1px solid var(--edge);
+      border-radius: var(--radius);
+      padding:14px;
+      box-shadow:var(--shadow);
+      display:flex; flex-direction:column; gap:8px; overflow:hidden;
+    }
+    nav[role="tablist"] .tab{
+      width:100%; text-align:left; padding:12px; border-radius:12px;
+      background:transparent; color:var(--fg); border:1px solid transparent; cursor:pointer;
+      font-weight:600; letter-spacing:.2px; font-size:var(--step--1);
+    }
+    .tab:hover{background:#0f1822; border-color:#1a2532}
+    .tab[aria-selected="true"]{
+      background:#12202a; border-color:#223444; color:#e9fffb;
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 18%, transparent) inset;
+    }
+
+    .panel{
+      background: var(--surface-1);
+      border:1px solid var(--edge);
+      border-radius: var(--radius);
+      padding:16px; box-shadow:var(--shadow);
+      min-height:0; overflow:hidden; display:none;
+    }
+    .panel.active{display:grid; grid-template-rows:auto 1fr; gap:10px;}
+    .panel h2{margin:0 0 4px 0; font-size:var(--step-1); font-weight:700;}
+
+    .content{
+      background: linear-gradient(180deg,#0b1118,#0a0f15);
+      border:1px solid var(--edge);
+      border-radius: 14px;
+      padding:14px; overflow:auto;
+    }
+
+    /* Overview – cinematic hero, clean structure */
+    #panel-overview .content{ /* no nested .content blocks */
+      display:grid; grid-template-rows:auto 1fr; gap:12px; align-content:start;
+      min-height: clamp(560px, 70vh, 920px);
+      position:relative; overflow:hidden;
+    }
+    .kv{display:grid; gap:8px;}
+    .kv .v{font-size:var(--step-0); line-height:1.6; max-width:80ch;}
+
+    .hero{
+      grid-row:2; position:relative; width:100%;
+      min-height: clamp(320px, 56vh, 740px);
+      border-radius:16px; overflow:hidden; margin:0;
+    }
+    .hero > img.ov-hero{
+      position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 82%;
+      opacity:.98; filter: saturate(1.04) contrast(1.02);
+    }
+    .hero > .ov-vignette{
+      position:absolute; inset:0; border-radius:inherit; pointer-events:none;
+      background:
+        linear-gradient(to bottom, rgba(10,16,22, .78) 0%, rgba(10,16,22, 0) 28%),
+        linear-gradient(to top,    rgba(10,16,22, .62) 0%, rgba(10,16,22, 0) 36%),
+        radial-gradient(75% 55% at 50% 100%, color-mix(in srgb, var(--accent) 18%, transparent) 0%, transparent 70%);
+      mix-blend-mode: normal;
+    }
+
+    /* Skills */
+    .skills{display:grid; gap:28px}
+    .skills .row{display:grid; grid-template-columns: 260px 1fr; gap:22px; align-items:start;}
+    .skills .cat{color:var(--muted); font-size:var(--step--1); text-transform:uppercase; letter-spacing:.8px; padding-top:4px;}
+    .skills .vals{font-size:var(--step-0)}
+
+    /* Reel */
+    .reel-wrap{display:grid; gap:10px; width:min(96%, 1580px); margin:0 auto;}
+    .reel{
+      position:relative; aspect-ratio: 16/9; border-radius:14px; overflow:hidden;
+      background:#091017; border:1px solid var(--edge); display:flex; align-items:center; justify-content:center;
+    }
+    .reel iframe, .reel video{position:absolute; inset:0; width:100%; height:100%; border:0}
+    .reel-controls{display:grid; grid-template-columns: 1fr auto 1fr; align-items:center; gap:10px; padding:10px 0 2px;}
+    .dots{display:flex; gap:12px; align-items:center; justify-content:center}
+    .dot{width:16px; height:16px; border-radius:999px; border:2px solid #2b3a44; background:#0f1620; cursor:pointer;
+         box-shadow: 0 0 0 1px rgba(138,209,255,.18) inset; transition: transform .12s ease, box-shadow .12s ease;}
+    .dot.active{background:var(--accent); box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 35%, transparent); transform: scale(1.15)}
+    .pn{border:1px solid var(--edge); background:#121824; color:var(--fg); padding:8px 10px; border-radius:10px; cursor:pointer; font-size:var(--step--1)}
+    .pn:hover{border-color:#223444}
+
+    /* Footer */
+    footer{
+      display:flex; align-items:center; justify-content:space-between; gap:10px; color:var(--muted); font-size:var(--step--1);
+      max-width:var(--container-max); margin:0 auto; width:100%;
+    }
+    .links{display:flex; gap:12px; flex-wrap:wrap}
+    .links a{border-bottom: 1px dotted #2a3a3f}
+    .links a:hover{color:var(--accent)}
+
+    /* Mobile */
+    @media (max-width: 980px){
+      .grid{grid-template-columns: 1fr; grid-template-rows: auto 1fr}
+      nav{flex-direction: row; flex-wrap: wrap; gap:8px}
+      nav .tab{flex: 1 1 140px}
+      .skills .row{grid-template-columns: 1fr}
+    }
+
+    /* Motion courtesy */
+    @media (prefers-reduced-motion: reduce){
+      *{animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important;}
+    }
+  </style>
 </head>
 <body>
-    <div class="frame">
-        <header>
-            <div class="brand">
-                <div class="avatar" aria-hidden="true"><img src="./assets/lumify_profpic.png" alt="Profile" /></div>
-                <div>
-                    <h1>Ronnie Cleland</h1>
-                    <div class="subtitle">Digital Innovation with 3D and Real-Time. Creative Tech. Product and Pipeline.</div>
-                </div>
-            </div>
-            <div class="actions">
-                <a class="btn accent" href="#reel" onclick="selectTab('reel')">Watch Reel</a>
-                <!--<a class="btn" href="mailto:hello@example.com">Contact</a>-->
-                <a class="btn" href="./assets/RonnieCleland_2025_Resume.pdf" download="RonnieCleland_2025_Resume.pdf" rel="noopener">Download Resume</a>
-            </div>
-        </header>
-
-        <div class="grid">
-            <nav>
-                <button class="tab active" id="tab-overview" onclick="selectTab('overview')">Overview</button>
-                <button class="tab" id="tab-skills" onclick="selectTab('skills')">Skills</button>
-                <button class="tab" id="tab-reel" onclick="selectTab('reel')">Reel</button>
-                <button class="tab" id="tab-projects" onclick="selectTab('projects')">Projects</button>
-                <button class="tab" id="tab-contact" onclick="selectTab('contact')">Contact</button>
-            </nav>
-
-            <section class="panel active" id="panel-overview">
-                <h2>Overview</h2>
-                <div class="content">
-                    <div class="content">
-                        <div class="kv">
-                            <div class="v">
-                                I design and operate AI workflows that accelerate creative and digital storytelling. For the last 19 years, I've been involved with the look development and creative departments in VFX and Animation studios. I love the creation process and thrive off team collaboration. I've always been inspired by visual details, so it is only natural that I have established myself in Look Dev/Surfacing Departments. From assets and locations to world building, I've evolved in my career with the use of Unreal Engine. Concept to creation is the name of the game and Unreal has propelled me to contribute to almost all spectrums of world building and previs production. From assembly, blueprints, to look development, I've found my new passion in the next generation real-time creative pipeline.
-                            </div>
-                        </div>
-
-                        <!-- Cinematic hero -->
-                        <figure class="hero" aria-hidden="true">
-                            <img class="ov-hero" src="./assets/roomWebsite.jpg" alt="Studio environment" />
-                            <div class="ov-vignette"></div>
-                        </figure>
-                    </div>
-            </section>
-
-            <section class="panel" id="panel-skills">
-                <h2>Software and Core Skills</h2>
-                <div class="content">
-                    <div class="skills">
-                        <div class="row"><div class="cat">Generative and vision</div><div class="vals">SDXL, Flux Kontext, Wan 2.2, ControlNet, Real-ESRGAN, Segment Anything, Depth Anything, Diffusers</div></div>
-                        <div class="row"><div class="cat">Video and post</div><div class="vals">DaVinci Resolve Studio, After Effects, Premiere Pro, Photoshop</div></div>
-                        <div class="row"><div class="cat">3D and real time</div><div class="vals">Unreal Engine, Maya, Houdini, USD, Substance Suites</div></div>
-                        <div class="row"><div class="cat">Data science and modeling</div><div class="vals">Jupyter Notebooks, PyTorch, NumPy, Pandas, Hugging Face Hub</div></div>
-                        <div class="row"><div class="cat">Pipeline and backend</div><div class="vals">Flask, REST APIs, WebSockets, JSON schemas, job queues, structured logging</div></div>
-                        <div class="row"><div class="cat">Compute and ops</div><div class="vals">NVIDIA CUDA, RunPod, AWS, Coreweave, Git, GitHub Actions</div></div>
-                        <div class="row"><div class="cat">Governance and PM</div><div class="vals">IBM watsonx.governance, Jira, Google Workspace</div></div>
-                        <div class="row"><div class="cat">Workflow orchestration</div><div class="vals">ComfyUI node graphs, reusable templates, batch runs</div></div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="panel" id="panel-reel">
-                <h2>Reel</h2>
-                <div class="content">
-                    <div class="reel-wrap">
-                        <div class="reel" id="reel-slot"></div>
-                        <div class="reel-controls">
-                            <div class="prevnext">
-                                <button class="pn" onclick="prevVid()">Prev</button>
-                                <button class="pn" onclick="nextVid()">Next</button>
-                            </div>
-                            <div class="dots" id="dots"></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="panel" id="panel-projects">
-                <h2>Projects</h2>
-                <div class="content">
-                    <ul>
-                        <li>Lumify Application and Platform, multimodal image to video pipelines with Flux Kontext and Wan 2.2, Flask API and ComfyUI orchestration.</li>
-                        <li>
-                            Movies-
-                            -Trouble
-                            -Trolls Holiday Special 2
-                            -Croods 2
-                            -How To Train Your Dragon 3 : Hidden World
-                            -Bilby
-                            -Kung Fu Panda 3
-                            -Boss Baby
-                            -Penguins of Madagascar
-                            -Home
-                            -The Croods
-                            -Puss in Boots
-                            -Wallenda
-                            -Unstoppable
-                            -Prince of Persia
-                            -Sorcerers Apprentice
-                            -Verizon Droid / Drop Day Commercial
-                            -The Curious Case of Benjamin Button
-                            -Land of the Lost
-                            -Night at the Museum 2
-                            -Cirque du Freak
-                            -Aliens in the Attic
-                            -Fast and Furious 4
-                            -Rocky Balboa
-                            -Nightmare Before Christmas 3D
-                            -Pirates of the Caribbean 2
-                            -Ghost Rider
-                        </li>
-                    </ul>
-                </div>
-            </section>
-
-            <section class="panel" id="panel-contact">
-                <h2>Contact</h2>
-                <div class="content">
-                    <div class="kv">
-                        <div class="k">Email</div><div class="v"><a href="mailto:ronnie@lumifyai.com">ronnie@lumifyai.com</a></div>
-                        <!--<div class="k">Portfolio</div><div class="v"><a href="https://www.nikkitomaino.tech" target="_blank" rel="noopener">nikkitomaino.tech</a></div>-->
-                        <div class="k">LinkedIn</div><div class="v"><a href="https://www.linkedin.com/public-profile/settings?trk=d_flagship3_profile_self_view_public_profile" target="_blank" rel="noopener">LinkedIn</a></div>
-                        <div class="k">IMDB</div><div class="v"><a href="https://www.imdb.com/name/nm2748136/" target="_blank" rel="noopener">IMDB</a></div>
-                    </div>
-                </div>
-            </section>
+  <div class="frame">
+    <header>
+      <div class="brand">
+        <div class="avatar" aria-hidden="true">
+          <img src="./assets/lumify_profpic.png" alt="Profile"/>
         </div>
+        <div>
+          <h1>Ronnie Cleland</h1>
+          <div class="subtitle">Digital Innovation with 3D and Real‑Time. Creative Tech. Product and Pipeline.</div>
+        </div>
+      </div>
 
-        <footer>
-            <div>© <span id="year"></span> Ronnie Cleland</div>
-            <div class="links">
-                <a href="#" onclick="selectTab('overview')">Overview</a>
-                <a href="#" onclick="selectTab('skills')">Skills</a>
-                <a href="#" onclick="selectTab('reel')">Reel</a>
-                <a href="#" onclick="selectTab('projects')">Projects</a>
-                <a href="#" onclick="selectTab('contact')">Contact</a>
+      <div class="actions">
+        <div class="accent-picker" aria-label="Accent color">
+          <span style="font-size: var(--step--1); color: var(--muted);">Accent</span>
+          <button class="swatch" data-key="1" title="Sea‑foam"></button>
+          <button class="swatch" data-key="2" title="Cyan"></button>
+          <button class="swatch" data-key="3" title="Violet"></button>
+        </div>
+        <a class="btn accent" href="#reel" onclick="selectTab('reel')">Watch Reel</a>
+        <a class="btn" href="./assets/RonnieCleland_2025_Resume.pdf" download="RonnieCleland_2025_Resume.pdf" rel="noopener">Download Resume</a>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- Tabs -->
+      <nav role="tablist" aria-label="Primary">
+        <button class="tab" id="tab-overview"  role="tab" aria-selected="true"  aria-controls="panel-overview"  onclick="selectTab('overview')">Overview</button>
+        <button class="tab" id="tab-skills"    role="tab" aria-selected="false" aria-controls="panel-skills"    onclick="selectTab('skills')">Skills</button>
+        <button class="tab" id="tab-reel"      role="tab" aria-selected="false" aria-controls="panel-reel"      onclick="selectTab('reel')">Reel</button>
+        <button class="tab" id="tab-projects"  role="tab" aria-selected="false" aria-controls="panel-projects"  onclick="selectTab('projects')">Projects</button>
+        <button class="tab" id="tab-contact"   role="tab" aria-selected="false" aria-controls="panel-contact"   onclick="selectTab('contact')">Contact</button>
+      </nav>
+
+      <!-- Panels -->
+      <section class="panel active" id="panel-overview" role="tabpanel" aria-labelledby="tab-overview">
+        <h2>Overview</h2>
+        <div class="content">
+          <div class="kv">
+            <div class="v">
+              I design and operate AI workflows that accelerate creative and digital storytelling. For the last 19 years,
+              I've been involved with the look development and creative departments in VFX and Animation studios. I love
+              the creation process and thrive off team collaboration. I've always been inspired by visual details, so it is
+              only natural that I have established myself in Look Dev/Surfacing Departments. From assets and locations to
+              world building, I've evolved in my career with the use of Unreal Engine. Concept to creation is the name of the
+              game and Unreal has propelled me to contribute to almost all spectrums of world building and previs production.
+              From assembly, blueprints, to look development, I've found my new passion in the next generation real‑time
+              creative pipeline.
             </div>
-        </footer>
+          </div>
+
+          <!-- Cinematic hero -->
+          <figure class="hero" aria-hidden="true">
+            <img class="ov-hero" src="./assets/roomWebsite.jpg" alt="Studio environment">
+            <div class="ov-vignette"></div>
+          </figure>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-skills" role="tabpanel" aria-labelledby="tab-skills">
+        <h2>Software and Core Skills</h2>
+        <div class="content">
+          <div class="skills">
+            <div class="row"><div class="cat">Generative & Vision</div><div class="vals">SDXL, Flux Kontext, Wan 2.2, ControlNet, Real‑ESRGAN, Segment Anything, Depth Anything, Diffusers</div></div>
+            <div class="row"><div class="cat">Video & Post</div><div class="vals">DaVinci Resolve Studio, After Effects, Premiere Pro, Photoshop</div></div>
+            <div class="row"><div class="cat">3D & Real‑Time</div><div class="vals">Unreal Engine, Maya, Houdini, USD, Substance Suite</div></div>
+            <div class="row"><div class="cat">Data & Modeling</div><div class="vals">Jupyter, PyTorch, NumPy, Pandas, Hugging Face Hub</div></div>
+            <div class="row"><div class="cat">Pipeline & Backend</div><div class="vals">Flask, REST APIs, WebSockets, JSON Schemas, Job Queues, Structured Logging</div></div>
+            <div class="row"><div class="cat">Compute & Ops</div><div class="vals">NVIDIA CUDA, RunPod, AWS, Coreweave, Git, GitHub Actions</div></div>
+            <div class="row"><div class="cat">Governance & PM</div><div class="vals">IBM watsonx.governance, Jira, Google Workspace</div></div>
+            <div class="row"><div class="cat">Orchestration</div><div class="vals">ComfyUI node graphs, re‑usable templates, batch runs</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-reel" role="tabpanel" aria-labelledby="tab-reel">
+        <h2>Reel</h2>
+        <div class="content">
+          <div class="reel-wrap">
+            <div class="reel" id="reel-slot" aria-label="Showreel"></div>
+            <div class="reel-controls">
+              <div class="prevnext">
+                <button class="pn" onclick="prevVid()">Prev</button>
+                <button class="pn" onclick="nextVid()">Next</button>
+              </div>
+              <div class="dots" id="dots" aria-label="Reel pagination"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-projects" role="tabpanel" aria-labelledby="tab-projects">
+        <h2>Projects</h2>
+        <div class="content">
+          <ul>
+            <li>Lumify Application & Platform — multimodal image‑to‑video pipelines (Flux Kontext, Wan 2.2), Flask API, ComfyUI orchestration.</li>
+            <li>
+              Movies —
+              Trouble, Trolls Holiday Special 2, Croods 2, How To Train Your Dragon 3: Hidden World, Bilby, Kung Fu Panda 3,
+              Boss Baby, Penguins of Madagascar, Home, The Croods, Puss in Boots, Wallenda, Unstoppable, Prince of Persia,
+              Sorcerer’s Apprentice, Verizon Droid / Drop Day, Commercial, The Curious Case of Benjamin Button, Land of the Lost,
+              Night at the Museum 2, Cirque du Freak, Aliens in the Attic, Fast and Furious 4, Rocky Balboa, Nightmare Before
+              Christmas 3D, Pirates of the Caribbean 2, Ghost Rider.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-contact" role="tabpanel" aria-labelledby="tab-contact">
+        <h2>Contact</h2>
+        <div class="content">
+          <div class="kv">
+            <div class="k" style="color:var(--muted); text-transform:uppercase; letter-spacing:.8px; font-size:var(--step--1)">Email</div>
+            <div class="v" style="font-size:var(--step-0)"><a href="mailto:ronnie@lumifyai.com">ronnie@lumifyai.com</a></div>
+
+            <div class="k" style="color:var(--muted); text-transform:uppercase; letter-spacing:.8px; font-size:var(--step--1); margin-top:10px;">LinkedIn</div>
+            <div class="v" style="font-size:var(--step-0)"><a target="_blank" rel="noopener" href="https://www.linkedin.com/public-profile/settings?trk=d_flagship3_profile_self_view_public_profile">LinkedIn</a></div>
+
+            <div class="k" style="color:var(--muted); text-transform:uppercase; letter-spacing:.8px; font-size:var(--step--1); margin-top:10px;">IMDB</div>
+            <div class="v" style="font-size:var(--step-0)"><a target="_blank" rel="noopener" href="https://www.imdb.com/name/nm2748136/">IMDB</a></div>
+          </div>
+        </div>
+      </section>
     </div>
 
-    <script>
-        const tabs = ["overview", "skills", "reel", "projects", "contact"];
-        function selectTab(name) {
-            tabs.forEach(t => {
-                document.getElementById("tab-" + t)?.classList.remove("active");
-                document.getElementById("panel-" + t)?.classList.remove("active");
-            });
-            document.getElementById("tab-" + name)?.classList.add("active");
-            document.getElementById("panel-" + name)?.classList.add("active");
-            history.replaceState(null, "", "#" + name);
-        }
-        const hash = location.hash.replace("#", "");
-        if (tabs.includes(hash)) selectTab(hash);
-        document.getElementById("year").textContent = new Date().getFullYear();
+    <footer>
+      <div>© <span id="year"></span> Ronnie Cleland</div>
+      <div class="links">
+        <a href="#" onclick="selectTab('overview')">Overview</a>
+        <a href="#" onclick="selectTab('skills')">Skills</a>
+        <a href="#" onclick="selectTab('reel')">Reel</a>
+        <a href="#" onclick="selectTab('projects')">Projects</a>
+        <a href="#" onclick="selectTab('contact')">Contact</a>
+      </div>
+    </footer>
+  </div>
 
-        /* Reel carousel, replace with your video URLs */
-        const vids = [
-            "https://player.vimeo.com/video/462445892?h=3cdd3f57a6",
-            "https://player.vimeo.com/video/464816152?h=d1eb93eae4",
-            "https://player.vimeo.com/video/70997907?h=29ee618e70",
-            "https://player.vimeo.com/video/8502989?h=81ef88331d"
-        ];
-        let current = 0;
-        const slot = document.getElementById("reel-slot");
-        const dots = document.getElementById("dots");
-        function render() {
-            slot.innerHTML = "";
-            const url = vids[current];
-            if (url.endsWith(".mp4")) {
-                const v = document.createElement("video");
-                v.src = url; v.controls = true; v.playsInline = true; v.setAttribute("playsinline", "");
-                slot.appendChild(v);
-            } else {
-                const f = document.createElement("iframe"); f.setAttribute("scrolling", "no"); f.setAttribute("width", "100%"); f.setAttribute("height", "100%"); f.setAttribute("referrerpolicy", "strict-origin-when-cross-origin"); f.setAttribute("allow", "autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"); f.setAttribute('scrolling', 'no');
-                f.src = url;
-                f.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-                f.allowFullscreen = true; f.title = "Reel";
-                slot.appendChild(f);
-            }
-            dots.innerHTML = "";
-            vids.forEach((_, i) => {
-                const d = document.createElement("div");
-                d.className = "dot" + (i === current ? " active" : "");
-                d.onclick = () => { current = i; render(); };
-                dots.appendChild(d);
-            });
-        }
-        function prevVid() { current = (current + vids.length - 1) % vids.length; render(); }
-        function nextVid() { current = (current + 1) % vids.length; render(); }
-        render();
-    </script>
+  <script>
+    /* Tabs + Hash routing + A11y */
+    const tabs = ["overview","skills","reel","projects","contact"];
+    function selectTab(name){
+      tabs.forEach(t=>{
+        const btn = document.getElementById("tab-"+t);
+        const panel = document.getElementById("panel-"+t);
+        btn?.setAttribute("aria-selected", String(t===name));
+        panel?.classList.toggle("active", t===name);
+        panel?.setAttribute("hidden", t!==name);
+      });
+      history.replaceState(null, "", "#"+name);
+
+      // Lazy render reel when opened
+      if(name==="reel") render();
+    }
+
+    // Keyboard nav for tabs
+    document.querySelector('nav[role="tablist"]').addEventListener('keydown', (e)=>{
+      const order = tabs.map(t=>document.getElementById("tab-"+t));
+      const current = order.findIndex(el=>el.getAttribute('aria-selected')==="true");
+      if(e.key==="ArrowRight"||e.key==="ArrowDown"){ e.preventDefault(); const next = order[(current+1)%order.length]; next.focus(); next.click(); }
+      if(e.key==="ArrowLeft" ||e.key==="ArrowUp"){   e.preventDefault(); const prev = order[(current+order.length-1)%order.length]; prev.focus(); prev.click(); }
+      if(e.key==="Home"){ e.preventDefault(); order[0].focus(); order[0].click(); }
+      if(e.key==="End"){  e.preventDefault(); order.at(-1).focus(); order.at(-1).click(); }
+    });
+
+    // Accent picker
+    const swatches = document.querySelectorAll('.swatch');
+    const root = document.documentElement;
+    swatches.forEach(sw=>{
+      sw.addEventListener('click', ()=>{
+        const key = sw.getAttribute('data-key');
+        const color = key==="1" ? getComputedStyle(root).getPropertyValue('--accent').trim()
+                    : key==="2" ? getComputedStyle(root).getPropertyValue('--accent-2').trim()
+                    : getComputedStyle(root).getPropertyValue('--accent-3').trim();
+        root.style.setProperty('--accent', color);
+      });
+    });
+
+    // Footer year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    /* Reel carousel — preserves your URLs, adds lazy embed */
+    const vids = [
+      "https://player.vimeo.com/video/462445892?h=3cdd3f57a6",
+      "https://player.vimeo.com/video/464816152?h=d1eb93eae4",
+      "https://player.vimeo.com/video/70997907?h=29ee618e70",
+      "https://player.vimeo.com/video/8502989?h=81ef88331d"
+    ];
+    let current = 0;
+    const slot = document.getElementById("reel-slot");
+    const dots = document.getElementById("dots");
+
+    function render(){
+      // Render selected item
+      slot.innerHTML = "";
+      const url = vids[current];
+      const f = document.createElement("iframe");
+      f.setAttribute("scrolling","no");
+      f.setAttribute("width","100%");
+      f.setAttribute("height","100%");
+      f.setAttribute("referrerpolicy","strict-origin-when-cross-origin");
+      f.setAttribute("allow","autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share");
+      f.setAttribute("allowFullscreen","true");
+      f.setAttribute("title","Reel");
+      f.loading = "lazy";
+      f.src = url;
+      slot.appendChild(f);
+
+      // Render dots
+      dots.innerHTML = "";
+      vids.forEach((_, i)=>{
+        const d = document.createElement("button");
+        d.setAttribute("aria-label","Go to video "+(i+1));
+        d.className = "dot" + (i===current ? " active" : "");
+        d.onclick = () => { current=i; render(); };
+        dots.appendChild(d);
+      });
+    }
+    function prevVid(){ current = (current + vids.length - 1) % vids.length; render(); }
+    function nextVid(){ current = (current + 1) % vids.length; render(); }
+
+    // Initial tab from hash (and avoid unnecessary reel loads)
+    const hash = location.hash.replace("#","");
+    if(tabs.includes(hash)){ selectTab(hash); } else { selectTab("overview"); }
+  </script>
 </body>
 </html>
