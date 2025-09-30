@@ -3,35 +3,33 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Ronnie Cleland — Digital Innovation with 2D/3D and Real-Time</title>
+    <title>Ronnie Cleland — Digital Innovation with 2D/3D and Real‑Time</title>
     <meta name="color-scheme" content="dark only" />
-    <meta name="description" content="Digital innovation with 2D/3D and Real-Time. Creative tech, product and pipeline." />
+    <meta name="description" content="Digital innovation with 2D/3D and Real‑Time. Creative tech, product and pipeline." />
 
     <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
     <style>
-        /* ====== Base / Theme =================================================== */
+        /* ===== Theme / Tokens ===== */
         :root {
-            --ink-900: #0b1215; /* page background */
+            --ink-900: #0b1215;
             --ink-850: #0f171a;
-            --ink-800: #111a1d; /* panels/nav */
+            --ink-800: #111a1d;
             --ink-750: #132024;
             --text-1: #e8f5f1;
             --text-2: #b9d7cf;
             --muted: #7aa7a0;
-            /* single accent: sea‑foam */
             --accent: #24f2b1;
-            --accent-2: #19d6a0;
-            --seafoam-veil: rgba(36,242,177,.08);
             --ring: rgba(36,242,177,.55);
+            --seafoam-veil: rgba(36,242,177,.08);
             --divider: rgba(164,255,233,.14);
             --shadow: 0 8px 28px rgba(0,0,0,.35);
-            --radius-1: 12px;
-            --radius-2: 16px;
+            --r1: 12px;
+            --r2: 16px;
             --shell-pad: clamp(18px,3.4vw,34px);
-            --shell-w: min(1320px, 100% - calc(var(--shell-pad)*2));
+            --shell-w: min(1360px, 100% - calc(var(--shell-pad)*2)); /* a touch wider */
         }
 
         * {
@@ -48,7 +46,7 @@
 
         body {
             margin: 0;
-            font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+            font-family: "Inter",system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Noto Sans","Liberation Sans",sans-serif;
             color: var(--text-1);
             background: radial-gradient(1000px 600px at 50% -10%, #0e1c20 0%, transparent 70%), var(--ink-900);
             line-height: 1.5;
@@ -79,7 +77,7 @@
             padding-inline: var(--shell-pad)
         }
 
-        /* ====== Top mini‑nav (brand • Reel • Contact) ========================= */
+        /* ===== Header (brand • Reel • Contact) ===== */
         .site-header {
             position: sticky;
             top: 0;
@@ -115,7 +113,7 @@
             letter-spacing: .06em;
             padding: 8px 10px;
             border-radius: 8px;
-            background: linear-gradient(180deg, #0f1a1d, #0b1316);
+            background: linear-gradient(180deg,#0f1a1d,#0b1316);
             border: 1px solid var(--divider);
         }
 
@@ -133,7 +131,7 @@
                 background: var(--seafoam-veil)
             }
 
-        /* Contact dropdown (accessible <details>) */
+        /* Contact dropdown (<details>) */
         .nav__dropdown {
             position: relative
         }
@@ -177,7 +175,7 @@
             display: none
         }
 
-        /* ====== Hero / Header block ========================================== */
+        /* ===== Hero / Masthead ===== */
         .frame {
             padding-block: 18px 64px
         }
@@ -188,42 +186,33 @@
             justify-content: space-between;
             gap: 18px;
             padding: 18px;
+            margin-block: 18px;
             border: 1px solid var(--divider);
             border-radius: 16px;
-            background: linear-gradient(180deg, var(--ink-800), var(--ink-850));
+            background: linear-gradient(180deg,var(--ink-800),var(--ink-850));
             box-shadow: var(--shadow);
-            margin-block: 18px;
         }
 
         .brandbox {
             display: flex;
             align-items: center;
-            gap: 16px
+            gap: 14px
         }
 
         .avatar {
-            width: 64px;
-            height: 64px;
-            border-radius: 16px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
             overflow: hidden;
             border: 1px solid var(--divider)
         }
 
-        .masthead h1 {
-            margin: 0 0 6px;
-            font-size: clamp(22px, 3.6vw, 30px);
-            letter-spacing: .02em
-        }
-
         .subtitle {
-            color: var(--text-2);
-            font-size: clamp(13px, 2.3vw, 15px);
-            max-width: 60ch
+            color: var(--text-2)
         }
 
         .actions {
             display: flex;
-            align-items: center;
             gap: 10px;
             flex-wrap: wrap
         }
@@ -231,16 +220,13 @@
         .btn {
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
-            height: 38px;
-            padding: 0 14px;
-            border-radius: 10px;
-            font-weight: 600;
-            letter-spacing: .02em;
-            background: #0f1a1d;
+            gap: 8px;
+            padding: 10px 12px;
+            border-radius: 999px;
             border: 1px solid var(--divider);
+            background: #0f1a1d;
             color: var(--text-1);
+            font-weight: 600;
         }
 
             .btn:hover {
@@ -248,15 +234,14 @@
             }
 
             .btn.accent {
-                border-color: color-mix(in srgb, var(--accent) 60%, transparent);
-                background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 20%, #0f1a1d), #0f1a1d)
+                border-color: color-mix(in srgb, var(--accent) 35%, transparent)
             }
 
                 .btn.accent:hover {
                     box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 20%, transparent) inset
                 }
 
-        /* ====== Main grid: tabs + panels ===================================== */
+        /* ===== Grid: tabs + panels ===== */
         .grid {
             display: grid;
             grid-template-columns: 220px 1fr;
@@ -271,7 +256,7 @@
             padding: 12px;
             border: 1px solid var(--divider);
             border-radius: 16px;
-            background: linear-gradient(180deg, var(--ink-800), var(--ink-850));
+            background: linear-gradient(180deg,var(--ink-800),var(--ink-850));
             position: sticky;
             top: 86px;
             height: max-content;
@@ -288,6 +273,7 @@
             font-weight: 600;
             letter-spacing: .02em;
             cursor: pointer;
+            transition: background .18s, color .18s, border-color .18s;
         }
 
             .tab:hover {
@@ -298,18 +284,18 @@
             .tab.active {
                 background: linear-gradient(180deg, rgba(36,242,177,.08), transparent);
                 border-color: color-mix(in srgb, var(--accent) 35%, transparent);
-                color: var(--text-1)
+                color: var(--text-1);
             }
 
         .panel {
             display: none;
             gap: 14px;
             padding: 18px;
+            min-height: 320px;
             border: 1px solid var(--divider);
             border-radius: 16px;
-            background: linear-gradient(180deg, var(--ink-800), var(--ink-850));
+            background: linear-gradient(180deg,var(--ink-800),var(--ink-850));
             box-shadow: var(--shadow);
-            min-height: 320px;
         }
 
             .panel.active {
@@ -318,9 +304,8 @@
 
             .panel > h2 {
                 margin: 0 0 6px;
-                font-size: clamp(18px, 2.8vw, 22px);
-                letter-spacing: .04em;
-                color: var(--text-1)
+                font-size: clamp(18px,2.8vw,22px);
+                letter-spacing: .04em
             }
 
             .panel > .content {
@@ -328,16 +313,16 @@
                 font-size: 15px
             }
 
-        /* ====== Overview: cinematic hero ===================================== */
+        /* ===== Overview: cinematic hero ===== */
         #panel-overview > .content {
             display: grid;
             grid-template-rows: auto 1fr;
             gap: 12px;
-            min-height: clamp(520px, 70vh, 860px)
+            min-height: clamp(520px,70vh,860px)
         }
 
         #panel-overview .kv .v {
-            font-size: clamp(16px, 2.2vw, 20px);
+            font-size: clamp(16px,2.2vw,20px);
             line-height: 1.55
         }
 
@@ -345,7 +330,7 @@
             grid-row: 2;
             position: relative;
             width: 100%;
-            min-height: clamp(280px, 54vh, 720px);
+            min-height: clamp(280px,54vh,720px);
             margin: 0;
             border-radius: 16px;
             overflow: hidden;
@@ -373,7 +358,7 @@
                 background: linear-gradient(to bottom, rgba(10,16,22,.78) 0%, rgba(10,16,22,0) 28%), linear-gradient(to top, rgba(10,16,22,.62) 0%, rgba(10,16,22,0) 36%), radial-gradient(75% 55% at 50% 100%, color-mix(in srgb, var(--accent) 18%, transparent) 0%, transparent 70%);
             }
 
-        /* ====== Skills: compact, icon + label + values ======================== */
+        /* ===== Skills (icon + label + values) ===== */
         .skills {
             display: grid;
             gap: 10px
@@ -381,12 +366,12 @@
 
         .row {
             display: grid;
-            grid-template-columns: minmax(210px, 280px) 1fr;
+            grid-template-columns: minmax(210px,280px) 1fr;
             gap: 14px;
             padding: 10px 12px;
             border: 1px solid var(--divider);
             border-radius: 12px;
-            background: linear-gradient(180deg, #0f1a1d, #0b1316);
+            background: linear-gradient(180deg,#0f1a1d,#0b1316);
         }
 
         .cat {
@@ -394,7 +379,7 @@
             align-items: center;
             gap: 10px;
             color: var(--text-1);
-            font-weight: 600;
+            font-weight: 600
         }
 
             .cat i {
@@ -405,7 +390,7 @@
             color: var(--text-2)
         }
 
-        /* ====== Reel: responsive player + dots ================================ */
+        /* ===== Reel ===== */
         .reel-wrap {
             display: grid;
             gap: 10px
@@ -418,14 +403,38 @@
             border: 1px solid var(--divider);
             border-radius: 14px;
             overflow: hidden;
-            background: #000
+            background: #000;
+            /* Soft “cinema” edge that also hides any Vimeo white placeholder */
         }
+
+            .reel::before,
+            .reel::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                right: 0;
+                height: clamp(8px,1.6vh,16px);
+                pointer-events: none;
+                z-index: 2;
+            }
+
+            .reel::before {
+                top: 0;
+                background: linear-gradient(to bottom, rgba(0,0,0,.85), rgba(0,0,0,0))
+            }
+
+            .reel::after {
+                bottom: 0;
+                background: linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,0))
+            }
 
             .reel iframe, .reel video {
                 position: absolute;
                 inset: 0;
                 width: 100%;
-                height: 100%
+                height: 100%;
+                border: 0;
+                background: #0b0e11; /* dark while loading */
             }
 
         .reel-controls {
@@ -462,13 +471,14 @@
             border-radius: 999px;
             background: #304641;
             border: 1px solid #2f3f41;
+            cursor: pointer
         }
 
             .dot.active {
                 background: var(--accent)
             }
 
-        /* ====== Projects: resume-tight list =================================== */
+        /* ===== Projects (resume-tight) ===== */
         .proj-list {
             list-style: none;
             padding: 0;
@@ -479,17 +489,17 @@
 
         .proj {
             display: grid;
-            grid-template-columns: minmax(220px, 280px) 1fr;
+            grid-template-columns: minmax(220px,280px) 1fr;
             gap: 14px;
             padding: 12px;
             border: 1px solid var(--divider);
             border-radius: 12px;
-            background: linear-gradient(180deg, #0f1a1d, #0b1316);
+            background: linear-gradient(180deg,#0f1a1d,#0b1316);
         }
 
         .proj__meta {
             color: var(--muted);
-            font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
             font-size: 13px
         }
 
@@ -500,7 +510,6 @@
 
         .proj__bul {
             margin: 8px 0 0 16px;
-            padding: 0;
             color: var(--text-2)
         }
 
@@ -521,7 +530,7 @@
                 color: var(--text-1)
             }
 
-        /* ====== Footer ========================================================= */
+        /* ===== Footer ===== */
         footer {
             display: flex;
             align-items: center;
@@ -549,10 +558,10 @@
                         color: var(--text-1)
                     }
 
-        /* ====== Responsive ===================================================== */
-        @media (max-width: 1020px) {
+        /* ===== Responsive ===== */
+        @media (max-width:1020px) {
             .grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr
             }
 
             nav.tabs {
@@ -560,7 +569,7 @@
             }
 
             .row, .proj {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr
             }
 
             .masthead {
@@ -573,7 +582,7 @@
             }
         }
 
-        @media (max-width: 640px) {
+        @media (max-width:640px) {
             .site-header__inner {
                 height: 52px
             }
@@ -603,15 +612,16 @@
             }
         }
 
-        @media (prefers-reduced-motion: reduce) {
+        @media (prefers-reduced-motion:reduce) {
             html {
                 scroll-behavior: auto
             }
         }
     </style>
 </head>
+
 <body id="top">
-    <!-- Small, pinned header with Reel + Contact dropdown -->
+    <!-- Header: brand • Reel • Contact -->
     <header class="site-header" role="banner">
         <div class="site-header__inner shell">
             <nav class="nav" aria-label="Primary">
@@ -619,6 +629,7 @@
                     <a class="brand" href="#top" aria-label="Home">RONNIE CLELAND</a>
                     <a class="nav__link" href="#panel-reel" data-tab="reel"><i class="fa-solid fa-play"></i><span>Reel</span></a>
 
+                    <!-- Contact dropdown -->
                     <details class="nav__dropdown" id="contactMenu">
                         <summary class="nav__link"><i class="fa-regular fa-paper-plane"></i><span>Contact</span></summary>
                         <ul class="nav__menu" role="menu" aria-label="Contact">
@@ -641,7 +652,7 @@
                     <img src="./assets/lumify_profpic.png" alt="Ronnie Cleland profile">
                 </div>
                 <div>
-                    <h1 id="masthead-title">Digital Innovation with 2D/3D and Real-Time</h1>
+                    <h1 id="masthead-title">Digital Innovation with 2D/3D and Real‑Time</h1>
                     <p class="subtitle">Creative Tech. Product and Pipeline. Film and Animation. @Lumify AI</p>
                 </div>
             </div>
@@ -683,7 +694,7 @@
                     <div class="skills">
                         <div class="row">
                             <div class="cat"><i class="fa-solid fa-wand-magic-sparkles"></i> Generative & Vision</div>
-                            <div class="vals"> Flux Kontext, Flux Schnell, SDXL, Wan 2.2, Hunyuan 3D, ControlNet, Real‑ESRGAN, Segment Anything, Depth Anything</div>
+                            <div class="vals">Flux Kontext, Flux Schnell, SDXL, Wan 2.2, Hunyuan 3D, ControlNet, Real‑ESRGAN, Segment Anything, Depth Anything</div>
                         </div>
                         <div class="row">
                             <div class="cat"><i class="fa-solid fa-film"></i> Video & Post</div>
@@ -691,11 +702,11 @@
                         </div>
                         <div class="row">
                             <div class="cat"><i class="fa-solid fa-cube"></i> 3D & Real‑Time</div>
-                            <div class="vals">Unreal Engine, Houdini, USD, Zbrush, Substance Suites</div>
+                            <div class="vals">Unreal Engine, Houdini, USD, ZBrush, Substance Suite</div>
                         </div>
                         <div class="row">
                             <div class="cat"><i class="fa-solid fa-brain"></i> Data Science</div>
-                            <div class="vals">Jupyter Notebooks, PyTorch, NumPy, Hugging Face Hub, Github</div>
+                            <div class="vals">Jupyter, PyTorch, NumPy, Hugging Face Hub, GitHub</div>
                         </div>
                         <div class="row">
                             <div class="cat"><i class="fa-solid fa-diagram-project"></i> Pipeline & Backend</div>
@@ -753,8 +764,7 @@
 
                         <li class="proj">
                             <div class="proj__meta">
-                                Selected Film Credits
-                                <br><span class="proj__title">Features & TV</span>
+                                Selected Film Credits<br><span class="proj__title">Features & TV</span>
                             </div>
                             <div>
                                 Highlights from animation and VFX work:
@@ -783,36 +793,35 @@
     </main>
 
     <script>
-        // Tabs & hash routing (desktop + mobile friendly)
-        const map = ["overview", "skills", "reel", "projects"];
+        /* ===== Tabs & hash routing ===== */
+        const sections = ["overview", "skills", "reel", "projects"];
         const tabButtons = Array.from(document.querySelectorAll(".tab"));
-        const panels = map.map(name => document.getElementById("panel-" + name));
+        const panels = sections.map(n => document.getElementById("panel-" + n));
         const setActive = (name) => {
             tabButtons.forEach(b => b.classList.toggle("active", b.dataset.target === name));
             panels.forEach(p => p.classList.toggle("active", p.id === "panel-" + name));
-            // Update hash without jumping
             history.replaceState(null, "", "#" + name);
         };
         tabButtons.forEach(btn => btn.addEventListener("click", () => setActive(btn.dataset.target)));
-
-        // Allow header/footer links to switch panel
-        document.querySelectorAll("[data-tab]").forEach(a => {
-            a.addEventListener("click", (e) => {
-                const t = a.getAttribute("data-tab");
-                if (map.includes(t)) {
-                    setActive(t);
-                }
-            }, { passive: true });
-        });
-
-        // Initialize from hash if present
+        document.querySelectorAll("[data-tab]").forEach(a => a.addEventListener("click", e => {
+            const t = a.getAttribute("data-tab"); if (sections.includes(t)) setActive(t);
+        }, { passive: true }));
         const initial = location.hash.replace("#", "").toLowerCase();
-        if (map.includes(initial)) setActive(initial);
-
-        // Year
+        if (sections.includes(initial)) setActive(initial);
         document.getElementById("year").textContent = new Date().getFullYear();
 
-        // Reel carousel (replace with your own URLs as needed)
+        /* ===== Contact dropdown: close on outside click & ESC ===== */
+        const contactMenu = document.getElementById("contactMenu");
+        document.addEventListener("click", (e) => {
+            if (contactMenu.open && !contactMenu.contains(e.target)) contactMenu.removeAttribute("open");
+        });
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && contactMenu.open) contactMenu.removeAttribute("open");
+        });
+        // Also close after a link is clicked
+        contactMenu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => contactMenu.removeAttribute("open")));
+
+        /* ===== Reel carousel ===== */
         const vids = [
             "https://player.vimeo.com/video/462445892?h=3cdd3f57a6",
             "https://player.vimeo.com/video/464816152?h=d1eb93eae4",
@@ -822,7 +831,22 @@
         let current = 0;
         const slot = document.getElementById("reel-slot");
         const dots = document.getElementById("dots");
-        const render = () => {
+
+        function vimeoWithParams(url) {
+            try {
+                const u = new URL(url);
+                if (u.hostname.includes("vimeo.com")) {
+                    // tame the placeholder / background and match brand color
+                    u.searchParams.set("transparent", "0");
+                    u.searchParams.set("color", "24f2b1");
+                    u.searchParams.set("dnt", "1");
+                    return u.toString();
+                }
+            } catch { }
+            return url;
+        }
+
+        function render() {
             slot.innerHTML = "";
             const url = vids[current];
             if (url.endsWith(".mp4")) {
@@ -831,19 +855,22 @@
                 slot.appendChild(v);
             } else {
                 const f = document.createElement("iframe");
-                f.setAttribute("scrolling", "no"); f.setAttribute("width", "100%"); f.setAttribute("height", "100%");
+                f.setAttribute("width", "100%"); f.setAttribute("height", "100%");
                 f.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
                 f.setAttribute("allow", "autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share");
-                f.src = url; f.title = "Reel"; f.allowFullscreen = true;
+                f.setAttribute("loading", "lazy");
+                f.src = vimeoWithParams(url);
+                f.allowFullscreen = true; f.title = "Reel";
                 slot.appendChild(f);
             }
             dots.innerHTML = "";
             vids.forEach((_, i) => {
-                const d = document.createElement("div"); d.className = "dot" + (i === current ? " active" : "");
+                const d = document.createElement("div");
+                d.className = "dot" + (i === current ? " active" : "");
                 d.onclick = () => { current = i; render(); };
                 dots.appendChild(d);
             });
-        };
+        }
         document.getElementById("prevBtn").onclick = () => { current = (current + vids.length - 1) % vids.length; render(); };
         document.getElementById("nextBtn").onclick = () => { current = (current + 1) % vids.length; render(); };
         render();
