@@ -500,6 +500,89 @@
             opacity: .98;
             filter: saturate(1.05) contrast(1.02);
         }
+        /* ===== Overview — Cinematic hero (fresh, self‑contained) ===== */
+
+        /* 1) Guard against the nested .content adding offsets in Overview */
+        #panel-overview > .content .content {
+            padding: 0; /* remove extra inner padding */
+            margin: 0;
+        }
+
+        /* 2) Make the panel tall enough for a cinematic banner */
+        #panel-overview > .content {
+            position: relative;
+            display: grid;
+            grid-template-rows: auto 1fr; /* text on top, hero below */
+            gap: 12px;
+            align-content: start;
+            min-height: clamp(560px, 70vh, 920px);
+            overflow: hidden;
+        }
+
+        /* 3) The hero container fills the usable width and clips rounded corners */
+        #panel-overview .hero {
+            grid-row: 2;
+            position: relative;
+            width: 100%;
+            min-height: clamp(320px, 56vh, 740px); /* adjust to taste */
+            border-radius: 16px;
+            overflow: hidden; /* clip child corners/vignette */
+            margin: 0; /* no unexpected offsets */
+        }
+
+            /* 4) The image: cover the box, center, and bias slightly toward the floor */
+            #panel-overview .hero > .ov-hero {
+                position: absolute;
+                inset: 0; /* replaces bottom/left/transform hacks */
+                width: 100%;
+                height: 100%;
+                object-fit: cover; /* cinematic crop, edge-to-edge */
+                object-position: 50% 82%; /* show a touch more of the lower area */
+                opacity: .98;
+                filter: saturate(1.04) contrast(1.02);
+                /* Neutralize older rules that caused the “smoke”/misalignment */
+                mask-image: none !important;
+                -webkit-mask-image: none !important;
+                transform: none !important;
+                left: 0 !important;
+                bottom: 0 !important;
+            }
+
+            /* 5) The vignette: smooth top + bottom fade, slight sea‑foam wash.
+   No blend-mode (so it won’t look dusty/smokey). */
+            #panel-overview .hero > .ov-vignette {
+                position: absolute;
+                inset: 0;
+                border-radius: inherit; /* match rounded edges */
+                pointer-events: none;
+                /* layers:
+     a) top fade → dark
+     b) bottom fade → dark
+     c) subtle sea‑foam tint anchored low */
+                background: linear-gradient(to bottom, rgba(10,16,22, .78) 0%, rgba(10,16,22, 0) 28%), linear-gradient(to top, rgba(10,16,22, .62) 0%, rgba(10,16,22, 0) 36%), radial-gradient(75% 55% at 50% 100%, color-mix(in srgb, var(--accent) 18%, transparent) 0%, transparent 70%);
+                /* ensure older mix-blend rules don’t bleed through */
+                mix-blend-mode: normal !important;
+            }
+
+        /* 6) Keep the copy readable and on top */
+        #panel-overview .kv .v {
+            position: relative;
+            z-index: 2;
+            font-size: 22px;
+            line-height: 1.55;
+        }
+
+        /* 7) Responsive: keep proportions without overpowering small screens */
+        @media (max-width: 980px) {
+            #panel-overview > .content {
+                min-height: 56vh;
+            }
+
+            #panel-overview .hero {
+                min-height: 260px;
+                border-radius: 14px;
+            }
+        }
 
         
     </style>
