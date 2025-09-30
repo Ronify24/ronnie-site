@@ -405,6 +405,7 @@
             padding: 10px 0 2px;
         }
 
+        /* === Overview: cinematic hero + smooth vignette === */
         #panel-overview .content {
             position: relative;
             display: grid;
@@ -457,6 +458,7 @@
                 min-height: 260px;
             }
         }
+
         /* Slightly refine headline/subtitle sizes for the new font */
         h1 {
             font-weight: 700;
@@ -470,14 +472,6 @@
         #panel-overview .kv .v {
             font-size: 22px;
             line-height: 1.55;
-        }
-
-        /* Overview responsive layout: text on top, image fills the remaining space */
-        #panel-overview .content {
-            display: grid;
-            grid-template-rows: auto 1fr;
-            align-content: start;
-            padding: 22px 20px 18px;
         }
 
         #panel-overview .ov-text {
@@ -507,14 +501,7 @@
             filter: saturate(1.05) contrast(1.02);
         }
 
-        #panel-overview .ov-vignette {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(75% 60% at 50% 100%, color-mix(in srgb, var(--accent) 16%, transparent) 0%, transparent 70%), linear-gradient(180deg, transparent 0%, rgba(0,0,0,.35) 80%);
-            mix-blend-mode: screen;
-            pointer-events: none;
-        }
+        
     </style>
 </head>
 <body>
