@@ -727,6 +727,74 @@
                     background: #102126;
                 }
 
+        /* Projects: Lumify micro-layout */
+        .proj-kv {
+            display: grid;
+            gap: 10px
+        }
+
+        .proj-line {
+            color: var(--text-1);
+            font-weight: 600;
+            letter-spacing: .02em
+        }
+
+        .proj-sub {
+            color: var(--text-2-boost, var(--text-2));
+        }
+
+        .statbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 6px 0 2px
+        }
+
+        .stat {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            height: 26px;
+            padding: 0 10px;
+            border: 1px solid var(--divider);
+            border-radius: 999px;
+            background: linear-gradient(180deg,#0f1a1d,#0b1316);
+            color: var(--text-2-boost, var(--text-2));
+            font-size: 12.5px;
+            white-space: nowrap;
+        }
+
+            .stat i {
+                color: var(--accent)
+            }
+
+        /* Section header row */
+        .proj-hdr {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            margin-top: 6px
+        }
+
+        /* Chip groups */
+        .proj-group {
+            margin-top: 8px
+        }
+
+            .proj-group h4 {
+                margin: 0 0 6px;
+                font-size: 13px;
+                letter-spacing: .06em;
+                text-transform: uppercase;
+                color: var(--text-2-boost, var(--text-2));
+            }
+
+            .proj-group .chips .chip {
+                height: 26px;
+                font-size: 12.5px;
+            }
+
 
     </style>
 </head>
@@ -942,14 +1010,71 @@
                                 2024—Present · Product & Pipeline<br>
                                 <span class="proj__title">Lumify Application & Platform</span>
                             </div>
-                            <div>
-                                Multimodal img2img & img2video pipelines with Flask API, along with ComfyUI and Unreal orchestration.
-                                <ul class="proj__bul">
-                                    <li>Designed tech‑driven UI with minimalist, cinematic language.</li>
-                                    <li>Built reusable, parameterized workflows, batch run templates and smart dynamic loading.</li>
-                                </ul>
+
+                            <div class="proj-kv">
+                                <!-- Quick read labels -->
+                                <div class="statbar">
+                                    <span class="stat"><i class="fa-solid fa-layer-group"></i> Multimodal creation</span>
+                                    <span class="stat"><i class="fa-solid fa-bolt"></i> Real-time friendly UI</span>
+                                    <span class="stat"><i class="fa-solid fa-diagram-project"></i> Orchestrated workflows</span>
+                                    <span class="stat"><i class="fa-solid fa-shield-heart"></i> Responsible defaults</span>
+                                </div>
+
+                                <!-- One-liner overview -->
+                                <div class="proj-line">What it is</div>
+                                <div class="proj-sub">
+                                    A studio-style creation platform that turns 2D art into cinematic images and motion,
+                                    with tools that feel like a film pipeline, not a toy.
+                                </div>
+
+                                <!-- Workflows -->
+                                <div class="proj-group">
+                                    <h4>Core workflows</h4>
+                                    <ul class="chips" role="list">
+                                        <li class="chip">Img→Img refinement</li>
+                                        <li class="chip">Lighting by Matching</li>
+                                        <li class="chip">Relight + Enhance</li>
+                                        <li class="chip">Depth-aware comps</li>
+                                        <li class="chip">Img→Video beats</li>
+                                        <li class="chip">3D shape preview</li>
+                                        <li class="chip">Batch templates</li>
+                                        <li class="chip">Seed control</li>
+                                        <li class="chip">Before/after review</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Stack -->
+                                <div class="proj-group">
+                                    <h4>Stack</h4>
+                                    <ul class="chips" role="list">
+                                        <li class="chip">Flux Kontext</li>
+                                        <li class="chip">SDXL</li>
+                                        <li class="chip">Wan 2.2</li>
+                                        <li class="chip">Real-ESRGAN</li>
+                                        <li class="chip">Segment/Depth Anything</li>
+                                        <li class="chip">Hunyuan 3D</li>
+                                        <li class="chip">Flask API</li>
+                                        <li class="chip">ComfyUI dispatch</li>
+                                        <li class="chip">Unreal Engine look-dev</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Outcomes -->
+                                <div class="proj-group">
+                                    <h4>Outcomes</h4>
+                                    <ul class="chips" role="list">
+                                        <li class="chip">Faster first-pass looks</li>
+                                        <li class="chip">Consistent lighting intent</li>
+                                        <li class="chip">Clean hand-off to edit</li>
+                                        <li class="chip">Operator safety controls</li>
+                                        <li class="chip">Memory-safe model swaps</li>
+                                        <li class="chip">Queue with progress</li>
+                                        <li class="chip">Privacy-aware embeds</li>
+                                    </ul>
+                                </div>
                             </div>
                         </li>
+
 
                         <li class="proj">
                             <div class="proj__meta">
