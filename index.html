@@ -1407,10 +1407,7 @@
         document.querySelectorAll("[data-tab]").forEach(a => {
             a.addEventListener("click", () => {
                 const t = a.getAttribute("data-tab");
-                if (["overview", "skills", "reel", "projects"].includes(t)) {
-                    setActive(t);
-                    window.scrollTo({ top: 0, behavior: "smooth" });
-                }
+                if (sections.includes(t)) setActive(t);
             }, { passive: true });
         });
 
