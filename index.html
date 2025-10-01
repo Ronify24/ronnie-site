@@ -661,6 +661,38 @@
             }
         }
 
+        /* Consistent header height variable */
+        :root {
+            --header-h: 56px;
+        }
+
+        @media (max-width:640px) {
+            :root {
+                --header-h: 52px;
+            }
+        }
+
+        /* Make the helper tabs snug under the header on phones */
+        @media (max-width: 640px) {
+            #quickNav {
+                position: sticky;
+                top: var(--header-h); /* nest right under the header */
+                z-index: 60; /* below the header, above content */
+                margin: 0; /* remove leftover gap */
+                padding: 6px var(--shell-pad) 4px; /* compact vertical rhythm */
+                background: color-mix(in srgb, var(--ink-900) 94%, transparent);
+                border-bottom: 1px solid var(--divider);
+                backdrop-filter: blur(8px);
+            }
+
+                /* Optional: slightly reduce chip height in this bar for less obstruction */
+                #quickNav .chip {
+                    height: 24px;
+                    font-size: 12px;
+                }
+        }
+
+
         /* Phone-only avatar placement in masthead */
         @media (max-width: 640px) {
             .masthead {
@@ -677,8 +709,8 @@
                 position: absolute;
                 right: 12px;
                 bottom: 12px;
-                width: 60px;
-                height: 60px;
+                width: 70px;
+                height: 70px;
                 border-radius: 14px;
                 overflow: hidden;
                 z-index: 2;
@@ -721,10 +753,44 @@
                 flex: 0 0 auto;
             }
             /* Reel / Contact stay sized */
-            .site-header__inner {
+/*            .site-header__inner {
                 overflow: hidden;
-            }
+            }*/
             /* belt-and-suspenders guard */
+        }
+
+        @media (max-width: 640px) {
+            nav.tabs {
+                position: sticky;
+                top: calc(var(--header-h) + 36px); /* directly below the quick bar */
+                padding: 8px 10px;
+                gap: 8px;
+                background: color-mix(in srgb, var(--ink-900) 94%, transparent);
+                border-bottom: 1px solid var(--divider);
+                z-index: 50;
+            }
+
+            .tab {
+                padding: 9px 12px;
+            }
+        }
+
+        /* Mobile: convert Contact menu to a full-width sheet below header */
+        @media (max-width: 640px) {
+            .nav__dropdown > .nav__menu {
+                position: fixed;
+                left: 0;
+                right: 0;
+                top: var(--header-h); /* sits directly under the header */
+                min-width: unset;
+                width: 100%;
+                border-radius: 0 0 12px 12px;
+                z-index: 1000;
+            }
+            /* Bigger tap targets on phone */
+            .nav__menu a {
+                padding: 14px 16px;
+            }
         }
 
         /* Compact chips for quick scanning */
@@ -893,6 +959,11 @@
                 font-size: 12.5px;
             }
 
+        /* Ensure dropdown can extend beyond header wrapper */
+        .site-header__inner {
+            overflow: visible;
+        }
+
 
     </style>
 </head>
@@ -941,12 +1012,16 @@
 
         <!-- Main Grid: tabs + content -->
         <div class="grid">
-            <nav class="tabs" aria-label="Sections" role="tablist">
-                <button class="tab active" id="tab-overview" data-target="overview" role="tab" aria-selected="true" aria-controls="panel-overview">Overview</button>
-                <button class="tab" id="tab-skills" data-target="skills" role="tab" aria-selected="false" aria-controls="panel-skills">Skills</button>
-                <button class="tab" id="tab-reel" data-target="reel" role="tab" aria-selected="false" aria-controls="panel-reel">Reel</button>
-                <button class="tab" id="tab-projects" data-target="projects" role="tab" aria-selected="false" aria-controls="panel-projects">Projects</button>
-            </nav>
+            <div id="quickNav" class="shell" style="margin-top:-6px; margin-bottom:6px;">
+                <nav aria-label="Quick">
+                    <ul class="chips" role="list" style="overflow:auto; padding-bottom:6px;">
+                        <li class="chip"><a href="#panel-overview" data-tab="overview">Overview</a></li>
+                        <li class="chip"><a href="#panel-skills" data-tab="skills">Skills</a></li>
+                        <li class="chip"><a href="#panel-reel" data-tab="reel">Reel</a></li>
+                        <li class="chip"><a href="#panel-projects" data-tab="projects">Projects</a></li>
+                    </ul>
+                </nav>
+            </div>
 
             <!-- Panels -->
             <section class="panel active" id="panel-overview">
