@@ -1027,6 +1027,67 @@
             /* max-width: 1200px; */
         }
 
+        /* Phone: keep avatar inline with buttons on one row */
+        @media (max-width: 640px) {
+            /* Reset any earlier phone padding-bottom from the masthead */
+            .masthead {
+                position: relative;
+                padding-bottom: 0; /* remove extra space from older rule */
+                padding-right: 88px; /* reserve room for the avatar bubble */
+            }
+
+            /* Buttons stay on one row and align nicely */
+            .actions {
+                display: flex;
+                flex-wrap: nowrap; /* prevent wrapping to a new line */
+                align-items: center;
+                gap: 8px;
+                padding-right: 0; /* we are using masthead padding-right instead */
+                min-width: 0;
+            }
+
+                .actions .btn {
+                    flex: 0 0 auto; /* do not shrink into ellipses */
+                }
+
+            /* Avatar pinned to the right, vertically centered against the buttons */
+            .avatar {
+                position: absolute;
+                right: 12px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 56px;
+                height: 56px;
+                border-radius: 14px;
+                overflow: hidden;
+                z-index: 2;
+            }
+
+                .avatar img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    object-position: center;
+                }
+
+            /* Brand row stays tidy inside the header on phones */
+            .nav__left {
+                gap: 10px;
+                flex-wrap: nowrap;
+                min-width: 0;
+            }
+
+            .brand {
+                flex: 1 1 auto;
+                min-width: 0;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                padding: 6px 8px;
+            }
+        }
+
+
 
     </style>
 </head>
