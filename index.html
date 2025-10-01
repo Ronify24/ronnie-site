@@ -30,6 +30,7 @@
             --r2: 16px;
             --shell-pad: clamp(18px,3.4vw,34px);
             --shell-w: min(1360px, 100% - calc(var(--shell-pad)*2)); /* a touch wider */
+            --text-2-boost: color-mix(in srgb, var(--text-2) 90%, #ffffff 25%);
         }
 
         * {
@@ -563,9 +564,26 @@
             .grid {
                 grid-template-columns: 1fr
             }
-
             nav.tabs {
-                position: static
+                display: grid;
+                grid-auto-flow: column;
+                grid-auto-columns: max-content;
+                gap: 8px;
+                padding: 10px;
+                position: sticky;
+                top: 62px; /* just under header */
+                overflow-x: auto;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+            }
+
+                nav.tabs::-webkit-scrollbar {
+                    display: none;
+                }
+
+            .tab {
+                white-space: nowrap;
+                padding: 10px 14px;
             }
 
             .row, .proj {
@@ -582,7 +600,26 @@
             }
         }
 
-        @media (max-width:640px) {
+        @media (max-width: 640px) {
+            .btn {
+                padding: 12px 14px;
+            }
+
+            .pn {
+                height: 36px;
+                padding: 0 14px;
+            }
+
+            .chip {
+                height: 26px;
+                font-size: 12.5px;
+            }
+
+            .proj-chips .chip {
+                height: 24px;
+                font-size: 12px;
+            }
+
             .site-header__inner {
                 height: 52px
             }
@@ -609,6 +646,9 @@
 
             .reel {
                 border-radius: 10px
+            }
+            .hero::after {
+                background: linear-gradient(to bottom, rgba(10,16,22,.64) 0%, rgba(10,16,22,0) 28%), linear-gradient(to top, rgba(10,16,22,.48) 0%, rgba(10,16,22,0) 36%), radial-gradient(75% 55% at 50% 100%, color-mix(in srgb, var(--accent) 12%, transparent) 0%, transparent 70%);
             }
         }
 
@@ -643,16 +683,11 @@
 
             .chip:hover {
                 color: var(--text-1);
-                background: #102126;
+                background: #153333;
             }
 
         .row .vals {
             display: block;
-        }
-
-        /* Slightly brighter non-hover text */
-        :root {
-            --text-2-boost: color-mix(in srgb, var(--text-2) 90%, #ffffff 25%);
         }
 
         /* Use the boosted tone where we want better readability */
@@ -662,12 +697,6 @@
         .chip {
             color: var(--text-2-boost);
         }
-
-            /* Chips already exist; keep hover the same */
-            .chip:hover {
-                color: var(--text-1);
-                background: #153333;
-            }
 
         /* Projects: chip view + nicer toggle */
         .more summary {
@@ -819,6 +848,16 @@
                         </ul>
                     </details>
                 </div>
+            </nav>
+        </div>
+        <div class="shell" style="margin-top:-6px; margin-bottom:6px;">
+            <nav aria-label="Quick">
+                <ul class="chips" role="list" style="overflow:auto; padding-bottom:6px;">
+                    <li class="chip"><a href="#panel-overview" data-tab="overview">Overview</a></li>
+                    <li class="chip"><a href="#panel-skills" data-tab="skills">Skills</a></li>
+                    <li class="chip"><a href="#panel-reel" data-tab="reel">Reel</a></li>
+                    <li class="chip"><a href="#panel-projects" data-tab="projects">Projects</a></li>
+                </ul>
             </nav>
         </div>
     </header>
@@ -1160,31 +1199,35 @@
         const sections = ["overview", "skills", "reel", "projects"];
         const tabButtons = Array.from(document.querySelectorAll(".tab"));
         const panels = sections.map(n => document.getElementById("panel-" + n));
-        const setActive = (name) => {
+        let reelRendered = false;
+
+        function setActive(name) {
             tabButtons.forEach(b => b.classList.toggle("active", b.dataset.target === name));
             panels.forEach(p => p.classList.toggle("active", p.id === "panel-" + name));
             history.replaceState(null, "", "#" + name);
-        };
+            if (name === "reel" && !reelRendered) { renderReel(); reelRendered = true; }
+        }
+
         tabButtons.forEach(btn => btn.addEventListener("click", () => setActive(btn.dataset.target)));
-        document.querySelectorAll("[data-tab]").forEach(a => a.addEventListener("click", e => {
-            const t = a.getAttribute("data-tab"); if (sections.includes(t)) setActive(t);
-        }, { passive: true }));
+        document.querySelectorAll("[data-tab]").forEach(a => {
+            a.addEventListener("click", () => {
+                const t = a.getAttribute("data-tab");
+                if (sections.includes(t)) setActive(t);
+            }, { passive: true });
+        });
+
         const initial = location.hash.replace("#", "").toLowerCase();
         if (sections.includes(initial)) setActive(initial);
         document.getElementById("year").textContent = new Date().getFullYear();
 
-        /* ===== Contact dropdown: close on outside click & ESC ===== */
+        /* ===== Contact dropdown: close on outside click & ESC & scroll ===== */
         const contactMenu = document.getElementById("contactMenu");
-        document.addEventListener("click", (e) => {
-            if (contactMenu.open && !contactMenu.contains(e.target)) contactMenu.removeAttribute("open");
-        });
-        document.addEventListener("keydown", (e) => {
-            if (e.key === "Escape" && contactMenu.open) contactMenu.removeAttribute("open");
-        });
-        // Also close after a link is clicked
+        document.addEventListener("click", (e) => { if (contactMenu.open && !contactMenu.contains(e.target)) contactMenu.removeAttribute("open"); });
+        document.addEventListener("keydown", (e) => { if (e.key === "Escape" && contactMenu.open) contactMenu.removeAttribute("open"); });
+        document.addEventListener("scroll", () => { if (contactMenu.open) contactMenu.removeAttribute("open"); }, { passive: true });
         contactMenu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => contactMenu.removeAttribute("open")));
 
-        /* ===== Reel carousel ===== */
+        /* ===== Reel carousel (render only on first open) ===== */
         const vids = [
             "https://player.vimeo.com/video/1123301848",
             "https://player.vimeo.com/video/462445892?h=3cdd3f57a6",
@@ -1200,7 +1243,6 @@
             try {
                 const u = new URL(url);
                 if (u.hostname.includes("vimeo.com")) {
-                    // tame the placeholder / background and match brand color
                     u.searchParams.set("transparent", "0");
                     u.searchParams.set("color", "24f2b1");
                     u.searchParams.set("dnt", "1");
@@ -1208,6 +1250,12 @@
                 }
             } catch { }
             return url;
+        }
+
+        function renderReel() {
+            render(); // initial paint
+            document.getElementById("prevBtn").onclick = () => { current = (current + vids.length - 1) % vids.length; render(); };
+            document.getElementById("nextBtn").onclick = () => { current = (current + 1) % vids.length; render(); };
         }
 
         function render() {
