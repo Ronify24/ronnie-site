@@ -1087,7 +1087,62 @@
             }
         }
 
+        /* Phone: masthead as 2-column grid so buttons and avatar share a row cleanly */
+        @media (max-width: 640px) {
+            .masthead {
+                display: grid;
+                grid-template-columns: 1fr 56px; /* left = buttons, right = avatar */
+                grid-auto-rows: auto;
+                align-items: center;
+                column-gap: 12px;
+                padding-right: 12px; /* neat right gutter */
+                padding-bottom: 10px; /* tiny cushion below */
+            }
 
+            /* Brand/title row spans full width above the buttons+avatar row */
+            .brandbox {
+                grid-column: 1 / -1;
+                margin-bottom: 8px;
+            }
+
+            /* Buttons row lives in column 1 and never wraps to a new line */
+            .actions {
+                grid-column: 1 / 2;
+                display: flex;
+                flex-wrap: nowrap; /* keep both buttons on one row */
+                align-items: center;
+                gap: 8px;
+                min-width: 0; /* allow flex container to shrink inside column */
+            }
+
+                /* Slightly tighter buttons so they fit on small screens */
+                .actions .btn {
+                    padding: 8px 10px;
+                    font-size: 13px;
+                    white-space: nowrap; /* keep each button text on one line */
+                    flex: 0 0 auto; /* do not let them squish into ellipses */
+                }
+
+            /* Avatar sits in column 2, vertically centered with the buttons */
+            .avatar {
+                grid-column: 2 / 3;
+                justify-self: end;
+                align-self: center;
+                position: static; /* override any earlier absolute pinning */
+                width: 56px;
+                height: 56px;
+                border-radius: 14px;
+                overflow: hidden;
+                z-index: 1;
+            }
+
+                .avatar img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    object-position: center;
+                }
+        }
 
     </style>
 </head>
