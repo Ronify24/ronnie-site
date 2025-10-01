@@ -669,6 +669,65 @@
                 background: #153333;
             }
 
+        /* Projects: chip view + nicer toggle */
+        .more summary {
+            list-style: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            border: 1px solid var(--divider);
+            border-radius: 999px;
+            background: linear-gradient(180deg, #0f1a1d, #0b1316);
+            color: var(--text-2-boost, var(--text-2));
+            user-select: none;
+        }
+
+            .more summary::-webkit-details-marker {
+                display: none;
+            }
+
+            /* Arrow */
+            .more summary::after {
+                content: "▾";
+                font-size: 12px;
+                line-height: 1;
+                transform: rotate(0deg);
+                transition: transform .18s ease;
+            }
+
+        .more[open] summary::after {
+            transform: rotate(180deg);
+        }
+
+        /* Chips inside Projects: slightly denser */
+        .proj-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 10px 0 0;
+            padding: 0;
+            list-style: none;
+        }
+
+            .proj-chips .chip {
+                height: 26px;
+                padding: 0 10px;
+                font-size: 12.5px;
+                border: 1px solid var(--divider);
+                border-radius: 999px;
+                background: linear-gradient(180deg, #0f1a1d, #0b1316);
+                color: var(--text-2-boost, var(--text-2));
+                white-space: nowrap;
+            }
+
+                .proj-chips .chip:hover {
+                    color: var(--text-1);
+                    background: #102126;
+                }
+
+
     </style>
 </head>
 
@@ -729,7 +788,7 @@
                 <div class="content">
                     <div class="kv">
                         <div class="v">
-                            I design and operate AI workflows that accelerate creative and digital storytelling. For the last 19 years, I've been involved with the look development and creative departments in VFX and Animation studios. I love the creation process and thrive off team collaboration. I've always been inspired by visual details, so it is only natural that I have established myself in Look Dev/Surfacing Departments. From assets and locations to world building, I've evolved in my career with the use of Unreal Engine. Concept to creation is the name of the game and Unreal has propelled me to contribute to almost all spectrums of world building and previs production. From assembly, blueprints, to look development, I've found my new passion in the next generation real-time creative pipeline.
+                            I design and operate AI workflows that accelerate creative and digital storytelling. For the last 19 years, I've been involved with the look development and creative departments in VFX and Animation studios. I love the creation process and thrive off team collaboration. I've always been inspired by visual details, so most of my career has been engaged within Look Dev/Surfacing Departments across multiple studios. From assets and locations to world building, I've evolved in my career with the use of Unreal Engine. Concept to creation is the name of the game and Unreal has propelled me to contribute to almost all spectrums of world building and previs production. From assembly, blueprints, to look development, I've found my new passion in the next generation real-time creative pipeline.
                         </div>
                     </div>
 
@@ -794,7 +853,6 @@
                                 <ul class="chips" role="list">
                                     <li class="chip">Jupyter</li>
                                     <li class="chip">PyTorch</li>
-                                    <li class="chip">NumPy</li>
                                     <li class="chip">Hugging Face Hub</li>
                                     <li class="chip">GitHub</li>
                                 </ul>
@@ -901,8 +959,25 @@
                                 Highlights from animation and VFX work:
                                 <details class="more">
                                     <summary>Show full list</summary>
-                                    <ul class="proj__bul">
-                                        <li>Trouble; Trolls Holiday Special 2; The Croods 2; How To Train Your Dragon 3: Hidden World; Bilby; Kung Fu Panda 3; Boss Baby; Penguins of Madagascar; Home; The Croods; Puss in Boots; Wallenda; Unstoppable; Prince of Persia; Sorcerer’s Apprentice; Verizon Droid/Drop Day; Pirates of the Caribbean 2; Ghost Rider.</li>
+                                    <ul class="proj-chips">
+                                        <li class="chip">Trouble</li>
+                                        <li class="chip">Trolls Holiday Special 2</li>
+                                        <li class="chip">The Croods 2</li>
+                                        <li class="chip">How To Train Your Dragon 3: Hidden World</li>
+                                        <li class="chip">Bilby</li>
+                                        <li class="chip">Kung Fu Panda 3</li>
+                                        <li class="chip">Boss Baby</li>
+                                        <li class="chip">Penguins of Madagascar</li>
+                                        <li class="chip">Home</li>
+                                        <li class="chip">The Croods</li>
+                                        <li class="chip">Puss in Boots</li>
+                                        <li class="chip">Wallenda</li>
+                                        <li class="chip">Unstoppable</li>
+                                        <li class="chip">Prince of Persia</li>
+                                        <li class="chip">Sorcerer's Apprentice</li>
+                                        <li class="chip">Verizon Droid: Drop Day</li>
+                                        <li class="chip">Pirates of the Caribbean 2</li>
+                                        <li class="chip">Ghost Rider</li>
                                     </ul>
                                 </details>
                             </div>
