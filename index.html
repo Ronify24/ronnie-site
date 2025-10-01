@@ -1,1599 +1,730 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Ronnie Cleland — Digital Innovation with 2D/3D & Real‑Time</title>
-    <meta name="color-scheme" content="dark only" />
-    <meta name="description" content="Digital innovation with 2D/3D & Real‑Time. Creative tech, product and pipeline." />
-
-    <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
-    <style>
-        /* ===== Theme / Tokens ===== */
-        :root {
-            --ink-900: #0b1215;
-            --ink-850: #0f171a;
-            --ink-800: #111a1d;
-            --ink-750: #132024;
-            --text-1: #e8f5f1;
-            --text-2: #b9d7cf;
-            --muted: #7aa7a0;
-            --accent: #24f2b1;
-            --ring: rgba(36,242,177,.55);
-            --seafoam-veil: rgba(36,242,177,.08);
-            --divider: rgba(164,255,233,.14);
-            --shadow: 0 8px 28px rgba(0,0,0,.35);
-            --r1: 12px;
-            --r2: 16px;
-            --shell-pad: clamp(18px,3.4vw,34px);
-            --shell-w: min(1360px, 100% - calc(var(--shell-pad)*2)); /* a touch wider */
-            --text-2-boost: color-mix(in srgb, var(--text-2) 90%, #ffffff 25%);
-        }
-
-        * {
-            box-sizing: border-box
-        }
-
-        html, body {
-            height: 100%
-        }
-
-        html {
-            scroll-behavior: smooth
-        }
-
-        body {
-            margin: 0;
-            font-family: "Inter",system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Noto Sans","Liberation Sans",sans-serif;
-            color: var(--text-1);
-            background: radial-gradient(1000px 600px at 50% -10%, #0e1c20 0%, transparent 70%), var(--ink-900);
-            line-height: 1.5;
-            text-rendering: optimizeLegibility;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        img {
-            max-width: 100%;
-            display: block
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none
-        }
-
-            a:focus-visible, button:focus-visible, summary:focus-visible {
-                outline: 2px solid var(--ring);
-                outline-offset: 2px;
-                border-radius: 8px;
-            }
-
-        .shell {
-            width: var(--shell-w);
-            margin-inline: auto;
-            padding-inline: var(--shell-pad)
-        }
-
-        /* ===== Header (brand • Reel • Contact) ===== */
-        .site-header {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background: color-mix(in srgb, var(--ink-900) 86%, transparent);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--divider);
-        }
-
-        .site-header__inner {
-            height: 56px;
-            display: flex;
-            align-items: center
-        }
-
-        .nav {
-            display: flex;
-            align-items: center;
-            gap: 18px
-        }
-
-        .nav__left {
-            display: flex;
-            align-items: center;
-            gap: 14px
-        }
-
-        .brand {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 700;
-            letter-spacing: .06em;
-            padding: 8px 10px;
-            border-radius: 8px;
-            background: linear-gradient(180deg,#0f1a1d,#0b1316);
-            border: 1px solid var(--divider);
-        }
-
-        .nav__link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 10px;
-            border-radius: 8px;
-            color: var(--text-2);
-        }
-
-            .nav__link:hover {
-                color: var(--text-1);
-                background: var(--seafoam-veil)
-            }
-
-        /* Contact dropdown (<details>) */
-        .nav__dropdown {
-            position: relative
-        }
-
-            .nav__dropdown > summary {
-                list-style: none;
-                cursor: pointer
-            }
-
-                .nav__dropdown > summary::-webkit-details-marker {
-                    display: none
-                }
-
-        .nav__menu {
-            position: absolute;
-            top: calc(100% + 8px);
-            left: 0;
-            min-width: 240px;
-            background: var(--ink-800);
-            border: 1px solid var(--divider);
-            border-radius: 12px;
-            padding: 8px;
-            box-shadow: var(--shadow);
-        }
-
-            .nav__menu a {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                padding: 12px 14px;
-                border-radius: 8px;
-                color: var(--text-2)
-            }
-
-                .nav__menu a:hover {
-                    background: var(--seafoam-veil);
-                    color: var(--text-1)
-                }
-
-        .nav__dropdown:not([open]) > .nav__menu {
-            display: none
-        }
-
-        /* ===== Hero / Masthead ===== */
-        .frame {
-            padding-block: 18px 64px
-        }
-
-        .masthead {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 18px;
-            padding: 18px;
-            margin-block: 18px;
-            border: 1px solid var(--divider);
-            border-radius: 16px;
-            background: linear-gradient(180deg,var(--ink-800),var(--ink-850));
-            box-shadow: var(--shadow);
-        }
-
-        .brandbox {
-            display: flex;
-            align-items: center;
-            gap: 14px
-        }
-
-        .avatar {
-            width: 75px;
-            height: 75px;
-            border-radius: 15%;
-            overflow: hidden;
-            border: 1px solid var(--divider)
-        }
-
-        .subtitle {
-            color: var(--text-2)
-        }
-
-        .actions {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 12px;
-            border-radius: 999px;
-            border: 1px solid var(--divider);
-            background: #0f1a1d;
-            color: var(--text-1);
-            font-weight: 600;
-        }
-
-            .btn:hover {
-                background: var(--ink-750)
-            }
-
-            .btn.accent {
-                border-color: color-mix(in srgb, var(--accent) 35%, transparent)
-            }
-
-                .btn.accent:hover {
-                    box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 20%, transparent) inset
-                }
-
-        /* ===== Grid: tabs + panels ===== */
-        .grid {
-            display: grid;
-            grid-template-columns: 220px 1fr;
-            gap: 18px;
-            margin-top: 18px
-        }
-
-        nav.tabs {
-            display: grid;
-            align-content: start;
-            gap: 10px;
-            padding: 12px;
-            border: 1px solid var(--divider);
-            border-radius: 16px;
-            background: linear-gradient(180deg,var(--ink-800),var(--ink-850));
-            position: sticky;
-            top: 86px;
-            height: max-content;
-        }
-
-        .tab {
-            width: 100%;
-            text-align: left;
-            padding: 10px 12px;
-            border-radius: 10px;
-            background: transparent;
-            border: 1px solid transparent;
-            color: var(--text-2);
-            font-weight: 600;
-            letter-spacing: .02em;
-            cursor: pointer;
-            transition: background .18s, color .18s, border-color .18s;
-        }
-
-            .tab:hover {
-                background: var(--seafoam-veil);
-                color: var(--text-1)
-            }
-
-            .tab.active {
-                background: linear-gradient(180deg, rgba(36,242,177,.08), transparent);
-                border-color: color-mix(in srgb, var(--accent) 35%, transparent);
-                color: var(--text-1);
-            }
-
-        .panel {
-            display: none;
-            gap: 14px;
-            padding: 18px;
-            min-height: 320px;
-            border: 1px solid var(--divider);
-            border-radius: 16px;
-            background: linear-gradient(180deg,var(--ink-800),var(--ink-850));
-            box-shadow: var(--shadow);
-        }
-
-            .panel.active {
-                display: block
-            }
-
-            .panel > h2 {
-                margin: 0 0 6px;
-                font-size: clamp(18px,2.8vw,22px);
-                letter-spacing: .04em
-            }
-
-            .panel > .content {
-                color: var(--text-2);
-                font-size: 15px
-            }
-
-        /* ===== Overview: cinematic hero ===== */
-        #panel-overview > .content {
-            display: grid;
-            grid-template-rows: auto 1fr;
-            gap: 12px;
-            min-height: clamp(520px,70vh,860px)
-        }
-
-        #panel-overview .kv .v {
-            font-size: clamp(16px,2.2vw,20px);
-            line-height: 1.55
-        }
-
-        .hero {
-            grid-row: 2;
-            position: relative;
-            width: 100%;
-            min-height: clamp(280px,54vh,720px);
-            margin: 0;
-            border-radius: 16px;
-            overflow: hidden;
-            background: #0b1316;
-            border: 1px solid var(--divider);
-        }
-
-            .hero > img {
-                position: absolute;
-                inset: 0;
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                object-position: 50% 82%;
-                opacity: .98;
-                filter: saturate(1.04) contrast(1.02);
-            }
-
-            .hero::after {
-                content: "";
-                position: absolute;
-                inset: 0;
-                pointer-events: none;
-                border-radius: inherit;
-                background: linear-gradient(to bottom, rgba(10,16,22,.78) 0%, rgba(10,16,22,0) 28%), linear-gradient(to top, rgba(10,16,22,.62) 0%, rgba(10,16,22,0) 36%), radial-gradient(75% 55% at 50% 100%, color-mix(in srgb, var(--accent) 18%, transparent) 0%, transparent 70%);
-            }
-
-        /* ===== Skills (icon + label + values) ===== */
-        .skills {
-            display: grid;
-            gap: 10px
-        }
-
-        .row {
-            display: grid;
-            grid-template-columns: minmax(210px,280px) 1fr;
-            gap: 14px;
-            padding: 10px 12px;
-            border: 1px solid var(--divider);
-            border-radius: 12px;
-            background: linear-gradient(180deg,#0f1a1d,#0b1316);
-        }
-
-        .cat {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--text-1);
-            font-weight: 600
-        }
-
-            .cat i {
-                color: var(--accent)
-            }
-
-        .vals {
-            color: var(--text-2)
-        }
-
-        /* ===== Reel ===== */
-        .reel-wrap {
-            display: grid;
-            gap: 10px
-        }
-
-        .reel {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 16/9;
-            border: 1px solid var(--divider);
-            border-radius: 14px;
-            overflow: hidden;
-            background: #000;
-            /* Soft “cinema” edge that also hides any Vimeo white placeholder */
-        }
-
-            .reel::before,
-            .reel::after {
-                content: "";
-                position: absolute;
-                left: 0;
-                right: 0;
-                height: clamp(8px,1.6vh,16px);
-                pointer-events: none;
-                z-index: 2;
-            }
-
-            .reel::before {
-                top: 0;
-                background: linear-gradient(to bottom, rgba(0,0,0,.85), rgba(0,0,0,0))
-            }
-
-            .reel::after {
-                bottom: 0;
-                background: linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,0))
-            }
-
-            .reel iframe, .reel video {
-                position: absolute;
-                inset: 0;
-                width: 100%;
-                height: 100%;
-                border: 0;
-                background: #0b0e11; /* dark while loading */
-            }
-
-        .reel-controls {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px
-        }
-
-        .pn {
-            height: 32px;
-            padding: 0 12px;
-            border-radius: 999px;
-            border: 1px solid var(--divider);
-            background: #0f1a1d;
-            color: var(--text-1);
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-            .pn:hover {
-                background: var(--ink-750)
-            }
-
-        .dots {
-            display: flex;
-            gap: 6px;
-            align-items: center
-        }
-
-        .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 999px;
-            background: #304641;
-            border: 1px solid #2f3f41;
-            cursor: pointer
-        }
-
-            .dot.active {
-                background: var(--accent)
-            }
-
-        /* ===== Projects (resume-tight) ===== */
-        .proj-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: grid;
-            gap: 12px
-        }
-
-        .proj {
-            display: grid;
-            grid-template-columns: minmax(220px,280px) 1fr;
-            gap: 14px;
-            padding: 12px;
-            border: 1px solid var(--divider);
-            border-radius: 12px;
-            background: linear-gradient(180deg,#0f1a1d,#0b1316);
-        }
-
-        .proj__meta {
-            color: var(--muted);
-            font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
-            font-size: 15px
-        }
-
-        .proj__title {
-            font-weight: 800;
-            color: var(--text-1)
-        }
-
-        .proj__bul {
-            margin: 10px 0 0 16px;
-            color: var(--text-2)
-        }
-
-            .proj__bul li {
-                margin: 4px 0
-            }
-
-        details.more {
-            margin-top: 6px
-        }
-
-            details.more > summary {
-                cursor: pointer;
-                color: var(--text-2)
-            }
-
-            details.more[open] > summary {
-                color: var(--text-1)
-            }
-
-        /* ===== Footer ===== */
-        footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            margin-top: 18px;
-            padding: 16px;
-            border-top: 1px solid var(--divider);
-            color: var(--text-2);
-        }
-
-            footer .links {
-                display: flex;
-                gap: 12px;
-                flex-wrap: wrap
-            }
-
-                footer .links a {
-                    padding: 4px 8px;
-                    border-radius: 6px
-                }
-
-                    footer .links a:hover {
-                        background: var(--seafoam-veil);
-                        color: var(--text-1)
-                    }
-
-        /* ===== Responsive ===== */
-        @media (max-width:1020px) {
-            .grid {
-                grid-template-columns: 1fr
-            }
-            nav.tabs {
-                display: grid;
-                grid-auto-flow: column;
-                grid-auto-columns: max-content;
-                gap: 8px;
-                padding: 10px;
-                position: sticky;
-                top: 62px; /* just under header */
-                overflow-x: auto;
-                scrollbar-width: none;
-                -ms-overflow-style: none;
-            }
-
-                nav.tabs::-webkit-scrollbar {
-                    display: none;
-                }
-
-            .tab {
-                white-space: nowrap;
-                padding: 10px 14px;
-            }
-
-            .row, .proj {
-                grid-template-columns: 1fr
-            }
-
-            .masthead {
-                flex-direction: column;
-                align-items: flex-start
-            }
-
-            .subtitle {
-                max-width: unset
-            }
-        }
-
-        @media (max-width: 640px) {
-            .btn {
-                padding: 12px 14px;
-            }
-
-            .pn {
-                height: 36px;
-                padding: 0 14px;
-            }
-
-            .chip {
-                height: 26px;
-                font-size: 12.5px;
-            }
-
-            .proj-chips .chip {
-                height: 24px;
-                font-size: 12px;
-            }
-
-            .site-header__inner {
-                height: 52px
-            }
-
-            .brand {
-                padding: 6px 8px
-            }
-
-            .nav__menu {
-                min-width: 72vw
-            }
-
-            .masthead {
-                padding: 14px
-            }
-
-            .panel {
-                padding: 14px
-            }
-
-            .tab {
-                padding: 9px 10px
-            }
-            .reel::before, .reel::after {
-                height: 14px;
-            }
-
-            .reel {
-                border-radius: 10px
-            }
-            .hero::after {
-                background: linear-gradient(to bottom, rgba(10,16,22,.64) 0%, rgba(10,16,22,0) 28%), linear-gradient(to top, rgba(10,16,22,.48) 0%, rgba(10,16,22,0) 36%), radial-gradient(75% 55% at 50% 100%, color-mix(in srgb, var(--accent) 12%, transparent) 0%, transparent 70%);
-            }
-        }
-
-        @media (prefers-reduced-motion:reduce) {
-            html {
-                scroll-behavior: auto
-            }
-        }
-
-        /* Consistent header height variable */
-        :root {
-            --header-h: 56px;
-        }
-
-        @media (max-width:640px) {
-            :root {
-                --header-h: 52px;
-            }
-        }
-
-        /* Make the helper tabs snug under the header on phones */
-        @media (max-width: 640px) {
-            #quickNav {
-                position: sticky;
-                top: var(--header-h); /* nest right under the header */
-                z-index: 60; /* below the header, above content */
-                margin: 0; /* remove leftover gap */
-                padding: 6px var(--shell-pad) 4px; /* compact vertical rhythm */
-                background: color-mix(in srgb, var(--ink-900) 94%, transparent);
-                border-bottom: 1px solid var(--divider);
-                backdrop-filter: blur(8px);
-            }
-
-                /* Optional: slightly reduce chip height in this bar for less obstruction */
-                #quickNav .chip {
-                    height: 24px;
-                    font-size: 12px;
-                }
-        }
-
-        /* Sit the chip helpers flush under the top bar on desktop, compact rhythm */
-        #quickNav {
-            margin: 6px auto 0;
-            padding: 0 var(--shell-pad);
-        }
-
-            /* Make the helper chips align left like the brand, with tidy spacing */
-            #quickNav .chips {
-                gap: 10px;
-                padding: 6px 0 10px;
-                border-bottom: 1px solid var(--divider);
-            }
-
-        /* Phone behavior: force a single line, allow horizontal scroll if needed */
-        @media (max-width: 640px) {
-            #quickNav {
-                position: sticky;
-                top: var(--header-h);
-                z-index: 60;
-                padding: 4px var(--shell-pad) 6px;
-                margin: 0;
-                background: color-mix(in srgb, var(--ink-900) 94%, transparent);
-                backdrop-filter: blur(8px);
-                border-bottom: 1px solid var(--divider);
-            }
-
-                #quickNav .chips {
-                    flex-wrap: nowrap;
-                    overflow-x: auto;
-                    gap: 8px;
-                    padding: 0 0 6px;
-                    scrollbar-width: none;
-                    -ms-overflow-style: none;
-                }
-
-                    #quickNav .chips::-webkit-scrollbar {
-                        display: none;
-                    }
-
-                #quickNav .chip {
-                    height: 24px;
-                    font-size: 12px;
-                    padding: 0 10px;
-                }
-        }
-
-
-
-        /* Phone-only avatar placement in masthead */
-        @media (max-width: 640px) {
-            .masthead {
-                position: relative;
-                padding-bottom: 78px; /* space for the avatar bubble */
-            }
-
-            .brandbox {
-                align-items: flex-start;
-            }
-
-            /* The avatar bubble itself */
-            .avatar {
-                position: absolute;
-                right: 12px;
-                bottom: 12px;
-                width: 70px;
-                height: 70px;
-                border-radius: 14px;
-                overflow: hidden;
-                z-index: 2;
-            }
-
-                .avatar img {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    object-position: center;
-                }
-
-            /* Give the buttons a bit of breathing room so they don't sit under the avatar */
-            .actions {
-                padding-right: 76px;
-            }
-        }
-
-        /* Phone-only header containment and spacing */
-        @media (max-width: 640px) {
-            .nav__left {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                flex-wrap: nowrap; /* keep items on one line */
-                min-width: 0; /* allow shrink */
-            }
-
-            .brand {
-                flex: 1 1 auto; /* shrink if needed */
-                min-width: 0; /* allow ellipsis */
-                max-width: 100%;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                padding: 6px 8px; /* slightly tighter phone padding */
-            }
-
-            .nav__link {
-                flex: 0 0 auto;
-            }
-            /* Reel / Contact stay sized */
-/*            .site-header__inner {
-                overflow: hidden;
-            }*/
-            /* belt-and-suspenders guard */
-        }
-
-        @media (max-width: 640px) {
-            nav.tabs {
-                position: sticky;
-                top: calc(var(--header-h) + 36px); /* directly below the quick bar */
-                padding: 8px 10px;
-                gap: 8px;
-                background: color-mix(in srgb, var(--ink-900) 94%, transparent);
-                border-bottom: 1px solid var(--divider);
-                z-index: 50;
-            }
-
-            .tab {
-                padding: 9px 12px;
-            }
-        }
-
-        /* Mobile: convert Contact menu to a full-width sheet below header */
-        @media (max-width: 640px) {
-            .nav__dropdown > .nav__menu {
-                position: fixed;
-                left: 0;
-                right: 0;
-                top: var(--header-h); /* sits directly under the header */
-                min-width: unset;
-                width: 100%;
-                border-radius: 0 0 12px 12px;
-                z-index: 1000;
-            }
-            /* Bigger tap targets on phone */
-            .nav__menu a {
-                padding: 14px 16px;
-            }
-        }
-
-        /* Compact chips for quick scanning */
-        .chips {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin: 0;
-            padding: 0;
-            list-style: none;
-        }
-
-        .chip {
-            display: inline-flex;
-            align-items: center;
-            height: 28px;
-            padding: 0 10px;
-            border: 1px solid var(--divider);
-            border-radius: 999px;
-            background: linear-gradient(180deg, #0f1a1d, #0b1316);
-            color: var(--text-2);
-            font-size: 13px;
-            white-space: nowrap;
-        }
-
-            .chip:hover {
-                color: var(--text-1);
-                background: #153333;
-            }
-
-        .row .vals {
-            display: block;
-        }
-
-        /* Use the boosted tone where we want better readability */
-        .subtitle,
-        .nav__link,
-        .row .vals,
-        .chip {
-            color: var(--text-2-boost);
-        }
-
-        /* Projects: chip view + nicer toggle */
-        .more summary {
-            list-style: none;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 10px;
-            border: 1px solid var(--divider);
-            border-radius: 999px;
-            background: linear-gradient(180deg, #0f1a1d, #0b1316);
-            color: var(--text-2-boost, var(--text-2));
-            user-select: none;
-        }
-
-            .more summary::-webkit-details-marker {
-                display: none;
-            }
-
-            /* Arrow */
-            .more summary::after {
-                content: "▾";
-                font-size: 12px;
-                line-height: 1;
-                transform: rotate(0deg);
-                transition: transform .18s ease;
-            }
-
-        .more[open] summary::after {
-            transform: rotate(180deg);
-        }
-
-        /* Chips inside Projects: slightly denser */
-        .proj-chips {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin: 10px 0 0;
-            padding: 0;
-            list-style: none;
-        }
-
-            .proj-chips .chip {
-                height: 26px;
-                padding: 0 10px;
-                font-size: 12.5px;
-                border: 1px solid var(--divider);
-                border-radius: 999px;
-                background: linear-gradient(180deg, #0f1a1d, #0b1316);
-                color: var(--text-2-boost, var(--text-2));
-                white-space: nowrap;
-            }
-
-                .proj-chips .chip:hover {
-                    color: var(--text-1);
-                    background: #102126;
-                }
-
-        /* Projects: Lumify micro-layout */
-        .proj-kv {
-            display: grid;
-            gap: 10px
-        }
-
-        .proj-line {
-            color: var(--text-1);
-            font-weight: 600;
-            letter-spacing: .02em
-        }
-
-        .proj-sub {
-            color: var(--text-2-boost, var(--text-2));
-        }
-
-        .statbar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin: 6px 0 2px
-        }
-
-        .stat {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            height: 26px;
-            padding: 0 10px;
-            border: 1px solid var(--divider);
-            border-radius: 999px;
-            background: linear-gradient(180deg,#0f1a1d,#0b1316);
-            color: var(--text-2-boost, var(--text-2));
-            font-size: 12.5px;
-            white-space: nowrap;
-        }
-
-            .stat i {
-                color: var(--accent)
-            }
-
-        /* Section header row */
-        .proj-hdr {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 10px;
-            margin-top: 6px
-        }
-
-        /* Chip groups */
-        .proj-group {
-            margin-top: 8px
-        }
-
-            .proj-group h4 {
-                margin: 0 0 6px;
-                font-size: 13px;
-                letter-spacing: .06em;
-                text-transform: uppercase;
-                color: var(--text-2-boost, var(--text-2));
-            }
-
-            .proj-group .chips .chip {
-                height: 26px;
-                font-size: 12.5px;
-            }
-
-        /* Ensure dropdown can extend beyond header wrapper */
-        .site-header__inner {
-            overflow: visible;
-        }
-
-        /* Retire the left tab rail and center the page content */
-        nav.tabs {
-            display: none !important;
-        }
-
-        .grid {
-            grid-template-columns: 1fr !important;
-        }
-
-        /* Ensure panels feel centered and roomy on desktop */
-        .panel {
-            margin-inline: auto;
-            /* Optional: set a visual max-width if you want a slightly tighter measure */
-            /* max-width: 1200px; */
-        }
-
-        /* Phone: keep avatar inline with buttons on one row */
-        @media (max-width: 640px) {
-            /* Reset any earlier phone padding-bottom from the masthead */
-            .masthead {
-                position: relative;
-                padding-bottom: 0; /* remove extra space from older rule */
-                padding-right: 88px; /* reserve room for the avatar bubble */
-            }
-
-            /* Buttons stay on one row and align nicely */
-            .actions {
-                display: flex;
-                flex-wrap: nowrap; /* prevent wrapping to a new line */
-                align-items: center;
-                gap: 8px;
-                padding-right: 0; /* we are using masthead padding-right instead */
-                min-width: 0;
-            }
-
-                .actions .btn {
-                    flex: 0 0 auto; /* do not shrink into ellipses */
-                }
-
-            /* Avatar pinned to the right, vertically centered against the buttons */
-            .avatar {
-                position: absolute;
-                right: 12px;
-                top: 50%;
-                transform: translateY(-50%);
-                width: 56px;
-                height: 56px;
-                border-radius: 14px;
-                overflow: hidden;
-                z-index: 2;
-            }
-
-                .avatar img {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    object-position: center;
-                }
-
-            /* Brand row stays tidy inside the header on phones */
-            .nav__left {
-                gap: 10px;
-                flex-wrap: nowrap;
-                min-width: 0;
-            }
-
-            .brand {
-                flex: 1 1 auto;
-                min-width: 0;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                padding: 6px 8px;
-            }
-        }
-
-        /* Phone: masthead as 2-column grid so buttons and avatar share a row cleanly */
-        @media (max-width: 640px) {
-            .masthead {
-                display: grid;
-                grid-template-columns: 1fr 56px; /* left = buttons, right = avatar */
-                grid-auto-rows: auto;
-                align-items: center;
-                column-gap: 12px;
-                padding-right: 12px; /* neat right gutter */
-                padding-bottom: 10px; /* tiny cushion below */
-            }
-
-            /* Brand/title row spans full width above the buttons+avatar row */
-            .brandbox {
-                grid-column: 1 / -1;
-                margin-bottom: 8px;
-            }
-
-            /* Buttons row lives in column 1 and never wraps to a new line */
-            .actions {
-                grid-column: 1 / 2;
-                display: flex;
-                flex-wrap: nowrap; /* keep both buttons on one row */
-                align-items: center;
-                gap: 8px;
-                min-width: 0; /* allow flex container to shrink inside column */
-            }
-
-                /* Slightly tighter buttons so they fit on small screens */
-                .actions .btn {
-                    padding: 8px 10px;
-                    font-size: 13px;
-                    white-space: nowrap; /* keep each button text on one line */
-                    flex: 0 0 auto; /* do not let them squish into ellipses */
-                }
-
-            /* Avatar sits in column 2, vertically centered with the buttons */
-            .avatar {
-                grid-column: 2 / 3;
-                justify-self: end;
-                align-self: center;
-                position: static; /* override any earlier absolute pinning */
-                width: 56px;
-                height: 56px;
-                border-radius: 14px;
-                overflow: hidden;
-                z-index: 1;
-            }
-
-                .avatar img {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    object-position: center;
-                }
-        }
-
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ronnie Cleland · Digital Innovation with 2D/3D and Real-Time</title>
+  <meta name="color-scheme" content="dark only" />
+  <meta name="description" content="Digital innovation with 2D/3D and Real-Time. Creative tech, product and pipeline." />
+
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    /* =========================
+       Theme tokens
+       ========================= */
+    :root{
+      --ink-900:#0b1215;
+      --ink-850:#0f171a;
+      --ink-800:#111a1d;
+      --ink-750:#132024;
+      --text-1:#e8f5f1;
+      --text-2:#b9d7cf;
+      --text-2-boost: color-mix(in srgb, var(--text-2) 90%, #ffffff 25%);
+      --muted:#7aa7a0;
+      --accent:#24f2b1;
+      --ring:rgba(36,242,177,.55);
+      --seafoam-veil:rgba(36,242,177,.08);
+      --divider:rgba(164,255,233,.14);
+      --shadow:0 8px 28px rgba(0,0,0,.35);
+      --r1:12px; --r2:16px;
+
+      --shell-pad:clamp(18px,3.4vw,34px);
+      --shell-w:min(1360px, 100% - calc(var(--shell-pad)*2));
+
+      --header-h:56px;
+    }
+    @media (max-width:640px){
+      :root{ --header-h:52px; }
+    }
+
+    /* =========================
+       Base
+       ========================= */
+    *{ box-sizing:border-box }
+    html,body{ height:100% }
+    html{ scroll-behavior:smooth }
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Noto Sans","Liberation Sans",sans-serif;
+      color:var(--text-1);
+      background: radial-gradient(1000px 600px at 50% -10%, #0e1c20 0%, transparent 70%), var(--ink-900);
+      line-height:1.5;
+      text-rendering:optimizeLegibility;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    img{ max-width:100%; display:block }
+    a{ color:inherit; text-decoration:none }
+    a:focus-visible, button:focus-visible, summary:focus-visible{
+      outline:2px solid var(--ring); outline-offset:2px; border-radius:8px;
+    }
+    .shell{ width:var(--shell-w); margin-inline:auto; padding-inline:var(--shell-pad) }
+
+    /* =========================
+       Header
+       ========================= */
+    .site-header{
+      position:sticky; top:0; z-index:1000;
+      background: color-mix(in srgb, var(--ink-900) 86%, transparent);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid var(--divider);
+    }
+    .site-header__inner{ height:56px; display:flex; align-items:center }
+    .nav{ display:flex; align-items:center; gap:18px }
+    .nav__left{ display:flex; align-items:center; gap:14px; min-width:0 }
+    .brand{
+      display:inline-flex; align-items:center; gap:10px;
+      font-weight:700; letter-spacing:.06em;
+      padding:8px 10px; border-radius:8px;
+      background:linear-gradient(180deg,#0f1a1d,#0b1316);
+      border:1px solid var(--divider);
+      min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+    .nav__link{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px; border-radius:8px; color:var(--text-2-boost);
+    }
+    .nav__link:hover{ color:var(--text-1); background:var(--seafoam-veil) }
+
+    /* Contact dropdown */
+    .nav__dropdown{ position:relative }
+    .nav__dropdown > summary{ list-style:none; cursor:pointer }
+    .nav__dropdown > summary::-webkit-details-marker{ display:none }
+    .nav__menu{
+      position:absolute; top:calc(100% + 8px); left:0; min-width:240px;
+      background:var(--ink-800); border:1px solid var(--divider); border-radius:12px;
+      padding:8px; box-shadow:var(--shadow);
+    }
+    .nav__menu a{
+      display:flex; align-items:center; gap:10px;
+      padding:12px 14px; border-radius:8px; color:var(--text-2-boost);
+    }
+    .nav__menu a:hover{ background:var(--seafoam-veil); color:var(--text-1) }
+    .nav__dropdown:not([open]) > .nav__menu{ display:none }
+    .site-header__inner{ overflow:visible } /* allow dropdown to escape header */
+
+    /* Mobile: full-width contact sheet under header */
+    @media (max-width:640px){
+      .site-header__inner{ height:52px }
+      .brand{ padding:6px 8px }
+      .nav__left{ gap:10px; flex-wrap:nowrap }
+      .nav__menu{
+        position:fixed; left:0; right:0; top:var(--header-h);
+        min-width:unset; width:100%; border-radius:0 0 12px 12px; z-index:1000;
+      }
+    }
+
+    /* =========================
+       Quick helper chips under header
+       ========================= */
+    #quickNav{ margin:6px auto 0; padding:0 var(--shell-pad) }
+    #quickNav .chips{
+      display:flex; flex-wrap:wrap; gap:10px;
+      padding:6px 0 10px; margin:0; list-style:none;
+      border-bottom:1px solid var(--divider);
+    }
+    .chips .chip{
+      display:inline-flex; align-items:center; height:28px; padding:0 10px;
+      border:1px solid var(--divider); border-radius:999px;
+      background:linear-gradient(180deg,#0f1a1d,#0b1316);
+      color:var(--text-2-boost); font-size:13px; white-space:nowrap;
+      transition: background .18s, color .18s;
+    }
+    .chips .chip:hover{ color:var(--text-1); background:#102126 }
+
+    /* Mobile: sticky helper bar, one row with scroll if needed */
+    @media (max-width:640px){
+      #quickNav{
+        position:sticky; top:var(--header-h); z-index:60;
+        padding:4px var(--shell-pad) 6px; margin:0;
+        background: color-mix(in srgb, var(--ink-900) 94%, transparent);
+        backdrop-filter: blur(8px);
+        border-bottom:1px solid var(--divider);
+      }
+      #quickNav .chips{ flex-wrap:nowrap; overflow-x:auto; gap:8px; padding:0 0 6px; scrollbar-width:none; -ms-overflow-style:none }
+      #quickNav .chips::-webkit-scrollbar{ display:none }
+      #quickNav .chip{ height:24px; font-size:12px; padding:0 10px }
+    }
+
+    /* =========================
+       Masthead
+       ========================= */
+    .frame{ padding-block:18px 64px }
+    .masthead{
+      display:flex; align-items:center; justify-content:space-between; gap:18px;
+      padding:18px; margin-block:18px;
+      border:1px solid var(--divider); border-radius:16px;
+      background:linear-gradient(180deg,var(--ink-800),var(--ink-850));
+      box-shadow:var(--shadow);
+    }
+    .brandbox{ display:flex; align-items:center; gap:14px }
+    .avatar{ width:75px; height:75px; border-radius:15%; overflow:hidden; border:1px solid var(--divider) }
+    .subtitle{ color:var(--text-2-boost) }
+    .actions{ display:flex; gap:10px; flex-wrap:wrap }
+    .btn{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:10px 12px; border-radius:999px;
+      border:1px solid var(--divider);
+      background:#0f1a1d; color:var(--text-1); font-weight:600;
+    }
+    .btn:hover{ background:var(--ink-750) }
+    .btn.accent{ border-color: color-mix(in srgb, var(--accent) 35%, transparent) }
+    .btn.accent:hover{ box-shadow:0 0 0 2px color-mix(in srgb, var(--accent) 20%, transparent) inset }
+
+    /* Phone: grid so buttons and avatar share a row cleanly */
+    @media (max-width:640px){
+      .masthead{
+        display:grid; grid-template-columns: 1fr 56px; align-items:center;
+        column-gap:12px; padding-right:12px; padding-bottom:10px;
+      }
+      .brandbox{ grid-column:1 / -1; margin-bottom:8px }
+      .actions{
+        grid-column:1 / 2; display:flex; flex-wrap:nowrap; align-items:center; gap:8px; min-width:0;
+      }
+      .actions .btn{ padding:8px 10px; font-size:13px; white-space:nowrap; flex:0 0 auto }
+      .avatar{
+        grid-column:2 / 3; justify-self:end; align-self:center;
+        width:56px; height:56px; border-radius:14px;
+      }
+      .avatar img{ width:100%; height:100%; object-fit:cover; object-position:center }
+    }
+
+    /* =========================
+       Main layout
+       ========================= */
+    .grid{ display:grid; grid-template-columns:1fr; gap:18px; margin-top:18px }
+    /* left rail removed; panels centered */
+    .panel{
+      display:none; gap:14px; padding:18px; min-height:320px;
+      border:1px solid var(--divider); border-radius:16px;
+      background:linear-gradient(180deg,var(--ink-800),var(--ink-850));
+      box-shadow:var(--shadow);
+      margin-inline:auto;
+    }
+    .panel.active{ display:block }
+    .panel > h2{ margin:0 0 6px; font-size:clamp(18px,2.8vw,22px); letter-spacing:.04em }
+    .panel > .content{ color:var(--text-2); font-size:15px }
+
+    /* =========================
+       Overview
+       ========================= */
+    #panel-overview > .content{
+      display:grid; grid-template-rows:auto 1fr; gap:12px; min-height:clamp(520px,70vh,860px)
+    }
+    #panel-overview .kv .v{ font-size:clamp(16px,2.2vw,20px); line-height:1.55 }
+    .hero{
+      grid-row:2; position:relative; width:100%; min-height:clamp(280px,54vh,720px);
+      margin:0; border-radius:16px; overflow:hidden; background:#0b1316; border:1px solid var(--divider);
+    }
+    .hero > img{
+      position:absolute; inset:0; width:100%; height:100%;
+      object-fit:cover; object-position:50% 82%; opacity:.98;
+      filter:saturate(1.04) contrast(1.02);
+    }
+    .hero::after{
+      content:""; position:absolute; inset:0; pointer-events:none; border-radius:inherit;
+      background:
+        linear-gradient(to bottom, rgba(10,16,22,.78) 0%, rgba(10,16,22,0) 28%),
+        linear-gradient(to top, rgba(10,16,22,.62) 0%, rgba(10,16,22,0) 36%),
+        radial-gradient(75% 55% at 50% 100%, color-mix(in srgb, var(--accent) 18%, transparent) 0%, transparent 70%);
+    }
+    @media (max-width:640px){
+      .hero::after{
+        background:
+          linear-gradient(to bottom, rgba(10,16,22,.64) 0%, rgba(10,16,22,0) 28%),
+          linear-gradient(to top, rgba(10,16,22,.48) 0%, rgba(10,16,22,0) 36%),
+          radial-gradient(75% 55% at 50% 100%, color-mix(in srgb, var(--accent) 12%, transparent) 0%, transparent 70%);
+      }
+    }
+
+    /* =========================
+       Skills and chips
+       ========================= */
+    .skills{ display:grid; gap:10px }
+    .row{
+      display:grid; grid-template-columns:minmax(210px,280px) 1fr; gap:14px;
+      padding:10px 12px; border:1px solid var(--divider); border-radius:12px;
+      background:linear-gradient(180deg,#0f1a1d,#0b1316);
+    }
+    .cat{ display:flex; align-items:center; gap:10px; color:var(--text-1); font-weight:600 }
+    .cat i{ color:var(--accent) }
+    .vals{ color:var(--text-2-boost) }
+    .chips{ display:flex; flex-wrap:wrap; gap:8px; margin:0; padding:0; list-style:none }
+    .chip{ display:inline-flex; align-items:center; height:28px; padding:0 10px; border:1px solid var(--divider); border-radius:999px; background:linear-gradient(180deg,#0f1a1d,#0b1316); color:var(--text-2-boost); font-size:13px; white-space:nowrap }
+    .chip:hover{ color:var(--text-1); background:#102126 }
+
+    /* =========================
+       Reel
+       ========================= */
+    .reel-wrap{ display:grid; gap:10px }
+    .reel{
+      position:relative; width:100%; aspect-ratio:16/9;
+      border:1px solid var(--divider); border-radius:14px; overflow:hidden; background:#000;
+    }
+    .reel::before, .reel::after{
+      content:""; position:absolute; left:0; right:0; height:clamp(8px,1.6vh,16px);
+      pointer-events:none; z-index:2;
+    }
+    .reel::before{ top:0; background:linear-gradient(to bottom, rgba(0,0,0,.85), rgba(0,0,0,0)) }
+    .reel::after{ bottom:0; background:linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,0)) }
+    .reel iframe, .reel video{ position:absolute; inset:0; width:100%; height:100%; border:0; background:#0b0e11 }
+    .reel-controls{ display:flex; align-items:center; justify-content:space-between; gap:10px }
+    .pn{
+      height:32px; padding:0 12px; border-radius:999px; border:1px solid var(--divider);
+      background:#0f1a1d; color:var(--text-1); font-weight:600; cursor:pointer;
+    }
+    .pn:hover{ background:var(--ink-750) }
+    .dots{ display:flex; gap:6px; align-items:center }
+    .dot{ width:8px; height:8px; border-radius:999px; background:#304641; border:1px solid #2f3f41; cursor:pointer }
+    .dot.active{ background:var(--accent) }
+    @media (max-width:640px){
+      .pn{ height:36px; padding:0 14px }
+      .reel::before, .reel::after{ height:14px }
+      .reel{ border-radius:10px }
+    }
+
+    /* =========================
+       Projects
+       ========================= */
+    .proj-list{ list-style:none; padding:0; margin:0; display:grid; gap:12px }
+    .proj{
+      display:grid; grid-template-columns:minmax(220px,280px) 1fr; gap:14px;
+      padding:12px; border:1px solid var(--divider); border-radius:12px;
+      background:linear-gradient(180deg,#0f1a1d,#0b1316);
+    }
+    .proj__meta{ color:var(--muted); font-family:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace; font-size:15px }
+    .proj__title{ font-weight:800; color:var(--text-1) }
+    .proj__bul{ margin:10px 0 0 16px; color:var(--text-2) }
+    .proj__bul li{ margin:4px 0 }
+
+    /* Projects: chip toggle for Features & TV */
+    details.more{ margin-top:6px }
+    .more > summary{
+      list-style:none; cursor:pointer; display:inline-flex; align-items:center; gap:8px;
+      padding:6px 10px; border:1px solid var(--divider); border-radius:999px;
+      background:linear-gradient(180deg,#0f1a1d,#0b1316); color:var(--text-2-boost); user-select:none;
+    }
+    .more > summary::-webkit-details-marker{ display:none }
+    .more > summary::after{ content:"▾"; font-size:12px; line-height:1; transform:rotate(0deg); transition:transform .18s ease }
+    .more[open] > summary::after{ transform:rotate(180deg) }
+    .proj-chips{ display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; padding:0; list-style:none }
+    .proj-chips .chip{ height:26px; font-size:12.5px }
+    .proj-chips .chip:hover{ background:#102126 }
+
+    /* =========================
+       Footer
+       ========================= */
+    footer{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      margin-top:18px; padding:16px; border-top:1px solid var(--divider); color:var(--text-2);
+    }
+    footer .links{ display:flex; gap:12px; flex-wrap:wrap }
+    footer .links a{ padding:4px 8px; border-radius:6px }
+    footer .links a:hover{ background:var(--seafoam-veil); color:var(--text-1) }
+  </style>
 </head>
 
 <body id="top">
-    <!-- Header: brand • Reel • Contact -->
-    <header class="site-header" role="banner">
-        <div class="site-header__inner shell">
-            <nav class="nav" aria-label="Primary">
-                <div class="nav__left">
-                    <a class="brand" href="#top" aria-label="Home">RONNIE CLELAND</a>
-                    <a class="nav__link" href="#panel-reel" data-tab="reel"><i class="fa-solid fa-play"></i><span>Reel</span></a>
+  <!-- Header: brand • Reel • Contact -->
+  <header class="site-header" role="banner">
+    <div class="site-header__inner shell">
+      <nav class="nav" aria-label="Primary">
+        <div class="nav__left">
+          <a class="brand" href="#top" aria-label="Home">RONNIE CLELAND</a>
+          <a class="nav__link" href="#panel-reel" data-tab="reel"><i class="fa-solid fa-play"></i><span>Reel</span></a>
 
-                    <!-- Contact dropdown -->
-                    <details class="nav__dropdown" id="contactMenu">
-                        <summary class="nav__link"><i class="fa-regular fa-paper-plane"></i><span>Contact</span></summary>
-                        <ul class="nav__menu" role="menu" aria-label="Contact">
-                            <li role="none"><a role="menuitem" href="mailto:ronnie@lumifyai.com"><i class="fa-regular fa-envelope"></i>Email</a></li>
-                            <li role="none"><a role="menuitem" href="https://www.linkedin.com/public-profile/settings?trk=d_flagship3_profile_self_view_public_profile" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin"></i>LinkedIn</a></li>
-                            <li role="none"><a role="menuitem" href="https://www.imdb.com/name/nm2748136/" target="_blank" rel="noopener"><i class="fa-brands fa-imdb"></i>IMDB</a></li>
-                            <li role="none"><a role="menuitem" href="./assets/RonnieCleland_2025_Resume.pdf" download="RonnieCleland_2025_Resume.pdf" rel="noopener"><i class="fa-regular fa-file-lines"></i>Résumé (PDF)</a></li>
-                        </ul>
-                    </details>
-                </div>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Helper chips directly under the top bar -->
-    <div id="quickNav" class="shell">
-        <nav aria-label="Quick">
-            <ul class="chips" role="list">
-                <li class="chip"><a href="#panel-overview" data-tab="overview">Overview</a></li>
-                <li class="chip"><a href="#panel-skills" data-tab="skills">Skills</a></li>
-                <li class="chip"><a href="#panel-reel" data-tab="reel">Reel</a></li>
-                <li class="chip"><a href="#panel-projects" data-tab="projects">Projects</a></li>
+          <!-- Contact dropdown -->
+          <details class="nav__dropdown" id="contactMenu">
+            <summary class="nav__link"><i class="fa-regular fa-paper-plane"></i><span>Contact</span></summary>
+            <ul class="nav__menu" role="menu" aria-label="Contact">
+              <li role="none"><a role="menuitem" href="mailto:ronnie@lumifyai.com"><i class="fa-regular fa-envelope"></i>Email</a></li>
+              <li role="none"><a role="menuitem" href="https://www.linkedin.com/public-profile/settings?trk=d_flagship3_profile_self_view_public_profile" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin"></i>LinkedIn</a></li>
+              <li role="none"><a role="menuitem" href="https://www.imdb.com/name/nm2748136/" target="_blank" rel="noopener"><i class="fa-brands fa-imdb"></i>IMDB</a></li>
+              <li role="none"><a role="menuitem" href="./assets/RonnieCleland_2025_Resume.pdf" download="RonnieCleland_2025_Resume.pdf" rel="noopener"><i class="fa-regular fa-file-lines"></i>Résumé (PDF)</a></li>
             </ul>
-        </nav>
+          </details>
+        </div>
+      </nav>
     </div>
-    <main class="frame shell" id="main" role="main">
-        <!-- Masthead -->
-        <section class="masthead" aria-labelledby="masthead-title">
-            <div class="brandbox">
-                <div class="avatar" aria-hidden="true">
-                    <img src="./assets/lumify_profpic.png" alt="Ronnie Cleland profile">
-                </div>
-                <div>
-                    <h1 id="masthead-title">Digital Innovation with 2D/3D & Real‑Time</h1>
-                    <p class="subtitle">Creative Tech. Product and Pipeline. Film and Animation. @Lumify AI</p>
-                </div>
-            </div>
-            <div class="actions">
-                <a class="btn accent" href="#panel-reel" data-tab="reel"><i class="fa-solid fa-circle-play"></i> Watch Reel</a>
-                <a class="btn" href="./assets/RonnieCleland_2025_Resume.pdf" download="RonnieCleland_2025_Resume.pdf" rel="noopener"><i class="fa-regular fa-file-lines"></i> Download Resume</a>
-            </div>
-        </section>
+  </header>
 
-        <!-- Panels -->
-        <section class="panel active" id="panel-overview">
-            <h2>Overview</h2>
-            <div class="content">
-                <div class="kv">
-                    <div class="v" style="margin-bottom:10px;">
-                        I create workflows with ease of use in mind that move ideas into first visuals quickly, then give the artists precise control to refine.
-                        My background is nineteen years in feature animation and VFX with a focus on look development, surfacing, and compositing.
-                        I care about lighting intent, material and texture depth, and clean creative consistincies.
-                    </div>
-                </div>
+  <!-- Helper chips directly under the top bar -->
+  <div id="quickNav" class="shell">
+    <nav aria-label="Quick">
+      <ul class="chips" role="list">
+        <li class="chip"><a href="#panel-overview" data-tab="overview">Overview</a></li>
+        <li class="chip"><a href="#panel-skills" data-tab="skills">Skills</a></li>
+        <li class="chip"><a href="#panel-reel" data-tab="reel">Reel</a></li>
+        <li class="chip"><a href="#panel-projects" data-tab="projects">Projects</a></li>
+      </ul>
+    </nav>
+  </div>
 
-                <!-- quick context chips -->
-                <div class="statbar" style="margin-top:2px;">
-                    <span class="stat"><i class="fa-solid fa-person-chalkboard"></i> Team-first workflows</span>
-                    <span class="stat"><i class="fa-solid fa-swatchbook"></i> Lookdev roots</span>
-                    <span class="stat"><i class="fa-solid fa-timeline"></i> Editorial aware</span>
-                    <span class="stat"><i class="fa-solid fa-gauge-high"></i> Real-time ready</span>
-                </div>
+  <main class="frame shell" id="main" role="main">
+    <!-- Masthead -->
+    <section class="masthead" aria-labelledby="masthead-title">
+      <div class="brandbox">
+        <div class="avatar" aria-hidden="true">
+          <img src="./assets/lumify_profpic.png" alt="Ronnie Cleland profile">
+        </div>
+        <div>
+          <h1 id="masthead-title">Digital Innovation with 2D/3D and Real-Time</h1>
+          <p class="subtitle">Creative Tech. Product and Pipeline. Film and Animation. @Lumify AI</p>
+        </div>
+      </div>
+      <div class="actions">
+        <a class="btn accent" href="#panel-reel" data-tab="reel"><i class="fa-solid fa-circle-play"></i> Watch Reel</a>
+        <a class="btn" href="./assets/RonnieCleland_2025_Resume.pdf" download="RonnieCleland_2025_Resume.pdf" rel="noopener"><i class="fa-regular fa-file-lines"></i> Download Resume</a>
+      </div>
+    </section>
 
-                <!-- micro sections -->
-                <div class="proj-group" style="margin-top:10px;">
-                    <h4>What I build</h4>
-                    <ul class="chips" role="list">
-                        <li class="chip">Img to img refinement</li>
-                        <li class="chip">Img to video beats</li>
-                        <li class="chip">Relighting and Integration</li>
-                        <li class="chip">Depth-aware comps</li>
-                        <li class="chip">3D shape previews</li>
-                    </ul>
-                </div>
-
-                <div class="proj-group">
-                    <h4>How teams use it</h4>
-                    <ul class="chips" role="list">
-                        <li class="chip">Artist Intuitive HUDs</li>
-                        <li class="chip">Safe Cancel and Model Locks</li>
-                        <li class="chip">History with Reproducable Parameters</li>
-                        <li class="chip">A/B and 1:1 Aware</li>
-                        <li class="chip">Versioned Outputs</li>
-                    </ul>
-                </div>
-
-                <!-- Cinematic hero -->
-                <figure class="hero" aria-hidden="true">
-                    <img src="./assets/roomWebsite.jpg" alt="">
-                </figure>
-            </div>
-        </section>
-
-        <section class="panel" id="panel-skills">
-            <h2>Software and Core Skills</h2>
-            <div class="content">
-                <div class="skills">
-                    <div class="row">
-                        <div class="cat"><i class="fa-solid fa-wand-magic-sparkles"></i> Generative & Vision</div>
-                        <div class="vals">
-                            <ul class="chips" role="list">
-                                <li class="chip">Flux Kontext</li>
-                                <li class="chip">Flux Schnell</li>
-                                <li class="chip">SDXL</li>
-                                <li class="chip">Wan 2.2</li>
-                                <li class="chip">Hunyuan 3D</li>
-                                <li class="chip">ControlNet</li>
-                                <li class="chip">Real-ESRGAN</li>
-                                <li class="chip">Segment Anything</li>
-                                <li class="chip">Depth Anything</li>
-                                <li class="chip">LBM</li>
-                                <li class="chip">LTX</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="cat"><i class="fa-solid fa-film"></i> Video & Post</div>
-                        <div class="vals">
-                            <ul class="chips" role="list">
-                                <li class="chip">DaVinci</li>
-                                <li class="chip">Premiere Pro</li>
-                                <li class="chip">After Effects</li>
-                                <li class="chip">Photoshop</li>
-                                <li class="chip">Ableton Live</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="cat"><i class="fa-solid fa-cube"></i> 3D & Real-Time</div>
-                        <div class="vals">
-                            <ul class="chips" role="list">
-                                <li class="chip">Unreal Engine</li>
-                                <li class="chip">Houdini</li>
-                                <li class="chip">USD</li>
-                                <li class="chip">ZBrush</li>
-                                <li class="chip">Substance Suite</li>
-                                <li class="chip">Lookdev</li>
-                                <li class="chip">Worldbuilding</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="cat"><i class="fa-solid fa-brain"></i> Data Science</div>
-                        <div class="vals">
-                            <ul class="chips" role="list">
-                                <li class="chip">Jupyter</li>
-                                <li class="chip">PyTorch</li>
-                                <li class="chip">Hugging Face Hub</li>
-                                <li class="chip">GitHub</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- Pipeline & Backend -->
-                    <div class="row">
-                        <div class="cat"><i class="fa-solid fa-diagram-project"></i> Pipeline & Backend</div>
-                        <div class="vals">
-                            <ul class="chips" role="list">
-                                <li class="chip">Flask API surface</li>
-                                <li class="chip">Smart Model Loader</li>
-                                <li class="chip">Async job queue</li>
-                                <li class="chip">Progress polling</li>
-                                <li class="chip">Base64 image bridge</li>
-                                <li class="chip">Safe decode utilities</li>
-                                <li class="chip">Structured logging</li>
-                                <li class="chip">Status probes</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- Compute & Ops -->
-                    <div class="row">
-                        <div class="cat"><i class="fa-solid fa-microchip"></i> Compute & Ops</div>
-                        <div class="vals">
-                            <ul class="chips" role="list">
-                                <li class="chip">Sequential CPU offload</li>
-                                <li class="chip">VRAM hygiene</li>
-                                <li class="chip">Device aware fallbacks</li>
-                                <li class="chip">Runtime cache purge</li>
-                                <li class="chip">RunPod deploy habits</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- Governance & PM -->
-                    <!--<div class="row">
-                        <div class="cat"><i class="fa-solid fa-scale-balanced"></i> Governance & PM</div>
-                        <div class="vals">
-                            <ul class="chips" role="list">
-                                <li class="chip">ARIA roles</li>
-                                <li class="chip">IBM watsonx.governance</li>
-                                <li class="chip">JIRA</li>
-                            </ul>
-                        </div>
-                    </div>-->
-                    <!-- Workflow Orchestration -->
-                    <div class="row">
-                        <div class="cat"><i class="fa-solid fa-share-nodes"></i> Workflow Orchestration</div>
-                        <div class="vals">
-                            <ul class="chips" role="list">
-                                <li class="chip">Comfy dispatch</li>
-                                <li class="chip">HUD driven Artist friendly workflows</li>
-                                <li class="chip">Session history</li>
-                                <li class="chip">Batch templates</li>
-                                <li class="chip">Reusable graphs</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-        </section>
-
-        <section class="panel" id="panel-reel">
-            <h2>Reel</h2>
-            <div class="content">
-                <div class="reel-wrap">
-                    <div class="reel" id="reel-slot"></div>
-                    <div class="reel-controls">
-                        <div class="prevnext">
-                            <button class="pn" id="prevBtn">Prev</button>
-                            <button class="pn" id="nextBtn">Next</button>
-                        </div>
-                        <div class="dots" id="dots" aria-label="reel pager"></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="panel" id="panel-projects">
-            <h2>Projects</h2>
-            <div class="content">
-                <ol class="proj-list" role="list">
-                    <li class="proj">
-                        <div class="proj__meta">
-                            2024—Present · Product & Pipeline<br>
-                            <span class="proj__title">Lumify Application & Platform</span>
-                        </div>
-
-                        <div class="proj-kv">
-                            <!-- Quick read labels -->
-                            <div class="statbar">
-                                <span class="stat"><i class="fa-solid fa-layer-group"></i> Multimodal creation</span>
-                                <span class="stat"><i class="fa-solid fa-bolt"></i> Real-time friendly UI</span>
-                                <span class="stat"><i class="fa-solid fa-diagram-project"></i> Orchestrated workflows</span>
-                                <span class="stat"><i class="fa-solid fa-shield-heart"></i> Responsible defaults</span>
-                            </div>
-
-                            <!-- One-liner overview -->
-                            <div class="proj-line">What it is</div>
-                            <div class="proj-sub">
-                                A studio-style creation platform that turns 2D images into cinematic images and motion,
-                                with tools that feel like a film pipeline, not a toy. Full layering ability with 2D foregrounds and background.
-                            </div>
-
-                            <!-- Workflows -->
-                            <div class="proj-group">
-                                <h4>Core workflows</h4>
-                                <ul class="chips" role="list">
-                                    <li class="chip">Img→Img refinement</li>
-                                    <li class="chip">Lighting Integration</li>
-                                    <li class="chip">Time of Day Shifts</li>
-                                    <li class="chip">Camera Composition Control</li>
-                                    <li class="chip">Relight + Enhance</li>
-                                    <li class="chip">Depth-aware comps</li>
-                                    <li class="chip">Img→Video Shots or Sequence</li>
-                                    <li class="chip">2D/3D Interoperable</li>
-                                    <li class="chip">Session History along with A/B views</li>
-                                </ul>
-                            </div>
-
-                            <!-- Stack -->
-                            <div class="proj-group">
-                                <h4>Stack</h4>
-                                <ul class="chips" role="list">
-                                    <li class="chip">Flux Kontext</li>
-                                    <li class="chip">Stable Diffusion</li>
-                                    <li class="chip">Wan 2.2</li>
-                                    <li class="chip">Real-ESRGAN</li>
-                                    <li class="chip">Segment/Depth Anything</li>
-                                    <li class="chip">Hunyuan 3D</li>
-                                    <li class="chip">Flask API</li>
-                                    <li class="chip">ComfyUI dispatch</li>
-                                    <li class="chip">Unreal Engine look-dev</li>
-                                </ul>
-                            </div>
-
-                            <!-- Outcomes -->
-                            <div class="proj-group">
-                                <h4>Outcomes</h4>
-                                <ul class="chips" role="list">
-                                    <li class="chip">Faster first-pass looks</li>
-                                    <li class="chip">Consistent lighting intent</li>
-                                    <li class="chip">Clean hand-off to edit</li>
-                                    <li class="chip">Operator safety controls</li>
-                                    <li class="chip">Memory-safe model swaps</li>
-                                    <li class="chip">Queue with progress</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-
-
-                    <li class="proj">
-                        <div class="proj__meta">
-                            Selected Film Credits<br><span class="proj__title">Features & TV</span>
-                        </div>
-                        <div>
-                            Highlights from animation and VFX work:
-                            <details class="more">
-                                <summary>Show full list</summary>
-                                <ul class="proj-chips">
-                                    <li class="chip">Trouble</li>
-                                    <li class="chip">Trolls Holiday Special 2</li>
-                                    <li class="chip">The Croods 2</li>
-                                    <li class="chip">How To Train Your Dragon 3: Hidden World</li>
-                                    <li class="chip">Bilby</li>
-                                    <li class="chip">Kung Fu Panda 3</li>
-                                    <li class="chip">Boss Baby</li>
-                                    <li class="chip">Penguins of Madagascar</li>
-                                    <li class="chip">Home</li>
-                                    <li class="chip">The Croods</li>
-                                    <li class="chip">Puss in Boots</li>
-                                    <li class="chip">Wallenda</li>
-                                    <li class="chip">Unstoppable</li>
-                                    <li class="chip">Prince of Persia</li>
-                                    <li class="chip">Sorcerer's Apprentice</li>
-                                    <li class="chip">Verizon Droid: Drop Day</li>
-                                    <li class="chip">Pirates of the Caribbean 2</li>
-                                    <li class="chip">Ghost Rider</li>
-                                </ul>
-                            </details>
-                        </div>
-                    </li>
-                </ol>
-            </div>
-        </section>
+    <!-- Overview -->
+    <section class="panel active" id="panel-overview" role="tabpanel" aria-labelledby="tab-overview">
+      <h2>Overview</h2>
+      <div class="content">
+        <div class="kv">
+          <div class="v" style="margin-bottom:10px;">
+            I build AI workflows that move ideas into first visuals quickly, then give artists precise control to refine.
+            My background is nineteen years in feature animation and VFX with a focus on look development, surfacing, and compositing.
+            I care about lighting intent, material and texture depth, and clean creative consistencies.
+          </div>
         </div>
 
-        <footer>
-            <div>© <span id="year"></span> Ronnie Cleland</div>
-            <div class="links" aria-label="Quick links">
-                <a href="#panel-overview" data-tab="overview">Overview</a>
-                <a href="#panel-skills" data-tab="skills">Skills</a>
-                <a href="#panel-reel" data-tab="reel">Reel</a>
-                <a href="#panel-projects" data-tab="projects">Projects</a>
+        <!-- context chips -->
+        <div class="statbar" style="margin-top:2px;">
+          <span class="stat"><i class="fa-solid fa-person-chalkboard"></i> Team-first workflows</span>
+          <span class="stat"><i class="fa-solid fa-swatchbook"></i> Lookdev roots</span>
+          <span class="stat"><i class="fa-solid fa-timeline"></i> Editorial aware</span>
+          <span class="stat"><i class="fa-solid fa-gauge-high"></i> Real-time ready</span>
+        </div>
+
+        <div class="proj-group" style="margin-top:10px;">
+          <h4>What I build</h4>
+          <ul class="chips" role="list">
+            <li class="chip">Img to img refinement</li>
+            <li class="chip">Img to video beats</li>
+            <li class="chip">Relighting and integration</li>
+            <li class="chip">Depth-aware comps</li>
+            <li class="chip">3D shape previews</li>
+          </ul>
+        </div>
+
+        <div class="proj-group">
+          <h4>How teams use it</h4>
+          <ul class="chips" role="list">
+            <li class="chip">Artist-intuitive HUDs</li>
+            <li class="chip">Safe cancel and model locks</li>
+            <li class="chip">History with reproducible parameters</li>
+            <li class="chip">A/B and 1:1 aware</li>
+            <li class="chip">Versioned outputs</li>
+          </ul>
+        </div>
+
+        <figure class="hero" aria-hidden="true">
+          <img src="./assets/roomWebsite.jpg" alt="">
+        </figure>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section class="panel" id="panel-skills" role="tabpanel" aria-labelledby="tab-skills">
+      <h2>Software and Core Skills</h2>
+      <div class="content">
+        <div class="skills">
+          <div class="row">
+            <div class="cat"><i class="fa-solid fa-wand-magic-sparkles"></i> Generative and Vision</div>
+            <div class="vals">
+              <ul class="chips" role="list">
+                <li class="chip">Flux Kontext</li><li class="chip">Flux Schnell</li><li class="chip">SDXL</li>
+                <li class="chip">Wan 2.2</li><li class="chip">Hunyuan 3D</li><li class="chip">ControlNet</li>
+                <li class="chip">Real-ESRGAN</li><li class="chip">Segment Anything</li><li class="chip">Depth Anything</li>
+                <li class="chip">LBM</li><li class="chip">LTX</li>
+              </ul>
             </div>
-        </footer>
-    </main>
+          </div>
 
-    <script>
-        /* ===== Tabs & hash routing ===== */
-        const sections = ["overview", "skills", "reel", "projects"];
-        const tabButtons = Array.from(document.querySelectorAll(".tab"));
-        const panels = sections.map(n => document.getElementById("panel-" + n));
-        let reelRendered = false;
+          <div class="row">
+            <div class="cat"><i class="fa-solid fa-film"></i> Video and Post</div>
+            <div class="vals">
+              <ul class="chips" role="list">
+                <li class="chip">DaVinci</li><li class="chip">Premiere Pro</li><li class="chip">After Effects</li>
+                <li class="chip">Photoshop</li><li class="chip">Ableton Live</li>
+              </ul>
+            </div>
+          </div>
 
-        function setActive(name) {
-            tabButtons.forEach(b => b.classList.toggle("active", b.dataset.target === name));
-            panels.forEach(p => p.classList.toggle("active", p.id === "panel-" + name));
-            history.replaceState(null, "", "#" + name);
-            if (name === "reel" && !reelRendered) { renderReel(); reelRendered = true; }
+          <div class="row">
+            <div class="cat"><i class="fa-solid fa-cube"></i> 3D and Real-Time</div>
+            <div class="vals">
+              <ul class="chips" role="list">
+                <li class="chip">Unreal Engine</li><li class="chip">Houdini</li><li class="chip">USD</li>
+                <li class="chip">ZBrush</li><li class="chip">Substance Suite</li><li class="chip">Lookdev</li>
+                <li class="chip">Worldbuilding</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="cat"><i class="fa-solid fa-brain"></i> Data Science</div>
+            <div class="vals">
+              <ul class="chips" role="list">
+                <li class="chip">Jupyter</li><li class="chip">PyTorch</li>
+                <li class="chip">Hugging Face Hub</li><li class="chip">GitHub</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="cat"><i class="fa-solid fa-diagram-project"></i> Pipeline and Backend</div>
+            <div class="vals">
+              <ul class="chips" role="list">
+                <li class="chip">Flask API surface</li><li class="chip">Smart model loader</li>
+                <li class="chip">Async job queue</li><li class="chip">Progress polling</li>
+                <li class="chip">Base64 image bridge</li><li class="chip">Safe decode utilities</li>
+                <li class="chip">Structured logging</li><li class="chip">Status probes</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="cat"><i class="fa-solid fa-microchip"></i> Compute and Ops</div>
+            <div class="vals">
+              <ul class="chips" role="list">
+                <li class="chip">Sequential CPU offload</li><li class="chip">VRAM hygiene</li>
+                <li class="chip">Device aware fallbacks</li><li class="chip">Runtime cache purge</li>
+                <li class="chip">RunPod deploy habits</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="cat"><i class="fa-solid fa-share-nodes"></i> Workflow Orchestration</div>
+            <div class="vals">
+              <ul class="chips" role="list">
+                <li class="chip">Comfy dispatch</li><li class="chip">HUD driven workflows</li>
+                <li class="chip">Session history</li><li class="chip">Batch templates</li>
+                <li class="chip">Reusable graphs</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reel -->
+    <section class="panel" id="panel-reel" role="tabpanel" aria-labelledby="tab-reel">
+      <h2>Reel</h2>
+      <div class="content">
+        <div class="reel-wrap">
+          <div class="reel" id="reel-slot"></div>
+          <div class="reel-controls">
+            <div class="prevnext">
+              <button class="pn" id="prevBtn">Prev</button>
+              <button class="pn" id="nextBtn">Next</button>
+            </div>
+            <div class="dots" id="dots" aria-label="reel pager"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section class="panel" id="panel-projects" role="tabpanel" aria-labelledby="tab-projects">
+      <h2>Projects</h2>
+      <div class="content">
+        <ol class="proj-list" role="list">
+          <li class="proj">
+            <div class="proj__meta">
+              2024 to Present · Product and Pipeline<br>
+              <span class="proj__title">Lumify Application and Platform</span>
+            </div>
+
+            <div class="proj-kv">
+              <div class="statbar">
+                <span class="stat"><i class="fa-solid fa-layer-group"></i> Multimodal creation</span>
+                <span class="stat"><i class="fa-solid fa-bolt"></i> Real-time friendly UI</span>
+                <span class="stat"><i class="fa-solid fa-diagram-project"></i> Orchestrated workflows</span>
+                <span class="stat"><i class="fa-solid fa-shield-heart"></i> Responsible defaults</span>
+              </div>
+
+              <div class="proj-line">What it is</div>
+              <div class="proj-sub">
+                A studio-style creation platform that turns 2D images into cinematic images and motion,
+                with tools that feel like a film pipeline. Full layering with 2D foregrounds and background.
+              </div>
+
+              <div class="proj-group">
+                <h4>Core workflows</h4>
+                <ul class="chips" role="list">
+                  <li class="chip">Img to img refinement</li>
+                  <li class="chip">Lighting integration</li>
+                  <li class="chip">Time of day shifts</li>
+                  <li class="chip">Camera composition control</li>
+                  <li class="chip">Relight and enhance</li>
+                  <li class="chip">Depth-aware comps</li>
+                  <li class="chip">Img to video shots or sequence</li>
+                  <li class="chip">2D and 3D interoperable</li>
+                  <li class="chip">Session history and A/B views</li>
+                </ul>
+              </div>
+
+              <div class="proj-group">
+                <h4>Stack</h4>
+                <ul class="chips" role="list">
+                  <li class="chip">Flux Kontext</li><li class="chip">Stable Diffusion</li><li class="chip">Wan 2.2</li>
+                  <li class="chip">Real-ESRGAN</li><li class="chip">Segment and Depth Anything</li><li class="chip">Hunyuan 3D</li>
+                  <li class="chip">Flask API</li><li class="chip">ComfyUI dispatch</li><li class="chip">Unreal Engine look-dev</li>
+                </ul>
+              </div>
+
+              <div class="proj-group">
+                <h4>Outcomes</h4>
+                <ul class="chips" role="list">
+                  <li class="chip">Faster first-pass looks</li>
+                  <li class="chip">Consistent lighting intent</li>
+                  <li class="chip">Clean hand-off to edit</li>
+                  <li class="chip">Operator safety controls</li>
+                  <li class="chip">Memory-safe model swaps</li>
+                  <li class="chip">Queue with progress</li>
+                </ul>
+              </div>
+            </div>
+          </li>
+
+          <li class="proj">
+            <div class="proj__meta">
+              Selected Film Credits<br><span class="proj__title">Features and TV</span>
+            </div>
+            <div>
+              Highlights from animation and VFX work:
+              <details class="more">
+                <summary>Show full list</summary>
+                <ul class="proj-chips">
+                  <li class="chip">Trouble</li><li class="chip">Trolls Holiday Special 2</li><li class="chip">The Croods 2</li>
+                  <li class="chip">How To Train Your Dragon 3: Hidden World</li><li class="chip">Bilby</li><li class="chip">Kung Fu Panda 3</li>
+                  <li class="chip">Boss Baby</li><li class="chip">Penguins of Madagascar</li><li class="chip">Home</li>
+                  <li class="chip">The Croods</li><li class="chip">Puss in Boots</li><li class="chip">Wallenda</li>
+                  <li class="chip">Unstoppable</li><li class="chip">Prince of Persia</li><li class="chip">Sorcerer's Apprentice</li>
+                  <li class="chip">Verizon Droid: Drop Day</li><li class="chip">Pirates of the Caribbean 2</li><li class="chip">Ghost Rider</li>
+                </ul>
+              </details>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <footer>
+      <div>© <span id="year"></span> Ronnie Cleland</div>
+      <div class="links" aria-label="Quick links">
+        <a href="#panel-overview" data-tab="overview">Overview</a>
+        <a href="#panel-skills" data-tab="skills">Skills</a>
+        <a href="#panel-reel" data-tab="reel">Reel</a>
+        <a href="#panel-projects" data-tab="projects">Projects</a>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    /* Tabs and hash routing */
+    const sections = ["overview","skills","reel","projects"];
+    const panels = sections.map(n => document.getElementById("panel-"+n));
+    let reelRendered = false;
+
+    function setActive(name){
+      panels.forEach(p => p.classList.toggle("active", p.id === "panel-"+name));
+      // update aria-selected if you later add tab buttons back
+      document.querySelectorAll('[data-target]').forEach(b => {
+        b.setAttribute('aria-selected', String(b.dataset.target === name));
+      });
+      history.replaceState(null,"","#"+name);
+      if(name === "reel" && !reelRendered){ renderReel(); reelRendered = true; }
+      // scroll to top for a tidy transition
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    // Any helper link with data-tab switches the panel
+    document.querySelectorAll("[data-tab]").forEach(a => {
+      a.addEventListener("click", () => {
+        const t = a.getAttribute("data-tab");
+        if (sections.includes(t)) setActive(t);
+      }, { passive:true });
+    });
+
+    // Init from hash
+    const initial = location.hash.replace("#","").toLowerCase();
+    if(sections.includes(initial)) setActive(initial);
+    else setActive("overview");
+
+    // Footer year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Contact dropdown: close on outside click, ESC, and scroll
+    const contactMenu = document.getElementById("contactMenu");
+    document.addEventListener("click", (e) => { if(contactMenu.open && !contactMenu.contains(e.target)) contactMenu.removeAttribute("open"); });
+    document.addEventListener("keydown", (e) => { if(e.key === "Escape" && contactMenu.open) contactMenu.removeAttribute("open"); });
+    document.addEventListener("scroll", () => { if(contactMenu.open) contactMenu.removeAttribute("open"); }, { passive:true });
+    contactMenu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => contactMenu.removeAttribute("open")));
+
+    /* Reel: lazy render on first open */
+    const vids = [
+      "https://player.vimeo.com/video/1123301848",
+      "https://player.vimeo.com/video/462445892?h=3cdd3f57a6",
+      "https://player.vimeo.com/video/464816152?h=d1eb93eae4",
+      "https://player.vimeo.com/video/70997907?h=29ee618e70",
+      "https://player.vimeo.com/video/8502989?h=81ef88331d"
+    ];
+    let current = 0;
+    const slot = document.getElementById("reel-slot");
+    const dots = document.getElementById("dots");
+
+    function vimeoWithParams(url){
+      try{
+        const u = new URL(url);
+        if(u.hostname.includes("vimeo.com")){
+          u.searchParams.set("transparent","0");
+          u.searchParams.set("color","24f2b1");
+          u.searchParams.set("dnt","1");
+          return u.toString();
         }
+      }catch{}
+      return url;
+    }
 
-        tabButtons.forEach(btn => btn.addEventListener("click", () => setActive(btn.dataset.target)));
-        tabButtons.forEach(b => b.setAttribute("aria-selected", String(b.dataset.target === name)));
-        document.querySelectorAll("[data-tab]").forEach(a => {
-            a.addEventListener("click", () => {
-                const t = a.getAttribute("data-tab");
-                if (sections.includes(t)) setActive(t);
-            }, { passive: true });
-        });
+    function renderReel(){
+      render(); // initial paint
+      document.getElementById("prevBtn").onclick = () => { current = (current + vids.length - 1) % vids.length; render(); };
+      document.getElementById("nextBtn").onclick = () => { current = (current + 1) % vids.length; render(); };
+    }
 
-        const initial = location.hash.replace("#", "").toLowerCase();
-        if (sections.includes(initial)) setActive(initial);
-        document.getElementById("year").textContent = new Date().getFullYear();
-
-        /* ===== Contact dropdown: close on outside click & ESC & scroll ===== */
-        const contactMenu = document.getElementById("contactMenu");
-        document.addEventListener("click", (e) => { if (contactMenu.open && !contactMenu.contains(e.target)) contactMenu.removeAttribute("open"); });
-        document.addEventListener("keydown", (e) => { if (e.key === "Escape" && contactMenu.open) contactMenu.removeAttribute("open"); });
-        document.addEventListener("scroll", () => { if (contactMenu.open) contactMenu.removeAttribute("open"); }, { passive: true });
-        contactMenu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => contactMenu.removeAttribute("open")));
-
-        /* ===== Reel carousel (render only on first open) ===== */
-        const vids = [
-            "https://player.vimeo.com/video/1123301848",
-            "https://player.vimeo.com/video/462445892?h=3cdd3f57a6",
-            "https://player.vimeo.com/video/464816152?h=d1eb93eae4",
-            "https://player.vimeo.com/video/70997907?h=29ee618e70",
-            "https://player.vimeo.com/video/8502989?h=81ef88331d"
-        ];
-        let current = 0;
-        const slot = document.getElementById("reel-slot");
-        const dots = document.getElementById("dots");
-
-        function vimeoWithParams(url) {
-            try {
-                const u = new URL(url);
-                if (u.hostname.includes("vimeo.com")) {
-                    u.searchParams.set("transparent", "0");
-                    u.searchParams.set("color", "24f2b1");
-                    u.searchParams.set("dnt", "1");
-                    return u.toString();
-                }
-            } catch { }
-            return url;
-        }
-
-        function renderReel() {
-            render(); // initial paint
-            document.getElementById("prevBtn").onclick = () => { current = (current + vids.length - 1) % vids.length; render(); };
-            document.getElementById("nextBtn").onclick = () => { current = (current + 1) % vids.length; render(); };
-        }
-
-        function render() {
-            slot.innerHTML = "";
-            const url = vids[current];
-            if (url.endsWith(".mp4")) {
-                const v = document.createElement("video");
-                v.src = url; v.controls = true; v.playsInline = true; v.setAttribute("playsinline", "");
-                slot.appendChild(v);
-            } else {
-                const f = document.createElement("iframe");
-                f.setAttribute("width", "100%"); f.setAttribute("height", "100%");
-                f.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
-                f.setAttribute("allow", "autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share");
-                f.setAttribute("loading", "lazy");
-                f.src = vimeoWithParams(url);
-                f.allowFullscreen = true; f.title = "Reel";
-                slot.appendChild(f);
-            }
-            dots.innerHTML = "";
-            vids.forEach((_, i) => {
-                const d = document.createElement("div");
-                d.className = "dot" + (i === current ? " active" : "");
-                d.onclick = () => { current = i; render(); };
-                dots.appendChild(d);
-            });
-        }
-    </script>
+    function render(){
+      slot.innerHTML = "";
+      const url = vids[current];
+      if(url.endsWith(".mp4")){
+        const v = document.createElement("video");
+        v.src = url; v.controls = true; v.playsInline = true; v.setAttribute("playsinline","");
+        slot.appendChild(v);
+      }else{
+        const f = document.createElement("iframe");
+        f.setAttribute("width","100%"); f.setAttribute("height","100%");
+        f.setAttribute("referrerpolicy","strict-origin-when-cross-origin");
+        f.setAttribute("allow","autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share");
+        f.setAttribute("loading","lazy");
+        f.src = vimeoWithParams(url);
+        f.allowFullscreen = true; f.title = "Reel";
+        slot.appendChild(f);
+      }
+      dots.innerHTML = "";
+      vids.forEach((_, i) => {
+        const d = document.createElement("div");
+        d.className = "dot" + (i === current ? " active" : "");
+        d.onclick = () => { current = i; render(); };
+        dots.appendChild(d);
+      });
+    }
+  </script>
 </body>
 </html>
