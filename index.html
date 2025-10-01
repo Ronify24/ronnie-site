@@ -162,7 +162,7 @@
                 display: flex;
                 align-items: center;
                 gap: 10px;
-                padding: 10px 12px;
+                padding: 12px 14px;
                 border-radius: 8px;
                 color: var(--text-2)
             }
@@ -643,6 +643,9 @@
             .tab {
                 padding: 9px 10px
             }
+            .reel::before, .reel::after {
+                height: 14px;
+            }
 
             .reel {
                 border-radius: 10px
@@ -850,16 +853,6 @@
                 </div>
             </nav>
         </div>
-        <div class="shell" style="margin-top:-6px; margin-bottom:6px;">
-            <nav aria-label="Quick">
-                <ul class="chips" role="list" style="overflow:auto; padding-bottom:6px;">
-                    <li class="chip"><a href="#panel-overview" data-tab="overview">Overview</a></li>
-                    <li class="chip"><a href="#panel-skills" data-tab="skills">Skills</a></li>
-                    <li class="chip"><a href="#panel-reel" data-tab="reel">Reel</a></li>
-                    <li class="chip"><a href="#panel-projects" data-tab="projects">Projects</a></li>
-                </ul>
-            </nav>
-        </div>
     </header>
 
     <main class="frame shell" id="main" role="main">
@@ -882,11 +875,11 @@
 
         <!-- Main Grid: tabs + content -->
         <div class="grid">
-            <nav class="tabs" aria-label="Sections">
-                <button class="tab active" id="tab-overview" data-target="overview">Overview</button>
-                <button class="tab" id="tab-skills" data-target="skills">Skills</button>
-                <button class="tab" id="tab-reel" data-target="reel">Reel</button>
-                <button class="tab" id="tab-projects" data-target="projects">Projects</button>
+            <nav class="tabs" aria-label="Sections" role="tablist">
+                <button class="tab active" id="tab-overview" data-target="overview" role="tab" aria-selected="true" aria-controls="panel-overview">Overview</button>
+                <button class="tab" id="tab-skills" data-target="skills" role="tab" aria-selected="false" aria-controls="panel-skills">Skills</button>
+                <button class="tab" id="tab-reel" data-target="reel" role="tab" aria-selected="false" aria-controls="panel-reel">Reel</button>
+                <button class="tab" id="tab-projects" data-target="projects" role="tab" aria-selected="false" aria-controls="panel-projects">Projects</button>
             </nav>
 
             <!-- Panels -->
@@ -1209,6 +1202,7 @@
         }
 
         tabButtons.forEach(btn => btn.addEventListener("click", () => setActive(btn.dataset.target)));
+        tabButtons.forEach(b => b.setAttribute("aria-selected", String(b.dataset.target === name)));
         document.querySelectorAll("[data-tab]").forEach(a => {
             a.addEventListener("click", () => {
                 const t = a.getAttribute("data-tab");
@@ -1283,9 +1277,6 @@
                 dots.appendChild(d);
             });
         }
-        document.getElementById("prevBtn").onclick = () => { current = (current + vids.length - 1) % vids.length; render(); };
-        document.getElementById("nextBtn").onclick = () => { current = (current + 1) % vids.length; render(); };
-        render();
     </script>
 </body>
 </html>
