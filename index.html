@@ -692,6 +692,53 @@
                 }
         }
 
+        /* Sit the chip helpers flush under the top bar on desktop, compact rhythm */
+        #quickNav {
+            margin: 6px auto 0;
+            padding: 0 var(--shell-pad);
+        }
+
+            /* Make the helper chips align left like the brand, with tidy spacing */
+            #quickNav .chips {
+                gap: 10px;
+                padding: 6px 0 10px;
+                border-bottom: 1px solid var(--divider);
+            }
+
+        /* Phone behavior: force a single line, allow horizontal scroll if needed */
+        @media (max-width: 640px) {
+            #quickNav {
+                position: sticky;
+                top: var(--header-h);
+                z-index: 60;
+                padding: 4px var(--shell-pad) 6px;
+                margin: 0;
+                background: color-mix(in srgb, var(--ink-900) 94%, transparent);
+                backdrop-filter: blur(8px);
+                border-bottom: 1px solid var(--divider);
+            }
+
+                #quickNav .chips {
+                    flex-wrap: nowrap;
+                    overflow-x: auto;
+                    gap: 8px;
+                    padding: 0 0 6px;
+                    scrollbar-width: none;
+                    -ms-overflow-style: none;
+                }
+
+                    #quickNav .chips::-webkit-scrollbar {
+                        display: none;
+                    }
+
+                #quickNav .chip {
+                    height: 24px;
+                    font-size: 12px;
+                    padding: 0 10px;
+                }
+        }
+
+
 
         /* Phone-only avatar placement in masthead */
         @media (max-width: 640px) {
@@ -964,6 +1011,22 @@
             overflow: visible;
         }
 
+        /* Retire the left tab rail and center the page content */
+        nav.tabs {
+            display: none !important;
+        }
+
+        .grid {
+            grid-template-columns: 1fr !important;
+        }
+
+        /* Ensure panels feel centered and roomy on desktop */
+        .panel {
+            margin-inline: auto;
+            /* Optional: set a visual max-width if you want a slightly tighter measure */
+            /* max-width: 1200px; */
+        }
+
 
     </style>
 </head>
@@ -992,6 +1055,17 @@
         </div>
     </header>
 
+    <!-- Helper chips directly under the top bar -->
+    <div id="quickNav" class="shell">
+        <nav aria-label="Quick">
+            <ul class="chips" role="list">
+                <li class="chip"><a href="#panel-overview" data-tab="overview">Overview</a></li>
+                <li class="chip"><a href="#panel-skills" data-tab="skills">Skills</a></li>
+                <li class="chip"><a href="#panel-reel" data-tab="reel">Reel</a></li>
+                <li class="chip"><a href="#panel-projects" data-tab="projects">Projects</a></li>
+            </ul>
+        </nav>
+    </div>
     <main class="frame shell" id="main" role="main">
         <!-- Masthead -->
         <section class="masthead" aria-labelledby="masthead-title">
@@ -1010,311 +1084,297 @@
             </div>
         </section>
 
-        <!-- Main Grid: tabs + content -->
-        <div class="grid">
-            <div id="quickNav" class="shell" style="margin-top:-6px; margin-bottom:6px;">
-                <nav aria-label="Quick">
-                    <ul class="chips" role="list" style="overflow:auto; padding-bottom:6px;">
-                        <li class="chip"><a href="#panel-overview" data-tab="overview">Overview</a></li>
-                        <li class="chip"><a href="#panel-skills" data-tab="skills">Skills</a></li>
-                        <li class="chip"><a href="#panel-reel" data-tab="reel">Reel</a></li>
-                        <li class="chip"><a href="#panel-projects" data-tab="projects">Projects</a></li>
-                    </ul>
-                </nav>
-            </div>
+        <!-- Panels -->
+        <section class="panel active" id="panel-overview">
+            <h2>Overview</h2>
+            <div class="content">
+                <div class="kv">
+                    <div class="v" style="margin-bottom:10px;">
+                        I create workflows with ease of use in mind that move ideas into first visuals quickly, then give the artists precise control to refine.
+                        My background is nineteen years in feature animation and VFX with a focus on look development, surfacing, and compositing.
+                        I care about lighting intent, material and texture depth, and clean creative consistincies.
+                    </div>
+                </div>
 
-            <!-- Panels -->
-            <section class="panel active" id="panel-overview">
-                <h2>Overview</h2>
-                <div class="content">
-                    <div class="kv">
-                        <div class="v" style="margin-bottom:10px;">
-                            I create workflows with ease of use in mind that move ideas into first visuals quickly, then give the artists precise control to refine.
-                            My background is nineteen years in feature animation and VFX with a focus on look development, surfacing, and compositing.
-                            I care about lighting intent, material and texture depth, and clean creative consistincies.
+                <!-- quick context chips -->
+                <div class="statbar" style="margin-top:2px;">
+                    <span class="stat"><i class="fa-solid fa-person-chalkboard"></i> Team-first workflows</span>
+                    <span class="stat"><i class="fa-solid fa-swatchbook"></i> Lookdev roots</span>
+                    <span class="stat"><i class="fa-solid fa-timeline"></i> Editorial aware</span>
+                    <span class="stat"><i class="fa-solid fa-gauge-high"></i> Real-time ready</span>
+                </div>
+
+                <!-- micro sections -->
+                <div class="proj-group" style="margin-top:10px;">
+                    <h4>What I build</h4>
+                    <ul class="chips" role="list">
+                        <li class="chip">Img to img refinement</li>
+                        <li class="chip">Img to video beats</li>
+                        <li class="chip">Relighting and Integration</li>
+                        <li class="chip">Depth-aware comps</li>
+                        <li class="chip">3D shape previews</li>
+                    </ul>
+                </div>
+
+                <div class="proj-group">
+                    <h4>How teams use it</h4>
+                    <ul class="chips" role="list">
+                        <li class="chip">Artist Intuitive HUDs</li>
+                        <li class="chip">Safe Cancel and Model Locks</li>
+                        <li class="chip">History with Reproducable Parameters</li>
+                        <li class="chip">A/B and 1:1 Aware</li>
+                        <li class="chip">Versioned Outputs</li>
+                    </ul>
+                </div>
+
+                <!-- Cinematic hero -->
+                <figure class="hero" aria-hidden="true">
+                    <img src="./assets/roomWebsite.jpg" alt="">
+                </figure>
+            </div>
+        </section>
+
+        <section class="panel" id="panel-skills">
+            <h2>Software and Core Skills</h2>
+            <div class="content">
+                <div class="skills">
+                    <div class="row">
+                        <div class="cat"><i class="fa-solid fa-wand-magic-sparkles"></i> Generative & Vision</div>
+                        <div class="vals">
+                            <ul class="chips" role="list">
+                                <li class="chip">Flux Kontext</li>
+                                <li class="chip">Flux Schnell</li>
+                                <li class="chip">SDXL</li>
+                                <li class="chip">Wan 2.2</li>
+                                <li class="chip">Hunyuan 3D</li>
+                                <li class="chip">ControlNet</li>
+                                <li class="chip">Real-ESRGAN</li>
+                                <li class="chip">Segment Anything</li>
+                                <li class="chip">Depth Anything</li>
+                                <li class="chip">LBM</li>
+                                <li class="chip">LTX</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="cat"><i class="fa-solid fa-film"></i> Video & Post</div>
+                        <div class="vals">
+                            <ul class="chips" role="list">
+                                <li class="chip">DaVinci</li>
+                                <li class="chip">Premiere Pro</li>
+                                <li class="chip">After Effects</li>
+                                <li class="chip">Photoshop</li>
+                                <li class="chip">Ableton Live</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="cat"><i class="fa-solid fa-cube"></i> 3D & Real-Time</div>
+                        <div class="vals">
+                            <ul class="chips" role="list">
+                                <li class="chip">Unreal Engine</li>
+                                <li class="chip">Houdini</li>
+                                <li class="chip">USD</li>
+                                <li class="chip">ZBrush</li>
+                                <li class="chip">Substance Suite</li>
+                                <li class="chip">Lookdev</li>
+                                <li class="chip">Worldbuilding</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="cat"><i class="fa-solid fa-brain"></i> Data Science</div>
+                        <div class="vals">
+                            <ul class="chips" role="list">
+                                <li class="chip">Jupyter</li>
+                                <li class="chip">PyTorch</li>
+                                <li class="chip">Hugging Face Hub</li>
+                                <li class="chip">GitHub</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Pipeline & Backend -->
+                    <div class="row">
+                        <div class="cat"><i class="fa-solid fa-diagram-project"></i> Pipeline & Backend</div>
+                        <div class="vals">
+                            <ul class="chips" role="list">
+                                <li class="chip">Flask API surface</li>
+                                <li class="chip">Smart Model Loader</li>
+                                <li class="chip">Async job queue</li>
+                                <li class="chip">Progress polling</li>
+                                <li class="chip">Base64 image bridge</li>
+                                <li class="chip">Safe decode utilities</li>
+                                <li class="chip">Structured logging</li>
+                                <li class="chip">Status probes</li>
+                            </ul>
                         </div>
                     </div>
 
-                    <!-- quick context chips -->
-                    <div class="statbar" style="margin-top:2px;">
-                        <span class="stat"><i class="fa-solid fa-person-chalkboard"></i> Team-first workflows</span>
-                        <span class="stat"><i class="fa-solid fa-swatchbook"></i> Lookdev roots</span>
-                        <span class="stat"><i class="fa-solid fa-timeline"></i> Editorial aware</span>
-                        <span class="stat"><i class="fa-solid fa-gauge-high"></i> Real-time ready</span>
+                    <!-- Compute & Ops -->
+                    <div class="row">
+                        <div class="cat"><i class="fa-solid fa-microchip"></i> Compute & Ops</div>
+                        <div class="vals">
+                            <ul class="chips" role="list">
+                                <li class="chip">Sequential CPU offload</li>
+                                <li class="chip">VRAM hygiene</li>
+                                <li class="chip">Device aware fallbacks</li>
+                                <li class="chip">Runtime cache purge</li>
+                                <li class="chip">RunPod deploy habits</li>
+                            </ul>
+                        </div>
                     </div>
 
-                    <!-- micro sections -->
-                    <div class="proj-group" style="margin-top:10px;">
-                        <h4>What I build</h4>
-                        <ul class="chips" role="list">
-                            <li class="chip">Img to img refinement</li>
-                            <li class="chip">Img to video beats</li>
-                            <li class="chip">Relighting and Integration</li>
-                            <li class="chip">Depth-aware comps</li>
-                            <li class="chip">3D shape previews</li>
-                        </ul>
+                    <!-- Governance & PM -->
+                    <!--<div class="row">
+                        <div class="cat"><i class="fa-solid fa-scale-balanced"></i> Governance & PM</div>
+                        <div class="vals">
+                            <ul class="chips" role="list">
+                                <li class="chip">ARIA roles</li>
+                                <li class="chip">IBM watsonx.governance</li>
+                                <li class="chip">JIRA</li>
+                            </ul>
+                        </div>
+                    </div>-->
+                    <!-- Workflow Orchestration -->
+                    <div class="row">
+                        <div class="cat"><i class="fa-solid fa-share-nodes"></i> Workflow Orchestration</div>
+                        <div class="vals">
+                            <ul class="chips" role="list">
+                                <li class="chip">Comfy dispatch</li>
+                                <li class="chip">HUD driven Artist friendly workflows</li>
+                                <li class="chip">Session history</li>
+                                <li class="chip">Batch templates</li>
+                                <li class="chip">Reusable graphs</li>
+                            </ul>
+                        </div>
                     </div>
-
-                    <div class="proj-group">
-                        <h4>How teams use it</h4>
-                        <ul class="chips" role="list">
-                            <li class="chip">Artist Intuitive HUDs</li>
-                            <li class="chip">Safe Cancel and Model Locks</li>
-                            <li class="chip">History with Reproducable Parameters</li>
-                            <li class="chip">A/B and 1:1 Aware</li>
-                            <li class="chip">Versioned Outputs</li>
-                        </ul>
-                    </div>
-
-                    <!-- Cinematic hero -->
-                    <figure class="hero" aria-hidden="true">
-                        <img src="./assets/roomWebsite.jpg" alt="">
-                    </figure>
                 </div>
-            </section>
+        </section>
 
-            <section class="panel" id="panel-skills">
-                <h2>Software and Core Skills</h2>
-                <div class="content">
-                    <div class="skills">
-                        <div class="row">
-                            <div class="cat"><i class="fa-solid fa-wand-magic-sparkles"></i> Generative & Vision</div>
-                            <div class="vals">
+        <section class="panel" id="panel-reel">
+            <h2>Reel</h2>
+            <div class="content">
+                <div class="reel-wrap">
+                    <div class="reel" id="reel-slot"></div>
+                    <div class="reel-controls">
+                        <div class="prevnext">
+                            <button class="pn" id="prevBtn">Prev</button>
+                            <button class="pn" id="nextBtn">Next</button>
+                        </div>
+                        <div class="dots" id="dots" aria-label="reel pager"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="panel" id="panel-projects">
+            <h2>Projects</h2>
+            <div class="content">
+                <ol class="proj-list" role="list">
+                    <li class="proj">
+                        <div class="proj__meta">
+                            2024—Present · Product & Pipeline<br>
+                            <span class="proj__title">Lumify Application & Platform</span>
+                        </div>
+
+                        <div class="proj-kv">
+                            <!-- Quick read labels -->
+                            <div class="statbar">
+                                <span class="stat"><i class="fa-solid fa-layer-group"></i> Multimodal creation</span>
+                                <span class="stat"><i class="fa-solid fa-bolt"></i> Real-time friendly UI</span>
+                                <span class="stat"><i class="fa-solid fa-diagram-project"></i> Orchestrated workflows</span>
+                                <span class="stat"><i class="fa-solid fa-shield-heart"></i> Responsible defaults</span>
+                            </div>
+
+                            <!-- One-liner overview -->
+                            <div class="proj-line">What it is</div>
+                            <div class="proj-sub">
+                                A studio-style creation platform that turns 2D images into cinematic images and motion,
+                                with tools that feel like a film pipeline, not a toy. Full layering ability with 2D foregrounds and background.
+                            </div>
+
+                            <!-- Workflows -->
+                            <div class="proj-group">
+                                <h4>Core workflows</h4>
+                                <ul class="chips" role="list">
+                                    <li class="chip">Img→Img refinement</li>
+                                    <li class="chip">Lighting Integration</li>
+                                    <li class="chip">Time of Day Shifts</li>
+                                    <li class="chip">Camera Composition Control</li>
+                                    <li class="chip">Relight + Enhance</li>
+                                    <li class="chip">Depth-aware comps</li>
+                                    <li class="chip">Img→Video Shots or Sequence</li>
+                                    <li class="chip">2D/3D Interoperable</li>
+                                    <li class="chip">Session History along with A/B views</li>
+                                </ul>
+                            </div>
+
+                            <!-- Stack -->
+                            <div class="proj-group">
+                                <h4>Stack</h4>
                                 <ul class="chips" role="list">
                                     <li class="chip">Flux Kontext</li>
-                                    <li class="chip">Flux Schnell</li>
-                                    <li class="chip">SDXL</li>
+                                    <li class="chip">Stable Diffusion</li>
                                     <li class="chip">Wan 2.2</li>
-                                    <li class="chip">Hunyuan 3D</li>
-                                    <li class="chip">ControlNet</li>
                                     <li class="chip">Real-ESRGAN</li>
-                                    <li class="chip">Segment Anything</li>
-                                    <li class="chip">Depth Anything</li>
-                                    <li class="chip">LBM</li>
-                                    <li class="chip">LTX</li>
+                                    <li class="chip">Segment/Depth Anything</li>
+                                    <li class="chip">Hunyuan 3D</li>
+                                    <li class="chip">Flask API</li>
+                                    <li class="chip">ComfyUI dispatch</li>
+                                    <li class="chip">Unreal Engine look-dev</li>
                                 </ul>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="cat"><i class="fa-solid fa-film"></i> Video & Post</div>
-                            <div class="vals">
+
+                            <!-- Outcomes -->
+                            <div class="proj-group">
+                                <h4>Outcomes</h4>
                                 <ul class="chips" role="list">
-                                    <li class="chip">DaVinci</li>
-                                    <li class="chip">Premiere Pro</li>
-                                    <li class="chip">After Effects</li>
-                                    <li class="chip">Photoshop</li>
-                                    <li class="chip">Ableton Live</li>
+                                    <li class="chip">Faster first-pass looks</li>
+                                    <li class="chip">Consistent lighting intent</li>
+                                    <li class="chip">Clean hand-off to edit</li>
+                                    <li class="chip">Operator safety controls</li>
+                                    <li class="chip">Memory-safe model swaps</li>
+                                    <li class="chip">Queue with progress</li>
                                 </ul>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="cat"><i class="fa-solid fa-cube"></i> 3D & Real-Time</div>
-                            <div class="vals">
-                                <ul class="chips" role="list">
-                                    <li class="chip">Unreal Engine</li>
-                                    <li class="chip">Houdini</li>
-                                    <li class="chip">USD</li>
-                                    <li class="chip">ZBrush</li>
-                                    <li class="chip">Substance Suite</li>
-                                    <li class="chip">Lookdev</li>
-                                    <li class="chip">Worldbuilding</li>
-                                </ul>
-                            </div>
+                    </li>
+
+
+                    <li class="proj">
+                        <div class="proj__meta">
+                            Selected Film Credits<br><span class="proj__title">Features & TV</span>
                         </div>
-                        <div class="row">
-                            <div class="cat"><i class="fa-solid fa-brain"></i> Data Science</div>
-                            <div class="vals">
-                                <ul class="chips" role="list">
-                                    <li class="chip">Jupyter</li>
-                                    <li class="chip">PyTorch</li>
-                                    <li class="chip">Hugging Face Hub</li>
-                                    <li class="chip">GitHub</li>
+                        <div>
+                            Highlights from animation and VFX work:
+                            <details class="more">
+                                <summary>Show full list</summary>
+                                <ul class="proj-chips">
+                                    <li class="chip">Trouble</li>
+                                    <li class="chip">Trolls Holiday Special 2</li>
+                                    <li class="chip">The Croods 2</li>
+                                    <li class="chip">How To Train Your Dragon 3: Hidden World</li>
+                                    <li class="chip">Bilby</li>
+                                    <li class="chip">Kung Fu Panda 3</li>
+                                    <li class="chip">Boss Baby</li>
+                                    <li class="chip">Penguins of Madagascar</li>
+                                    <li class="chip">Home</li>
+                                    <li class="chip">The Croods</li>
+                                    <li class="chip">Puss in Boots</li>
+                                    <li class="chip">Wallenda</li>
+                                    <li class="chip">Unstoppable</li>
+                                    <li class="chip">Prince of Persia</li>
+                                    <li class="chip">Sorcerer's Apprentice</li>
+                                    <li class="chip">Verizon Droid: Drop Day</li>
+                                    <li class="chip">Pirates of the Caribbean 2</li>
+                                    <li class="chip">Ghost Rider</li>
                                 </ul>
-                            </div>
+                            </details>
                         </div>
-                        <!-- Pipeline & Backend -->
-                        <div class="row">
-                            <div class="cat"><i class="fa-solid fa-diagram-project"></i> Pipeline & Backend</div>
-                            <div class="vals">
-                                <ul class="chips" role="list">
-                                    <li class="chip">Flask API surface</li>
-                                    <li class="chip">Smart Model Loader</li>
-                                    <li class="chip">Async job queue</li>
-                                    <li class="chip">Progress polling</li>
-                                    <li class="chip">Base64 image bridge</li>
-                                    <li class="chip">Safe decode utilities</li>
-                                    <li class="chip">Structured logging</li>
-                                    <li class="chip">Status probes</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <!-- Compute & Ops -->
-                        <div class="row">
-                            <div class="cat"><i class="fa-solid fa-microchip"></i> Compute & Ops</div>
-                            <div class="vals">
-                                <ul class="chips" role="list">
-                                    <li class="chip">Sequential CPU offload</li>
-                                    <li class="chip">VRAM hygiene</li>
-                                    <li class="chip">Device aware fallbacks</li>
-                                    <li class="chip">Runtime cache purge</li>
-                                    <li class="chip">RunPod deploy habits</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <!-- Governance & PM -->
-                        <!--<div class="row">
-                            <div class="cat"><i class="fa-solid fa-scale-balanced"></i> Governance & PM</div>
-                            <div class="vals">
-                                <ul class="chips" role="list">
-                                    <li class="chip">ARIA roles</li>
-                                    <li class="chip">IBM watsonx.governance</li>
-                                    <li class="chip">JIRA</li>
-                                </ul>
-                            </div>
-                        </div>-->
-
-                        <!-- Workflow Orchestration -->
-                        <div class="row">
-                            <div class="cat"><i class="fa-solid fa-share-nodes"></i> Workflow Orchestration</div>
-                            <div class="vals">
-                                <ul class="chips" role="list">
-                                    <li class="chip">Comfy dispatch</li>
-                                    <li class="chip">HUD driven Artist friendly workflows</li>
-                                    <li class="chip">Session history</li>
-                                    <li class="chip">Batch templates</li>
-                                    <li class="chip">Reusable graphs</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-            </section>
-
-            <section class="panel" id="panel-reel">
-                <h2>Reel</h2>
-                <div class="content">
-                    <div class="reel-wrap">
-                        <div class="reel" id="reel-slot"></div>
-                        <div class="reel-controls">
-                            <div class="prevnext">
-                                <button class="pn" id="prevBtn">Prev</button>
-                                <button class="pn" id="nextBtn">Next</button>
-                            </div>
-                            <div class="dots" id="dots" aria-label="reel pager"></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="panel" id="panel-projects">
-                <h2>Projects</h2>
-                <div class="content">
-                    <ol class="proj-list" role="list">
-                        <li class="proj">
-                            <div class="proj__meta">
-                                2024—Present · Product & Pipeline<br>
-                                <span class="proj__title">Lumify Application & Platform</span>
-                            </div>
-
-                            <div class="proj-kv">
-                                <!-- Quick read labels -->
-                                <div class="statbar">
-                                    <span class="stat"><i class="fa-solid fa-layer-group"></i> Multimodal creation</span>
-                                    <span class="stat"><i class="fa-solid fa-bolt"></i> Real-time friendly UI</span>
-                                    <span class="stat"><i class="fa-solid fa-diagram-project"></i> Orchestrated workflows</span>
-                                    <span class="stat"><i class="fa-solid fa-shield-heart"></i> Responsible defaults</span>
-                                </div>
-
-                                <!-- One-liner overview -->
-                                <div class="proj-line">What it is</div>
-                                <div class="proj-sub">
-                                    A studio-style creation platform that turns 2D images into cinematic images and motion,
-                                    with tools that feel like a film pipeline, not a toy. Full layering ability with 2D foregrounds and background.
-                                </div>
-
-                                <!-- Workflows -->
-                                <div class="proj-group">
-                                    <h4>Core workflows</h4>
-                                    <ul class="chips" role="list">
-                                        <li class="chip">Img→Img refinement</li>
-                                        <li class="chip">Lighting Integration</li>
-                                        <li class="chip">Time of Day Shifts</li>
-                                        <li class="chip">Camera Composition Control</li>
-                                        <li class="chip">Relight + Enhance</li>
-                                        <li class="chip">Depth-aware comps</li>
-                                        <li class="chip">Img→Video Shots or Sequence</li>
-                                        <li class="chip">2D/3D Interoperable</li>
-                                        <li class="chip">Session History along with A/B views</li>
-                                    </ul>
-                                </div>
-
-                                <!-- Stack -->
-                                <div class="proj-group">
-                                    <h4>Stack</h4>
-                                    <ul class="chips" role="list">
-                                        <li class="chip">Flux Kontext</li>
-                                        <li class="chip">Stable Diffusion</li>
-                                        <li class="chip">Wan 2.2</li>
-                                        <li class="chip">Real-ESRGAN</li>
-                                        <li class="chip">Segment/Depth Anything</li>
-                                        <li class="chip">Hunyuan 3D</li>
-                                        <li class="chip">Flask API</li>
-                                        <li class="chip">ComfyUI dispatch</li>
-                                        <li class="chip">Unreal Engine look-dev</li>
-                                    </ul>
-                                </div>
-
-                                <!-- Outcomes -->
-                                <div class="proj-group">
-                                    <h4>Outcomes</h4>
-                                    <ul class="chips" role="list">
-                                        <li class="chip">Faster first-pass looks</li>
-                                        <li class="chip">Consistent lighting intent</li>
-                                        <li class="chip">Clean hand-off to edit</li>
-                                        <li class="chip">Operator safety controls</li>
-                                        <li class="chip">Memory-safe model swaps</li>
-                                        <li class="chip">Queue with progress</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-
-
-                        <li class="proj">
-                            <div class="proj__meta">
-                                Selected Film Credits<br><span class="proj__title">Features & TV</span>
-                            </div>
-                            <div>
-                                Highlights from animation and VFX work:
-                                <details class="more">
-                                    <summary>Show full list</summary>
-                                    <ul class="proj-chips">
-                                        <li class="chip">Trouble</li>
-                                        <li class="chip">Trolls Holiday Special 2</li>
-                                        <li class="chip">The Croods 2</li>
-                                        <li class="chip">How To Train Your Dragon 3: Hidden World</li>
-                                        <li class="chip">Bilby</li>
-                                        <li class="chip">Kung Fu Panda 3</li>
-                                        <li class="chip">Boss Baby</li>
-                                        <li class="chip">Penguins of Madagascar</li>
-                                        <li class="chip">Home</li>
-                                        <li class="chip">The Croods</li>
-                                        <li class="chip">Puss in Boots</li>
-                                        <li class="chip">Wallenda</li>
-                                        <li class="chip">Unstoppable</li>
-                                        <li class="chip">Prince of Persia</li>
-                                        <li class="chip">Sorcerer's Apprentice</li>
-                                        <li class="chip">Verizon Droid: Drop Day</li>
-                                        <li class="chip">Pirates of the Caribbean 2</li>
-                                        <li class="chip">Ghost Rider</li>
-                                    </ul>
-                                </details>
-                            </div>
-                        </li>
-                    </ol>
-                </div>
-            </section>
+                    </li>
+                </ol>
+            </div>
+        </section>
         </div>
 
         <footer>
@@ -1347,7 +1407,10 @@
         document.querySelectorAll("[data-tab]").forEach(a => {
             a.addEventListener("click", () => {
                 const t = a.getAttribute("data-tab");
-                if (sections.includes(t)) setActive(t);
+                if (["overview", "skills", "reel", "projects"].includes(t)) {
+                    setActive(t);
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                }
             }, { passive: true });
         });
 
