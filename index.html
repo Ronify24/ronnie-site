@@ -832,6 +832,39 @@
                          background: var(--seafoam-veil);
                          color: var(--text-1)
                      }
+
+        /* Overview stat chips below the hero */
+        .stat-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 10px 0 0;
+            padding: 0;
+            list-style: none;
+        }
+
+            .stat-chips .chip {
+                height: 26px;
+                padding: 0 12px;
+                font-size: 12.5px;
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                border: 1px solid var(--divider);
+                border-radius: 999px;
+                background: linear-gradient(180deg,#0f1a1d,#0b1316);
+                color: var(--text-2-boost);
+            }
+
+                .stat-chips .chip i {
+                    color: var(--accent);
+                }
+
+                .stat-chips .chip:hover {
+                    color: var(--text-1);
+                    background: #102126;
+                }
+
     </style>
 </head>
 
@@ -934,6 +967,12 @@
                 <figure class="hero" aria-hidden="true">
                     <img src="./assets/roomWebsite.jpg" alt="">
                 </figure>
+                <ul class="stat-chips" role="list">
+                    <li class="chip"><i class="fa-solid fa-person-chalkboard"></i> Team-first workflows</li>
+                    <li class="chip"><i class="fa-solid fa-swatchbook"></i> Lookdev roots</li>
+                    <li class="chip"><i class="fa-solid fa-timeline"></i> Editorial aware</li>
+                    <li class="chip"><i class="fa-solid fa-gauge-high"></i> Real time ready</li>
+                </ul>
             </div>
         </section>
 
@@ -1074,13 +1113,7 @@
                             <span class="proj__title">Lumify Application and Platform</span>
                         </div>
 
-                        <div class="proj-kv">
-                            <div class="statbar">
-                                <span class="stat"><i class="fa-solid fa-layer-group"></i> Multimodal creation</span>
-                                <span class="stat"><i class="fa-solid fa-bolt"></i> Real time friendly UI</span>
-                                <span class="stat"><i class="fa-solid fa-diagram-project"></i> Orchestrated workflows</span>
-                                <span class="stat"><i class="fa-solid fa-shield-heart"></i> Responsible defaults</span>
-                            </div>
+                        <div class="proj-kv">                           
 
                             <div class="proj-line">What it is</div>
                             <div class="proj-sub">
