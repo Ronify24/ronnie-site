@@ -500,16 +500,16 @@
         .proj__meta {
             color: var(--muted);
             font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
-            font-size: 13px
+            font-size: 15px
         }
 
         .proj__title {
-            font-weight: 700;
+            font-weight: 800;
             color: var(--text-1)
         }
 
         .proj__bul {
-            margin: 8px 0 0 16px;
+            margin: 10px 0 0 16px;
             color: var(--text-2)
         }
 
@@ -617,6 +617,58 @@
                 scroll-behavior: auto
             }
         }
+
+        /* Compact chips for quick scanning */
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            height: 28px;
+            padding: 0 10px;
+            border: 1px solid var(--divider);
+            border-radius: 999px;
+            background: linear-gradient(180deg, #0f1a1d, #0b1316);
+            color: var(--text-2);
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+            .chip:hover {
+                color: var(--text-1);
+                background: #102126;
+            }
+
+        .row .vals {
+            display: block;
+        }
+
+        /* Slightly brighter non-hover text */
+        :root {
+            --text-2-boost: color-mix(in srgb, var(--text-2) 90%, #ffffff 25%);
+        }
+
+        /* Use the boosted tone where we want better readability */
+        .subtitle,
+        .nav__link,
+        .row .vals,
+        .chip {
+            color: var(--text-2-boost);
+        }
+
+            /* Chips already exist; keep hover the same */
+            .chip:hover {
+                color: var(--text-1);
+                background: #153333;
+            }
+
     </style>
 </head>
 
@@ -694,38 +746,117 @@
                     <div class="skills">
                         <div class="row">
                             <div class="cat"><i class="fa-solid fa-wand-magic-sparkles"></i> Generative & Vision</div>
-                            <div class="vals">Flux Kontext, Flux Schnell, SDXL, Wan 2.2, Hunyuan 3D, ControlNet, Real‑ESRGAN, Segment Anything, Depth Anything</div>
+                            <div class="vals">
+                                <ul class="chips" role="list">
+                                    <li class="chip">Flux Kontext</li>
+                                    <li class="chip">Flux Schnell</li>
+                                    <li class="chip">SDXL</li>
+                                    <li class="chip">Wan 2.2</li>
+                                    <li class="chip">Hunyuan 3D</li>
+                                    <li class="chip">ControlNet</li>
+                                    <li class="chip">Real-ESRGAN</li>
+                                    <li class="chip">Segment Anything</li>
+                                    <li class="chip">Depth Anything</li>
+                                    <li class="chip">LBM</li>
+                                    <li class="chip">LTX</li>
+                                </ul>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="cat"><i class="fa-solid fa-film"></i> Video & Post</div>
-                            <div class="vals">DaVinci Resolve Studio, Premiere Pro, After Effects, Photoshop, Ableton Live</div>
+                            <div class="vals">
+                                <ul class="chips" role="list">
+                                    <li class="chip">DaVinci</li>
+                                    <li class="chip">Premiere Pro</li>
+                                    <li class="chip">After Effects</li>
+                                    <li class="chip">Photoshop</li>
+                                    <li class="chip">Ableton Live</li>
+                                </ul>
+                            </div>
                         </div>
                         <div class="row">
-                            <div class="cat"><i class="fa-solid fa-cube"></i> 3D & Real‑Time</div>
-                            <div class="vals">Unreal Engine, Houdini, USD, ZBrush, Substance Suite</div>
+                            <div class="cat"><i class="fa-solid fa-cube"></i> 3D & Real-Time</div>
+                            <div class="vals">
+                                <ul class="chips" role="list">
+                                    <li class="chip">Unreal Engine</li>
+                                    <li class="chip">Houdini</li>
+                                    <li class="chip">USD</li>
+                                    <li class="chip">ZBrush</li>
+                                    <li class="chip">Substance Suite</li>
+                                    <li class="chip">Lookdev</li>
+                                    <li class="chip">Worldbuilding</li>
+                                </ul>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="cat"><i class="fa-solid fa-brain"></i> Data Science</div>
-                            <div class="vals">Jupyter, PyTorch, NumPy, Hugging Face Hub, GitHub</div>
+                            <div class="vals">
+                                <ul class="chips" role="list">
+                                    <li class="chip">Jupyter</li>
+                                    <li class="chip">PyTorch</li>
+                                    <li class="chip">NumPy</li>
+                                    <li class="chip">Hugging Face Hub</li>
+                                    <li class="chip">GitHub</li>
+                                </ul>
+                            </div>
                         </div>
+                        <!-- Pipeline & Backend -->
                         <div class="row">
                             <div class="cat"><i class="fa-solid fa-diagram-project"></i> Pipeline & Backend</div>
-                            <div class="vals">Flask, Python, REST APIs, JSON schemas, job queues, structured logging</div>
+                            <div class="vals">
+                                <ul class="chips" role="list">
+                                    <li class="chip">Flask API surface</li>
+                                    <li class="chip">Smart Model Loader</li>
+                                    <li class="chip">Async job queue</li>
+                                    <li class="chip">Progress polling</li>
+                                    <li class="chip">Base64 image bridge</li>
+                                    <li class="chip">Safe decode utilities</li>
+                                    <li class="chip">Structured logging</li>
+                                    <li class="chip">Status probes</li>
+                                </ul>
+                            </div>
                         </div>
+
+                        <!-- Compute & Ops -->
                         <div class="row">
                             <div class="cat"><i class="fa-solid fa-microchip"></i> Compute & Ops</div>
-                            <div class="vals">NVIDIA CUDA, RunPod, AWS, Coreweave, Git, GitHub Actions</div>
+                            <div class="vals">
+                                <ul class="chips" role="list">
+                                    <li class="chip">Sequential CPU offload</li>
+                                    <li class="chip">VRAM hygiene</li>
+                                    <li class="chip">Device aware fallbacks</li>
+                                    <li class="chip">Runtime cache purge</li>
+                                    <li class="chip">RunPod deploy habits</li>
+                                </ul>
+                            </div>
                         </div>
+
+                        <!-- Governance & PM -->
                         <div class="row">
                             <div class="cat"><i class="fa-solid fa-scale-balanced"></i> Governance & PM</div>
-                            <div class="vals">IBM watsonx.governance, Jira, Google Workspace</div>
+                            <div class="vals">
+                                <ul class="chips" role="list">
+                                    <li class="chip">ARIA roles</li>
+                                    <li class="chip">IBM watsonx.governance</li>
+                                    <li class="chip">JIRA</li>
+                                </ul>
+                            </div>
                         </div>
+
+                        <!-- Workflow Orchestration -->
                         <div class="row">
                             <div class="cat"><i class="fa-solid fa-share-nodes"></i> Workflow Orchestration</div>
-                            <div class="vals">ComfyUI, reusable templates, batch runs</div>
+                            <div class="vals">
+                                <ul class="chips" role="list">
+                                    <li class="chip">Comfy dispatch</li>
+                                    <li class="chip">HUD driven Artist friendly workflows</li>
+                                    <li class="chip">Session history</li>
+                                    <li class="chip">Batch templates</li>
+                                    <li class="chip">Reusable graphs</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
             </section>
 
             <section class="panel" id="panel-reel">
