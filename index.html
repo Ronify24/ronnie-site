@@ -866,6 +866,7 @@
                 }
 
     </style>
+    <link href="./styles.css" rel="stylesheet">
 </head>
 
 <body id="top">
@@ -874,7 +875,7 @@
         <div class="site-header__inner shell">
             <nav class="nav" aria-label="Primary">
                 <div class="nav__left">
-                    <a class="brand" href="#top" aria-label="Home">RONNIE CLELAND</a>
+                    <a class="brand" href="#top" aria-label="Home"><i class="fa-solid fa-circle" aria-hidden="true"></i><span>RONNIE CLELAND</span></a>
                     <a class="nav__link" href="#panel-reel" data-tab="reel"><i class="fa-solid fa-play"></i><span>Reel</span></a>
 
                     <!-- Contact dropdown -->
@@ -896,10 +897,10 @@
     <div id="quickNav" class="shell">
         <nav aria-label="Quick">
             <ul class="chips" role="list">
-                <li class="chip"><a href="#panel-overview" data-tab="overview">Overview</a></li>
-                <li class="chip"><a href="#panel-skills" data-tab="skills">Skills</a></li>
-                <li class="chip"><a href="#panel-reel" data-tab="reel">Reel</a></li>
-                <li class="chip"><a href="#panel-projects" data-tab="projects">Projects</a></li>
+                <li class="chip"><a id="tab-overview" href="#panel-overview" data-tab="overview" aria-controls="panel-overview">Overview</a></li>
+                <li class="chip"><a id="tab-skills" href="#panel-skills" data-tab="skills" aria-controls="panel-skills">Skills</a></li>
+                <li class="chip"><a id="tab-reel" href="#panel-reel" data-tab="reel" aria-controls="panel-reel">Reel</a></li>
+                <li class="chip"><a id="tab-projects" href="#panel-projects" data-tab="projects" aria-controls="panel-projects">Projects</a></li>
             </ul>
         </nav>
     </div>
@@ -911,8 +912,9 @@
                 <div class="avatar" aria-hidden="true">
                     <img src="./assets/lumify_profpic.png" alt="Ronnie Cleland profile">
                 </div>
-                <div>
-                    <h1 id="masthead-title">Digital Innovation with 2D/3D and Real Time</h1>
+                <div class="identity-copy">
+                    <p class="eyebrow"><i class="fa-solid fa-circle" aria-hidden="true"></i> Creative technology · Product systems</p>
+                    <h1 id="masthead-title">Digital innovation with <span>2D/3D + real time.</span></h1>
                     <p class="subtitle">Creative Tech. Product and Pipeline. Film and Animation. @Lumify AI</p>
                 </div>
             </div>
@@ -924,11 +926,12 @@
 
         <!-- Overview -->
         <section class="panel active" id="panel-overview" role="tabpanel" aria-labelledby="tab-overview">
+            <p class="section-kicker"><i class="fa-solid fa-circle" aria-hidden="true"></i> Profile / 01</p>
             <h2>Overview</h2>
             <div class="content">
                 <div class="kv">
-                    <div class="v" style="margin-bottom:10px;">
-                        I build AI workflows that move ideas into first visuals quickly, then give artists precise control to refine.
+                    <div class="v">
+                        <span class="lead-accent">I build AI workflows that move ideas into first visuals quickly,</span> then give artists precise control to refine.
                         My background is nineteen years in feature animation and VFX with a focus on look development, surfacing, and compositing.
                         I care about lighting intent, material and texture depth, and clean creative consistencies.
                     </div>
@@ -973,6 +976,7 @@
 
         <!-- Skills -->
         <section class="panel" id="panel-skills" role="tabpanel" aria-labelledby="tab-skills">
+            <p class="section-kicker"><i class="fa-solid fa-circle" aria-hidden="true"></i> Capability map / 02</p>
             <h2>Software and Core Skills</h2>
             <div class="content">
                 <div class="skills">
@@ -1083,14 +1087,15 @@
 
         <!-- Reel -->
         <section class="panel" id="panel-reel" role="tabpanel" aria-labelledby="tab-reel">
+            <p class="section-kicker"><i class="fa-solid fa-circle" aria-hidden="true"></i> Selected motion / 03</p>
             <h2>Reel</h2>
             <div class="content">
                 <div class="reel-wrap">
                     <div class="reel" id="reel-slot"></div>
                     <div class="reel-controls">
                         <div class="prevnext">
-                            <button class="pn" id="prevBtn">Prev</button>
-                            <button class="pn" id="nextBtn">Next</button>
+                            <button class="pn" id="prevBtn"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Prev</button>
+                            <button class="pn" id="nextBtn">Next <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
                         </div>
                         <div class="dots" id="dots" aria-label="reel pager"></div>
                     </div>
@@ -1100,6 +1105,7 @@
 
         <!-- Projects -->
         <section class="panel" id="panel-projects" role="tabpanel" aria-labelledby="tab-projects">
+            <p class="section-kicker"><i class="fa-solid fa-circle" aria-hidden="true"></i> Systems + stories / 04</p>
             <h2>Projects</h2>
             <div class="content">
                 <ol class="proj-list" role="list">
@@ -1168,7 +1174,7 @@
                         <div>
                             Highlights from animation and VFX work:
                             <details class="more">
-                                <summary>Show full list</summary>
+                                <summary>Show full list <i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary>
                                 <ul class="proj-chips">
                                     <li class="chip">Trouble</li>
                                     <li class="chip">Trolls Holiday Special 2</li>
@@ -1215,6 +1221,12 @@
 
         function setActive(name) {
             panels.forEach(p => p.classList.toggle("active", p.id === "panel-" + name));
+            document.querySelectorAll("[data-tab]").forEach(link => {
+                const isActive = link.getAttribute("data-tab") === name;
+                link.classList.toggle("is-active", isActive);
+                if (isActive) link.setAttribute("aria-current", "page");
+                else link.removeAttribute("aria-current");
+            });
             history.replaceState(null, "", "#" + name);
             if (name === "reel" && !reelRendered) { renderReel(); reelRendered = true; }
             window.scrollTo({ top: 0, behavior: "smooth" });
@@ -1222,14 +1234,15 @@
 
         // Any helper link with data-tab switches the panel
         document.querySelectorAll("[data-tab]").forEach(a => {
-            a.addEventListener("click", () => {
+            a.addEventListener("click", (event) => {
+                event.preventDefault();
                 const t = a.getAttribute("data-tab");
                 if (sections.includes(t)) setActive(t);
-            }, { passive: true });
+            });
         });
 
         // Init from hash
-        const initial = location.hash.replace("#", "").toLowerCase();
+        const initial = location.hash.replace("#", "").replace(/^panel-/, "").toLowerCase();
         if (sections.includes(initial)) setActive(initial);
         else setActive("overview");
 
@@ -1293,8 +1306,11 @@
             }
             dots.innerHTML = "";
             vids.forEach((_, i) => {
-                const d = document.createElement("div");
+                const d = document.createElement("button");
+                d.type = "button";
                 d.className = "dot" + (i === current ? " active" : "");
+                d.setAttribute("aria-label", "Show reel " + (i + 1));
+                d.setAttribute("aria-pressed", i === current ? "true" : "false");
                 d.onclick = () => { current = i; render(); };
                 dots.appendChild(d);
             });
