@@ -1005,6 +1005,10 @@ footer .links a.is-active {
         white-space: nowrap;
     }
 
+    .actions .resume-btn {
+        grid-column: 1 / -1;
+    }
+
     .panel {
         padding: 22px 18px;
         border-radius: 20px;
@@ -1099,6 +1103,10 @@ footer .links a.is-active {
 
     .actions {
         grid-template-columns: 1fr;
+    }
+
+    .actions .resume-btn {
+        grid-column: auto;
     }
 }
 
