@@ -813,6 +813,14 @@ summary:focus-visible {
     line-height: 1.65;
 }
 
+.proj-sub p {
+    margin: 0;
+}
+
+.proj-sub p + p {
+    margin-top: 10px;
+}
+
 .proj-group {
     margin-top: 20px;
 }
