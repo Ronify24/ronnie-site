@@ -866,7 +866,7 @@
                 }
 
     </style>
-    <link href="./styles.css" rel="stylesheet">
+    <link href="./styles.css?v=20260714-gallery2" rel="stylesheet">
 </head>
 
 <body id="top">
@@ -932,8 +932,17 @@
 
         <!-- Overview -->
         <section class="panel active" id="panel-overview" role="tabpanel" aria-labelledby="tab-overview">
-            <p class="section-kicker"><i class="fa-solid fa-circle" aria-hidden="true"></i> Profile / 01</p>
-            <h2>Overview</h2>
+            <div class="overview-panel-heading">
+                <div>
+                    <p class="section-kicker"><i class="fa-solid fa-circle" aria-hidden="true"></i> Profile / 01</p>
+                    <h2>Overview</h2>
+                </div>
+                <button class="gallery-launch" id="lumifyGalleryLaunch" type="button" aria-haspopup="dialog" aria-controls="lumifyGalleryDialog" aria-expanded="false">
+                    <i class="fa-regular fa-images" aria-hidden="true"></i>
+                    <span>Lumify Gallery</span>
+                    <i class="fa-solid fa-arrow-up-right-from-square gallery-launch__arrow" aria-hidden="true"></i>
+                </button>
+            </div>
             <div class="content">
                 <div class="kv">
                     <div class="v">
@@ -1264,6 +1273,56 @@
         </footer>
     </main>
 
+    <dialog class="lumify-gallery-dialog" id="lumifyGalleryDialog" aria-labelledby="lumifyGalleryTitle" aria-describedby="lumifyGalleryDescription">
+        <div class="lumify-gallery-window">
+            <header class="lumify-gallery-header">
+                <div class="lumify-gallery-titleblock">
+                    <p class="lumify-gallery-kicker"><i class="fa-solid fa-circle" aria-hidden="true"></i> Lumify / Interface Gallery</p>
+                    <h2 id="lumifyGalleryTitle">Inside the Creative System</h2>
+                    <p id="lumifyGalleryDescription">A closer look at the artist-led workspaces shaping image, motion, and generated worlds.</p>
+                </div>
+                <div class="lumify-gallery-chrome" aria-label="Gallery window controls">
+                    <button id="lumifyGalleryMaximize" type="button" aria-label="Maximize gallery window" aria-pressed="false" title="Maximize window">
+                        <i class="fa-solid fa-expand" aria-hidden="true"></i>
+                    </button>
+                    <button id="lumifyGalleryClose" type="button" aria-label="Close Lumify Gallery" title="Close gallery">
+                        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </header>
+
+            <div class="lumify-gallery-stage" id="lumifyGalleryStage">
+                <div class="lumify-gallery-status" id="lumifyGalleryStatus" role="status" aria-live="polite">
+                    <i class="fa-solid fa-circle-notch fa-spin" aria-hidden="true"></i>
+                    <span>Preparing the gallery…</span>
+                </div>
+                <button class="lumify-gallery-nav lumify-gallery-nav--prev" id="lumifyGalleryPrev" type="button" aria-label="Previous gallery image">
+                    <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+                </button>
+                <figure class="lumify-gallery-figure">
+                    <img id="lumifyGalleryImage" src="" alt="">
+                </figure>
+                <button class="lumify-gallery-nav lumify-gallery-nav--next" id="lumifyGalleryNext" type="button" aria-label="Next gallery image">
+                    <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </button>
+                <div class="lumify-gallery-empty" id="lumifyGalleryEmpty" hidden>
+                    <i class="fa-regular fa-images" aria-hidden="true"></i>
+                    <strong>The gallery is ready for its first frame.</strong>
+                    <span>Add consecutively numbered images to the gallery folder.</span>
+                </div>
+            </div>
+
+            <footer class="lumify-gallery-footer">
+                <div class="lumify-gallery-progress">
+                    <span>Interface study</span>
+                    <strong id="lumifyGalleryCount" aria-live="polite">— / —</strong>
+                </div>
+                <div class="lumify-gallery-thumbs" id="lumifyGalleryThumbs" role="list" aria-label="Choose a gallery image"></div>
+                <p class="lumify-gallery-hint"><kbd>←</kbd><kbd>→</kbd> Cycle&nbsp;&nbsp;·&nbsp;&nbsp;<kbd>Esc</kbd> Close</p>
+            </footer>
+        </div>
+    </dialog>
+
     <script>
         /* Tabs and hash routing */
         const sections = ["overview", "skills", "reel", "projects"];
@@ -1319,6 +1378,184 @@
         document.addEventListener("keydown", (e) => { if (e.key === "Escape" && contactMenu.open) contactMenu.removeAttribute("open"); });
         document.addEventListener("scroll", () => { if (contactMenu.open) contactMenu.removeAttribute("open"); }, { passive: true });
         contactMenu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => contactMenu.removeAttribute("open")));
+
+        /* Lumify Gallery: numbered files are discovered automatically (1_gallery.png, 2_gallery.png, ...). */
+        const galleryDialog = document.getElementById("lumifyGalleryDialog");
+        const galleryLaunch = document.getElementById("lumifyGalleryLaunch");
+        const galleryClose = document.getElementById("lumifyGalleryClose");
+        const galleryMaximize = document.getElementById("lumifyGalleryMaximize");
+        const galleryStage = document.getElementById("lumifyGalleryStage");
+        const galleryImage = document.getElementById("lumifyGalleryImage");
+        const galleryStatus = document.getElementById("lumifyGalleryStatus");
+        const galleryEmpty = document.getElementById("lumifyGalleryEmpty");
+        const galleryPrev = document.getElementById("lumifyGalleryPrev");
+        const galleryNext = document.getElementById("lumifyGalleryNext");
+        const galleryCount = document.getElementById("lumifyGalleryCount");
+        const galleryThumbs = document.getElementById("lumifyGalleryThumbs");
+        const galleryExtensions = ["png", "jpg", "jpeg", "webp"];
+        const galleryProbeLimit = 80;
+        let galleryItems = [];
+        let galleryCurrent = 0;
+        let galleryDiscovery = null;
+        let gallerySwipeStartX = null;
+
+        async function findGalleryImage(index) {
+            for (const extension of galleryExtensions) {
+                const src = `./gallery/${index}_gallery.${extension}`;
+                try {
+                    const response = await fetch(src, { method: "HEAD", cache: "no-cache" });
+                    if (response.ok) return { src, index };
+                } catch { }
+            }
+            return null;
+        }
+
+        async function discoverGalleryImages() {
+            const items = [];
+            for (let index = 1; index <= galleryProbeLimit; index += 1) {
+                const item = await findGalleryImage(index);
+                if (!item) break;
+                items.push(item);
+            }
+            return items;
+        }
+
+        function setGalleryMaximized(isMaximized) {
+            galleryDialog.classList.toggle("is-maximized", isMaximized);
+            galleryMaximize.innerHTML = isMaximized
+                ? '<i class="fa-solid fa-compress" aria-hidden="true"></i>'
+                : '<i class="fa-solid fa-expand" aria-hidden="true"></i>';
+            galleryMaximize.setAttribute("aria-pressed", isMaximized ? "true" : "false");
+            galleryMaximize.setAttribute("aria-label", isMaximized ? "Restore gallery window" : "Maximize gallery window");
+            galleryMaximize.title = isMaximized ? "Restore window" : "Maximize window";
+        }
+
+        function renderGalleryThumbs() {
+            galleryThumbs.innerHTML = "";
+            galleryItems.forEach((item, index) => {
+                const button = document.createElement("button");
+                button.type = "button";
+                button.className = "lumify-gallery-thumb";
+                button.dataset.galleryIndex = String(index);
+                button.setAttribute("role", "listitem");
+                button.setAttribute("aria-label", `Show Lumify gallery image ${index + 1}`);
+
+                const image = document.createElement("img");
+                image.src = item.src;
+                image.alt = "";
+                image.loading = "eager";
+                image.decoding = "async";
+                button.appendChild(image);
+                galleryThumbs.appendChild(button);
+            });
+        }
+
+        function renderGalleryImage() {
+            if (!galleryItems.length) return;
+            const item = galleryItems[galleryCurrent];
+            galleryStage.classList.add("is-switching");
+            galleryImage.onload = () => galleryStage.classList.remove("is-switching");
+            galleryImage.onerror = () => {
+                galleryStage.classList.remove("is-switching");
+                galleryStatus.hidden = false;
+                galleryStatus.querySelector("span:last-child").textContent = "This frame could not be loaded.";
+            };
+            galleryImage.src = item.src;
+            galleryImage.alt = `Lumify creative platform interface, gallery view ${galleryCurrent + 1} of ${galleryItems.length}`;
+            galleryCount.textContent = `${String(galleryCurrent + 1).padStart(2, "0")} / ${String(galleryItems.length).padStart(2, "0")}`;
+            galleryStatus.hidden = true;
+            galleryEmpty.hidden = true;
+            galleryPrev.disabled = galleryItems.length < 2;
+            galleryNext.disabled = galleryItems.length < 2;
+
+            galleryThumbs.querySelectorAll(".lumify-gallery-thumb").forEach((thumb, index) => {
+                const isActive = index === galleryCurrent;
+                thumb.classList.toggle("is-active", isActive);
+                if (isActive) thumb.setAttribute("aria-current", "true");
+                else thumb.removeAttribute("aria-current");
+            });
+        }
+
+        function cycleGallery(delta) {
+            if (galleryItems.length < 2) return;
+            galleryCurrent = (galleryCurrent + delta + galleryItems.length) % galleryItems.length;
+            renderGalleryImage();
+        }
+
+        async function ensureGalleryReady() {
+            if (!galleryDiscovery) galleryDiscovery = discoverGalleryImages();
+            galleryStatus.hidden = false;
+            galleryEmpty.hidden = true;
+            galleryItems = await galleryDiscovery;
+            if (!galleryItems.length) {
+                galleryStatus.hidden = true;
+                galleryEmpty.hidden = false;
+                galleryPrev.disabled = true;
+                galleryNext.disabled = true;
+                return;
+            }
+            galleryCurrent = Math.min(galleryCurrent, galleryItems.length - 1);
+            renderGalleryThumbs();
+            renderGalleryImage();
+        }
+
+        async function openGallery() {
+            if (!galleryDialog.open) galleryDialog.showModal();
+            document.body.classList.add("gallery-is-open");
+            galleryLaunch.setAttribute("aria-expanded", "true");
+            galleryClose.focus({ preventScroll: true });
+            await ensureGalleryReady();
+        }
+
+        galleryLaunch.addEventListener("click", openGallery);
+        galleryClose.addEventListener("click", () => galleryDialog.close());
+        galleryMaximize.addEventListener("click", () => setGalleryMaximized(!galleryDialog.classList.contains("is-maximized")));
+        galleryPrev.addEventListener("click", () => cycleGallery(-1));
+        galleryNext.addEventListener("click", () => cycleGallery(1));
+
+        galleryThumbs.addEventListener("click", (event) => {
+            const button = event.target.closest("[data-gallery-index]");
+            if (!button) return;
+            galleryCurrent = Number(button.dataset.galleryIndex);
+            renderGalleryImage();
+        });
+
+        galleryDialog.addEventListener("click", (event) => {
+            if (event.target === galleryDialog) galleryDialog.close();
+        });
+
+        galleryDialog.addEventListener("close", () => {
+            document.body.classList.remove("gallery-is-open");
+            galleryLaunch.setAttribute("aria-expanded", "false");
+            setGalleryMaximized(false);
+        });
+
+        galleryDialog.addEventListener("keydown", (event) => {
+            if (event.key === "ArrowLeft") {
+                event.preventDefault();
+                cycleGallery(-1);
+            } else if (event.key === "ArrowRight") {
+                event.preventDefault();
+                cycleGallery(1);
+            } else if (event.key === "Escape") {
+                event.preventDefault();
+                galleryDialog.close();
+            }
+        });
+
+        galleryStage.addEventListener("pointerdown", (event) => {
+            gallerySwipeStartX = event.clientX;
+        });
+
+        galleryStage.addEventListener("pointerup", (event) => {
+            if (gallerySwipeStartX === null) return;
+            const distance = event.clientX - gallerySwipeStartX;
+            gallerySwipeStartX = null;
+            if (Math.abs(distance) < 48) return;
+            cycleGallery(distance > 0 ? -1 : 1);
+        });
+
+        galleryImage.addEventListener("dragstart", (event) => event.preventDefault());
 
         /* Reel: lazy render on first open */
         const vids = [

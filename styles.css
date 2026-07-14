@@ -504,6 +504,419 @@ summary:focus-visible {
     line-height: 1.05;
 }
 
+.overview-panel-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.overview-panel-heading h2 {
+    margin: 0;
+    color: var(--text-1);
+    font-size: clamp(30px, 4vw, 54px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+}
+
+.gallery-launch {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 44px;
+    padding: 10px 14px;
+    border: 1px solid rgba(83, 230, 239, 0.52);
+    border-radius: 11px;
+    background: linear-gradient(145deg, rgba(17, 63, 72, 0.76), rgba(5, 21, 29, 0.94));
+    color: #d9fbfc;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 12px 28px rgba(0, 0, 0, 0.24), 0 0 24px rgba(83, 230, 239, 0.08);
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 170ms ease, border-color 170ms ease, background 170ms ease, box-shadow 170ms ease;
+}
+
+.gallery-launch:hover,
+.gallery-launch:focus-visible {
+    transform: translateY(-2px);
+    border-color: rgba(135, 245, 248, 0.86);
+    background: linear-gradient(145deg, rgba(26, 91, 100, 0.86), rgba(7, 29, 38, 0.96));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 14px 34px rgba(0, 0, 0, 0.3), 0 0 30px rgba(83, 230, 239, 0.16);
+}
+
+.gallery-launch__arrow {
+    color: var(--accent-soft);
+    font-size: 9px;
+    opacity: 0.76;
+}
+
+body.gallery-is-open {
+    overflow: hidden;
+}
+
+.lumify-gallery-dialog {
+    width: min(94vw, 1660px);
+    height: min(88dvh, 940px);
+    max-width: none;
+    max-height: none;
+    margin: auto;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid rgba(105, 201, 214, 0.42);
+    border-radius: 18px;
+    background: rgba(4, 10, 16, 0.98);
+    color: var(--text-1);
+    box-shadow: 0 30px 90px rgba(0, 0, 0, 0.68), 0 0 0 1px rgba(126, 243, 223, 0.07), 0 0 58px rgba(41, 205, 221, 0.1);
+}
+
+.lumify-gallery-dialog[open] {
+    display: block;
+    animation: gallery-window-in 220ms ease both;
+}
+
+.lumify-gallery-dialog::backdrop {
+    background: rgba(0, 4, 8, 0.78);
+    backdrop-filter: blur(13px) saturate(90%);
+}
+
+@keyframes gallery-window-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.985);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.lumify-gallery-dialog.is-maximized {
+    width: 100vw;
+    height: 100dvh;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+}
+
+.lumify-gallery-window {
+    position: relative;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    gap: 14px;
+    width: 100%;
+    height: 100%;
+    padding: 18px;
+    overflow: hidden;
+    background: radial-gradient(circle at 86% 4%, rgba(62, 198, 213, 0.12), transparent 28%), linear-gradient(180deg, rgba(7, 17, 25, 0.99), rgba(3, 8, 13, 0.99));
+}
+
+.lumify-gallery-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    min-width: 0;
+    padding: 2px 0 0;
+}
+
+.lumify-gallery-titleblock {
+    min-width: 0;
+}
+
+.lumify-gallery-kicker {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0 0 7px;
+    color: #91eff3;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.lumify-gallery-kicker i {
+    font-size: 7px;
+    filter: drop-shadow(0 0 7px rgba(83, 230, 239, 0.65));
+}
+
+.lumify-gallery-titleblock h2 {
+    margin: 0;
+    color: #fff8e7;
+    font-family: "Sora", Inter, system-ui, sans-serif;
+    font-size: clamp(21px, 2vw, 31px);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.1;
+}
+
+.lumify-gallery-titleblock > p:last-child {
+    max-width: 760px;
+    margin: 7px 0 0;
+    color: rgba(209, 228, 232, 0.74);
+    font-size: clamp(11px, 1vw, 13px);
+    line-height: 1.5;
+}
+
+.lumify-gallery-chrome {
+    display: flex;
+    flex: 0 0 auto;
+    gap: 8px;
+}
+
+.lumify-gallery-chrome button,
+.lumify-gallery-nav {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(95, 151, 164, 0.42);
+    background: rgba(5, 12, 18, 0.9);
+    color: #eefefd;
+    cursor: pointer;
+    transition: transform 160ms ease, color 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+}
+
+.lumify-gallery-chrome button {
+    width: 42px;
+    height: 42px;
+    border-radius: 11px;
+}
+
+.lumify-gallery-chrome button:hover,
+.lumify-gallery-chrome button:focus-visible,
+.lumify-gallery-nav:hover,
+.lumify-gallery-nav:focus-visible {
+    transform: translateY(-1px);
+    border-color: rgba(126, 243, 223, 0.74);
+    background: rgba(16, 40, 48, 0.96);
+    color: var(--accent-soft);
+    box-shadow: 0 0 0 2px rgba(83, 230, 239, 0.11), 0 0 20px rgba(83, 230, 239, 0.1);
+}
+
+.lumify-gallery-stage {
+    position: relative;
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr) 48px;
+    align-items: center;
+    gap: 13px;
+    min-width: 0;
+    min-height: 0;
+    padding: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(83, 230, 239, 0.2);
+    border-radius: 13px;
+    background: rgba(0, 5, 9, 0.76);
+    box-shadow: inset 0 0 56px rgba(22, 102, 119, 0.055);
+    touch-action: pan-y;
+}
+
+.lumify-gallery-figure {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid rgba(127, 220, 226, 0.21);
+    border-radius: 8px;
+    background: #01060a;
+    box-shadow: 0 18px 48px rgba(0, 0, 0, 0.42);
+}
+
+.lumify-gallery-figure img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    user-select: none;
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 150ms ease, transform 220ms ease;
+}
+
+.lumify-gallery-stage.is-switching .lumify-gallery-figure img {
+    opacity: 0.34;
+    transform: scale(0.994);
+}
+
+.lumify-gallery-nav {
+    width: 44px;
+    height: 56px;
+    border-radius: 12px;
+    font-size: 15px;
+}
+
+.lumify-gallery-nav:disabled {
+    opacity: 0.3;
+    cursor: default;
+    transform: none;
+    box-shadow: none;
+}
+
+.lumify-gallery-status,
+.lumify-gallery-empty {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 11px;
+    padding: 24px;
+    background: rgba(2, 9, 14, 0.9);
+    color: var(--accent-soft);
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.07em;
+    text-align: center;
+}
+
+.lumify-gallery-status[hidden],
+.lumify-gallery-empty[hidden] {
+    display: none;
+}
+
+.lumify-gallery-empty {
+    flex-direction: column;
+    color: var(--text-2-boost);
+}
+
+.lumify-gallery-empty i {
+    color: var(--accent);
+    font-size: 28px;
+}
+
+.lumify-gallery-empty strong {
+    color: var(--text-1);
+    font-family: "Sora", Inter, system-ui, sans-serif;
+    font-size: 16px;
+    letter-spacing: -0.02em;
+}
+
+.lumify-gallery-empty span {
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.lumify-gallery-footer {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 18px;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    letter-spacing: normal;
+}
+
+.lumify-gallery-progress {
+    display: grid;
+    gap: 3px;
+    min-width: 92px;
+}
+
+.lumify-gallery-progress span {
+    color: rgba(145, 239, 243, 0.67);
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
+.lumify-gallery-progress strong {
+    color: #fff8e7;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+}
+
+.lumify-gallery-thumbs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.lumify-gallery-thumbs::-webkit-scrollbar {
+    display: none;
+}
+
+.lumify-gallery-thumb {
+    position: relative;
+    flex: 0 0 auto;
+    width: 88px;
+    height: 48px;
+    padding: 3px;
+    overflow: hidden;
+    border: 1px solid rgba(87, 151, 165, 0.32);
+    border-radius: 8px;
+    background: rgba(5, 12, 18, 0.92);
+    cursor: pointer;
+    opacity: 0.56;
+    transition: opacity 160ms ease, transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.lumify-gallery-thumb img {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.lumify-gallery-thumb:hover,
+.lumify-gallery-thumb:focus-visible {
+    opacity: 0.9;
+    transform: translateY(-1px);
+    border-color: rgba(126, 243, 223, 0.7);
+}
+
+.lumify-gallery-thumb.is-active {
+    opacity: 1;
+    border-color: rgba(126, 243, 223, 0.92);
+    box-shadow: 0 0 0 2px rgba(83, 230, 239, 0.1), 0 0 18px rgba(83, 230, 239, 0.12);
+}
+
+.lumify-gallery-hint {
+    margin: 0;
+    color: rgba(184, 211, 216, 0.58);
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 8px;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+}
+
+.lumify-gallery-hint kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 20px;
+    padding: 0 5px;
+    border: 1px solid rgba(95, 151, 164, 0.4);
+    border-radius: 5px;
+    background: rgba(7, 16, 22, 0.88);
+    color: rgba(229, 255, 250, 0.8);
+    font: inherit;
+}
+
 #panel-skills > h2 {
     margin-bottom: 10px;
 }
@@ -1146,6 +1559,138 @@ footer .links a.is-active {
         font-size: clamp(30px, 10vw, 42px);
     }
 
+    .overview-panel-heading {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 16px;
+        margin-bottom: 20px;
+    }
+
+    .overview-panel-heading h2 {
+        font-size: clamp(30px, 10vw, 42px);
+    }
+
+    .gallery-launch {
+        align-self: flex-start;
+        min-height: 42px;
+        padding-inline: 13px;
+    }
+
+    .lumify-gallery-dialog {
+        width: calc(100vw - 18px);
+        height: min(390px, calc(100dvh - 18px));
+        max-height: calc(100dvh - 18px);
+        border-radius: 14px;
+    }
+
+    .lumify-gallery-dialog:not(.is-maximized) .lumify-gallery-window {
+        height: 100%;
+    }
+
+    .lumify-gallery-window {
+        gap: 10px;
+        padding: 12px;
+    }
+
+    .lumify-gallery-header {
+        gap: 12px;
+    }
+
+    .lumify-gallery-kicker {
+        margin-bottom: 5px;
+        font-size: 8px;
+        letter-spacing: 0.13em;
+    }
+
+    .lumify-gallery-titleblock h2 {
+        font-size: clamp(18px, 5.5vw, 23px);
+    }
+
+    .lumify-gallery-titleblock > p:last-child {
+        display: none;
+    }
+
+    .lumify-gallery-chrome {
+        gap: 6px;
+    }
+
+    .lumify-gallery-chrome button {
+        width: 36px;
+        height: 36px;
+        border-radius: 9px;
+    }
+
+    .lumify-gallery-stage {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0;
+        padding: 7px;
+        border-radius: 10px;
+    }
+
+    .lumify-gallery-dialog:not(.is-maximized) .lumify-gallery-figure {
+        height: auto;
+        aspect-ratio: 3600 / 1948;
+    }
+
+    .lumify-gallery-nav {
+        position: absolute;
+        top: 50%;
+        z-index: 2;
+        width: 36px;
+        height: 48px;
+        border-radius: 10px;
+        transform: translateY(-50%);
+        background: rgba(3, 11, 17, 0.88);
+        backdrop-filter: blur(8px);
+    }
+
+    .lumify-gallery-nav--prev {
+        left: 14px;
+    }
+
+    .lumify-gallery-nav--next {
+        right: 14px;
+    }
+
+    .lumify-gallery-nav:hover,
+    .lumify-gallery-nav:focus-visible {
+        transform: translateY(-50%) scale(1.03);
+    }
+
+    .lumify-gallery-footer {
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 10px;
+    }
+
+    .lumify-gallery-progress {
+        min-width: 68px;
+    }
+
+    .lumify-gallery-thumbs {
+        justify-content: flex-start;
+    }
+
+    .lumify-gallery-thumb {
+        width: 68px;
+        height: 40px;
+    }
+
+    .lumify-gallery-hint {
+        display: none;
+    }
+
+    .lumify-gallery-dialog.is-maximized {
+        width: 100vw;
+        height: 100dvh;
+        max-height: none;
+        border-radius: 0;
+    }
+
+    .lumify-gallery-dialog.is-maximized .lumify-gallery-figure {
+        height: 100%;
+        aspect-ratio: auto;
+    }
+
     #panel-overview .kv .v {
         font-size: 16px;
         line-height: 1.58;
@@ -1225,6 +1770,36 @@ footer .links a.is-active {
 
     .actions .resume-btn {
         grid-column: auto;
+    }
+
+    .gallery-launch {
+        width: 100%;
+    }
+
+    .lumify-gallery-dialog:not(.is-maximized) {
+        width: calc(100vw - 10px);
+        max-height: calc(100dvh - 10px);
+    }
+
+    .lumify-gallery-window {
+        padding: 9px;
+    }
+
+    .lumify-gallery-stage {
+        padding: 5px;
+    }
+
+    .lumify-gallery-nav {
+        width: 32px;
+        height: 46px;
+    }
+
+    .lumify-gallery-nav--prev {
+        left: 10px;
+    }
+
+    .lumify-gallery-nav--next {
+        right: 10px;
     }
 }
 

@@ -86,6 +86,55 @@ final result: passed
 
 ---
 
+# Lumify Gallery Design QA
+
+- Source visual truth: `/Users/ronniec/Documents/GitHub/ronnie-site/gallery/3_gallery.png`
+- Implementation screenshot: `/private/tmp/ronnie-site-lumify-gallery-desktop-final.png`
+- Mobile screenshot: `/private/tmp/ronnie-site-lumify-gallery-mobile.png`
+- Combined comparison: `/private/tmp/ronnie-site-lumify-gallery-comparison.png`
+- Viewports: 1280 × 720 desktop; 390 × 844 mobile
+- State: Overview active; gallery open on image 1 of 3
+
+## Full-view comparison evidence
+
+The gallery window carries the Lumify application's in-context workspace language into the portfolio: a near-black blurred field, quiet teal perimeter, compact cyan system label, cream display title, recessed image stage, and tightly grouped window controls. The comparison confirms that the portfolio implementation feels related to the supplied application UI without reproducing its full tool density or competing with the screenshots being presented.
+
+## Focused-region comparison evidence
+
+The maximize and close controls preserve the Lumify reference's top-right placement, compact square geometry, and luminous active treatment. The carousel adds restrained previous/next controls, a numbered interface-study readout, and real image thumbnails; these elements remain visually subordinate to the current screenshot while making navigation immediately legible.
+
+## Required fidelity surfaces
+
+- Fonts and typography: Sora supplies the gallery title while IBM Plex Mono carries system labels, progress, and keyboard hints, matching the site's established technical/editorial hierarchy.
+- Spacing and layout rhythm: the dialog uses a three-row header/stage/footer structure with consistent 12–18 px internal rhythm and compact 8–13 px control gaps.
+- Colors and visual tokens: deep navy-black surfaces, seafoam rules, cream foreground type, and restrained cyan glow are shared with both the Lumify reference and the portfolio theme.
+- Image quality and asset fidelity: all supplied PNG screenshots render uncropped with `object-fit: contain`; thumbnail previews use the same local source assets.
+- States and interactions: launch, previous, next, wraparound, thumbnail selection, maximize/restore, close, Escape, swipe, and backdrop close are implemented. Maximize is an app-level window state rather than browser fullscreen, consistent with Lumify.
+- Responsive behavior: desktop uses a spacious modal stage; mobile compacts to a 390 px-high window with overlaid navigation and a full-width 3600:1948 image stage. No horizontal overflow was found at 390 × 844.
+- Maintainability: gallery discovery probes sequential files named `N_gallery.png`, `.jpg`, `.jpeg`, or `.webp` and automatically includes future gapless additions through index 80.
+
+## Findings and comparison history
+
+1. Initial mobile capture showed the landscape image inside a tall portrait stage, making the interface screenshot unnecessarily small.
+2. Fix: switched the non-maximized mobile stage to the source image aspect ratio, overlaid the navigation controls, and constrained the dialog to a compact 390 px height.
+3. Post-fix evidence: `/private/tmp/ronnie-site-lumify-gallery-mobile.png` shows a readable full-width image, visible close/maximize controls, all three thumbnails, and no horizontal overflow.
+
+## Primary interactions tested
+
+- Launch button opens a native modal dialog and discovers 3 local gallery images.
+- Next changes `01 / 03` to `02 / 03`; previous navigation wraps from image 1 to image 3.
+- Maximize fills the viewport and restore returns to the framed window on desktop and mobile.
+- Close clears the modal, body scroll lock, and launch `aria-expanded` state.
+- Browser console checked after desktop and mobile interaction runs: no warnings or errors.
+
+## Open questions
+
+- None.
+
+final result: passed
+
+---
+
 # Projects Masthead Design QA
 
 - Source visual truth: `/var/folders/bj/mx9fyhf97hb3tf8jff8nghym0000gn/T/codex-clipboard-ac9341eb-c4f7-4b77-897f-463883365dfc.png`
