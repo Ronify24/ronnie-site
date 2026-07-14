@@ -920,10 +920,13 @@
                     </p>
                 </div>
             </div>
-            <div class="actions">
-                <a class="btn portfolio-btn" href="./assets/Ronnie_Cleland_Creative_AI_Platform_Architect_Portfolio.pdf" target="_blank" rel="noopener" aria-label="View portfolio PDF in a new tab"><i class="fa-solid fa-book-open" aria-hidden="true"></i> Portfolio</a>
-                <a class="btn accent" href="https://www.youtube.com/@Lumify_AI_Inc" target="_blank" rel="noopener" aria-label="Visit Lumify AI on YouTube"><i class="fa-brands fa-youtube" aria-hidden="true"></i> YouTube</a>
-                <a class="btn resume-btn" href="./assets/RonnieCleland_2026_Resume.pdf" download="RonnieCleland_2026_Resume.pdf" rel="noopener"><i class="fa-regular fa-file-lines"></i> Download Resume</a>
+            <div class="masthead-aside">
+                <img class="project-logo" src="./assets/Logo_web.png" alt="Lumify AI" width="1247" height="534" decoding="async">
+                <div class="actions">
+                    <a class="btn portfolio-btn" href="./assets/Ronnie_Cleland_Creative_AI_Platform_Architect_Portfolio.pdf" target="_blank" rel="noopener" aria-label="View portfolio PDF in a new tab"><i class="fa-solid fa-book-open" aria-hidden="true"></i> Portfolio</a>
+                    <a class="btn accent" href="https://www.youtube.com/@Lumify_AI_Inc" target="_blank" rel="noopener" aria-label="Visit Lumify AI on YouTube"><i class="fa-brands fa-youtube" aria-hidden="true"></i> YouTube</a>
+                    <a class="btn resume-btn" href="./assets/RonnieCleland_2026_Resume.pdf" download="RonnieCleland_2026_Resume.pdf" rel="noopener"><i class="fa-regular fa-file-lines"></i> Download Resume</a>
+                </div>
             </div>
         </section>
 
@@ -1273,6 +1276,7 @@
         };
         const mastheadPrimary = document.querySelector("#masthead-title .headline-primary");
         const mastheadAccent = document.querySelector("#masthead-title .headline-accent");
+        const masthead = document.querySelector(".masthead");
         let reelRendered = false;
 
         function setActive(name) {
@@ -1286,6 +1290,7 @@
             const [primaryTitle, accentTitle] = mastheadTitles[name];
             mastheadPrimary.textContent = primaryTitle;
             mastheadAccent.textContent = accentTitle;
+            masthead.classList.toggle("is-projects", name === "projects");
             history.replaceState(null, "", "#" + name);
             if (name === "reel" && !reelRendered) { renderReel(); reelRendered = true; }
             window.scrollTo({ top: 0, behavior: "smooth" });
