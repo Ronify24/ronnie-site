@@ -602,6 +602,55 @@ body.gallery-is-open {
     margin: 0;
     border: 0;
     border-radius: 0;
+    background: #01060a;
+    box-shadow: none;
+}
+
+.lumify-gallery-dialog.is-maximized .lumify-gallery-window {
+    grid-template-rows: minmax(0, 1fr);
+    gap: 0;
+    padding: 0;
+    background: #01060a;
+}
+
+.lumify-gallery-dialog.is-maximized .lumify-gallery-header {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    z-index: 5;
+    padding: 0;
+    pointer-events: none;
+}
+
+.lumify-gallery-dialog.is-maximized .lumify-gallery-titleblock,
+.lumify-gallery-dialog.is-maximized #lumifyGalleryMaximize,
+.lumify-gallery-dialog.is-maximized .lumify-gallery-footer {
+    display: none;
+}
+
+.lumify-gallery-dialog.is-maximized .lumify-gallery-chrome {
+    pointer-events: none;
+}
+
+.lumify-gallery-dialog.is-maximized #lumifyGalleryClose {
+    width: 48px;
+    height: 48px;
+    border-color: rgba(126, 243, 223, 0.58);
+    background: rgba(3, 11, 17, 0.82);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.38);
+    pointer-events: auto;
+    backdrop-filter: blur(10px);
+}
+
+.lumify-gallery-dialog.is-maximized .lumify-gallery-stage,
+.lumify-gallery-dialog.is-maximized .lumify-gallery-figure {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+}
+
+.lumify-gallery-dialog.is-maximized .lumify-gallery-figure {
+    aspect-ratio: auto;
 }
 
 .lumify-gallery-window {
@@ -762,6 +811,32 @@ body.gallery-is-open {
     transform: translateY(-50%);
     background: rgba(3, 11, 17, 0.82);
     backdrop-filter: blur(10px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 180ms ease, transform 160ms ease, color 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+}
+
+.lumify-gallery-figure:hover .lumify-gallery-nav,
+.lumify-gallery-figure:focus-within .lumify-gallery-nav,
+.lumify-gallery-dialog.is-maximized .lumify-gallery-nav {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.lumify-gallery-dialog.is-maximized .lumify-gallery-nav {
+    width: 52px;
+    height: 72px;
+    border-color: rgba(126, 243, 223, 0.48);
+    background: rgba(3, 11, 17, 0.68);
+    font-size: 17px;
+}
+
+.lumify-gallery-dialog.is-maximized .lumify-gallery-nav--prev {
+    left: 24px;
+}
+
+.lumify-gallery-dialog.is-maximized .lumify-gallery-nav--next {
+    right: 24px;
 }
 
 .lumify-gallery-nav--prev {
@@ -778,10 +853,16 @@ body.gallery-is-open {
 }
 
 .lumify-gallery-nav:disabled {
-    opacity: 0.3;
+    opacity: 0;
     cursor: default;
     transform: none;
     box-shadow: none;
+}
+
+.lumify-gallery-figure:hover .lumify-gallery-nav:disabled,
+.lumify-gallery-figure:focus-within .lumify-gallery-nav:disabled,
+.lumify-gallery-dialog.is-maximized .lumify-gallery-nav:disabled {
+    opacity: 0.3;
 }
 
 .lumify-gallery-status,

@@ -92,6 +92,9 @@ final result: passed
 - Implementation screenshot: `/private/tmp/ronnie-site-lumify-gallery-refined-final-image2.png`
 - Mobile screenshot: `/private/tmp/ronnie-site-lumify-gallery-refined-mobile.png`
 - Combined comparison: `/private/tmp/ronnie-site-lumify-gallery-refinement-comparison.png`
+- Precision viewer screenshot: `/private/tmp/ronnie-site-lumify-precision-viewer.png`
+- Precision state comparison: `/private/tmp/ronnie-site-lumify-precision-viewer-states.png`
+- Precision mobile screenshot: `/private/tmp/ronnie-site-lumify-precision-viewer-mobile.png`
 - Viewports: 1280 × 720 desktop; 390 × 844 mobile
 - State: Overview active; gallery open on image 2 of 3
 
@@ -109,7 +112,8 @@ The previous and next controls now live inside the actual image bounds and overl
 - Spacing and layout rhythm: the dialog uses a three-row header/stage/footer structure with consistent 12–18 px internal rhythm and compact 8–13 px control gaps.
 - Colors and visual tokens: deep navy-black surfaces, seafoam rules, cream foreground type, and restrained cyan glow are shared with both the Lumify reference and the portfolio theme.
 - Image quality and asset fidelity: all supplied PNG screenshots render uncropped at their native ratio with `object-fit: contain`; the image figure matches that ratio and thumbnail previews use the same local source assets.
-- States and interactions: launch, previous, next, wraparound, thumbnail selection, maximize/restore, close, Escape, swipe, and backdrop close are implemented. Maximize is an app-level window state rather than browser fullscreen, consistent with Lumify.
+- States and interactions: launch, previous, next, wraparound, thumbnail selection, precision maximize, close, Escape, swipe, and backdrop close are implemented. Precision maximize is an app-level viewer state rather than browser fullscreen, consistent with Lumify.
+- Precision-view behavior: standard cycle arrows rest at zero opacity and appear only from image hover or keyboard focus. Maximized mode removes the title, description, thumbnails, progress, keyboard hint, and maximize control; the screenshot expands to the full viewport with persistent cycle arrows and a top-right close control.
 - Responsive behavior: desktop uses a spacious modal stage; mobile compacts to a 390 px-high window with overlaid navigation and a full-width 3600:1948 image stage. No horizontal overflow was found at 390 × 844.
 - Maintainability: gallery discovery probes sequential files named `N_gallery.png`, `.jpg`, `.jpeg`, or `.webp` and automatically includes future gapless additions through index 80.
 
@@ -121,12 +125,17 @@ The previous and next controls now live inside the actual image bounds and overl
 4. Refinement finding: the desktop carousel still presented a bordered outer stage, with navigation controls in side gutters and keyboard arrow cues too small to read reliably.
 5. Fix: removed stage and figure borders/backgrounds, anchored both cycle controls inside the aspect-ratio image figure, renamed the footer label, and enlarged the keyboard cue controls with Font Awesome arrow icons.
 6. Post-fix evidence: `/private/tmp/ronnie-site-lumify-gallery-refined-final-image2.png` shows the same second screenshot as the user reference, uncropped and borderless with both arrows inside its bounds; `/private/tmp/ronnie-site-lumify-gallery-refined-mobile.png` confirms the same geometry with no overflow at 390 × 844.
+7. Precision-view refinement: standard navigation arrows were visually redundant beside thumbnails and hotkeys, while maximize preserved too much gallery chrome to function as a detailed image viewer.
+8. Fix: made standard arrows hover/focus-only and rebuilt maximized mode as a full-viewport image canvas containing only persistent previous/next controls and a close control. Escape continues to close the dialog and resets all modal state.
+9. Post-fix evidence: `/private/tmp/ronnie-site-lumify-precision-viewer-states.png` compares the quiet standard state with the full-bleed precision viewer; `/private/tmp/ronnie-site-lumify-precision-viewer-mobile.png` confirms the same UI reduction without horizontal overflow at 390 × 844.
 
 ## Primary interactions tested
 
 - Launch button opens a native modal dialog and discovers 3 local gallery images.
 - Next changes `01 / 03` to `02 / 03`; previous navigation wraps from image 1 to image 3.
-- Maximize fills the viewport and restore returns to the framed window on desktop and mobile.
+- Precision maximize fills the viewport; close or Escape exits the viewer and resets the framed-gallery state on desktop and mobile.
+- Standard arrows remain hidden at rest; maximized arrows remain visible and operable without hover.
+- Maximized mode exposes only the image, previous/next controls, and close control; Escape closes and clears the precision-view state.
 - Close clears the modal, body scroll lock, and launch `aria-expanded` state.
 - Browser console checked after desktop and mobile interaction runs: no warnings or errors.
 

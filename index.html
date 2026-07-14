@@ -866,7 +866,7 @@
                 }
 
     </style>
-    <link href="./styles.css?v=20260714-gallery4" rel="stylesheet">
+    <link href="./styles.css?v=20260714-gallery5" rel="stylesheet">
 </head>
 
 <body id="top">
@@ -1422,12 +1422,17 @@
 
         function setGalleryMaximized(isMaximized) {
             galleryDialog.classList.toggle("is-maximized", isMaximized);
+            if (isMaximized) galleryDialog.setAttribute("aria-label", "Lumify precision image viewer");
+            else galleryDialog.removeAttribute("aria-label");
             galleryMaximize.innerHTML = isMaximized
                 ? '<i class="fa-solid fa-compress" aria-hidden="true"></i>'
                 : '<i class="fa-solid fa-expand" aria-hidden="true"></i>';
             galleryMaximize.setAttribute("aria-pressed", isMaximized ? "true" : "false");
             galleryMaximize.setAttribute("aria-label", isMaximized ? "Restore gallery window" : "Maximize gallery window");
             galleryMaximize.title = isMaximized ? "Restore window" : "Maximize window";
+            galleryClose.setAttribute("aria-label", isMaximized ? "Close precision viewer" : "Close Lumify Gallery");
+            galleryClose.title = isMaximized ? "Close precision viewer" : "Close gallery";
+            if (isMaximized) requestAnimationFrame(() => galleryClose.focus({ preventScroll: true }));
         }
 
         function renderGalleryThumbs() {
