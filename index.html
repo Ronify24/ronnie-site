@@ -866,7 +866,7 @@
                 }
 
     </style>
-    <link href="./styles.css?v=20260714-gallery2" rel="stylesheet">
+    <link href="./styles.css?v=20260714-gallery4" rel="stylesheet">
 </head>
 
 <body id="top">
@@ -1296,15 +1296,15 @@
                     <i class="fa-solid fa-circle-notch fa-spin" aria-hidden="true"></i>
                     <span>Preparing the gallery…</span>
                 </div>
-                <button class="lumify-gallery-nav lumify-gallery-nav--prev" id="lumifyGalleryPrev" type="button" aria-label="Previous gallery image">
-                    <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
-                </button>
                 <figure class="lumify-gallery-figure">
                     <img id="lumifyGalleryImage" src="" alt="">
+                    <button class="lumify-gallery-nav lumify-gallery-nav--prev" id="lumifyGalleryPrev" type="button" aria-label="Previous gallery image">
+                        <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+                    </button>
+                    <button class="lumify-gallery-nav lumify-gallery-nav--next" id="lumifyGalleryNext" type="button" aria-label="Next gallery image">
+                        <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+                    </button>
                 </figure>
-                <button class="lumify-gallery-nav lumify-gallery-nav--next" id="lumifyGalleryNext" type="button" aria-label="Next gallery image">
-                    <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
-                </button>
                 <div class="lumify-gallery-empty" id="lumifyGalleryEmpty" hidden>
                     <i class="fa-regular fa-images" aria-hidden="true"></i>
                     <strong>The gallery is ready for its first frame.</strong>
@@ -1314,11 +1314,11 @@
 
             <footer class="lumify-gallery-footer">
                 <div class="lumify-gallery-progress">
-                    <span>Interface study</span>
+                    <span>Interface Screenshots</span>
                     <strong id="lumifyGalleryCount" aria-live="polite">— / —</strong>
                 </div>
                 <div class="lumify-gallery-thumbs" id="lumifyGalleryThumbs" role="list" aria-label="Choose a gallery image"></div>
-                <p class="lumify-gallery-hint"><kbd>←</kbd><kbd>→</kbd> Cycle&nbsp;&nbsp;·&nbsp;&nbsp;<kbd>Esc</kbd> Close</p>
+                <p class="lumify-gallery-hint"><kbd aria-label="Left arrow key"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i></kbd><kbd aria-label="Right arrow key"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></kbd> Cycle&nbsp;&nbsp;·&nbsp;&nbsp;<kbd>Esc</kbd> Close</p>
             </footer>
         </div>
     </dialog>
