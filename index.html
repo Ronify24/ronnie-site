@@ -1265,6 +1265,14 @@
         /* Tabs and hash routing */
         const sections = ["overview", "skills", "reel", "projects"];
         const panels = sections.map(n => document.getElementById("panel-" + n));
+        const mastheadTitles = {
+            overview: ["CREATIVE SYSTEMS FOR", "THE NEXT FRAME."],
+            skills: ["FROM IMAGE TO", "IMMERSIVE SYSTEMS."],
+            reel: ["DIGITAL INNOVATION,", "BUILT FOR CREATIVE WORLDS."],
+            projects: ["BUILDING THE FUTURE OF", "CREATIVE PRODUCTION."]
+        };
+        const mastheadPrimary = document.querySelector("#masthead-title .headline-primary");
+        const mastheadAccent = document.querySelector("#masthead-title .headline-accent");
         let reelRendered = false;
 
         function setActive(name) {
@@ -1275,6 +1283,9 @@
                 if (isActive) link.setAttribute("aria-current", "page");
                 else link.removeAttribute("aria-current");
             });
+            const [primaryTitle, accentTitle] = mastheadTitles[name];
+            mastheadPrimary.textContent = primaryTitle;
+            mastheadAccent.textContent = accentTitle;
             history.replaceState(null, "", "#" + name);
             if (name === "reel" && !reelRendered) { renderReel(); reelRendered = true; }
             window.scrollTo({ top: 0, behavior: "smooth" });
