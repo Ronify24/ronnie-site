@@ -787,18 +787,37 @@ body.gallery-is-open {
 }
 
 .lumify-gallery-figure img {
+    --gallery-zoom: 1;
+    --gallery-pan-x: 0px;
+    --gallery-pan-y: 0px;
     width: 100%;
     height: 100%;
     object-fit: contain;
     user-select: none;
     opacity: 1;
-    transform: scale(1);
+    transform: translate3d(var(--gallery-pan-x), var(--gallery-pan-y), 0) scale(var(--gallery-zoom));
+    transform-origin: center;
     transition: opacity 150ms ease, transform 220ms ease;
 }
 
 .lumify-gallery-stage.is-switching .lumify-gallery-figure img {
     opacity: 0.34;
-    transform: scale(0.994);
+}
+
+.lumify-gallery-stage.is-zooming .lumify-gallery-figure img {
+    transition: none;
+}
+
+@media (hover: none) and (pointer: coarse) {
+    .lumify-gallery-stage {
+        touch-action: none;
+        overscroll-behavior: contain;
+    }
+
+    .lumify-gallery-figure img {
+        -webkit-user-drag: none;
+        will-change: transform;
+    }
 }
 
 .lumify-gallery-nav {

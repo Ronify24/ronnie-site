@@ -866,7 +866,7 @@
                 }
 
     </style>
-    <link href="./styles.css?v=20260714-gallery6" rel="stylesheet">
+    <link href="./styles.css?v=20260714-gallery7" rel="stylesheet">
 </head>
 
 <body id="top">
@@ -1398,6 +1398,13 @@
         let galleryCurrent = 0;
         let galleryDiscovery = null;
         let gallerySwipeStartX = null;
+        let gallerySwipeCurrentX = null;
+        let galleryZoom = 1;
+        let galleryPanX = 0;
+        let galleryPanY = 0;
+        let galleryGesture = null;
+        const galleryPointers = new Map();
+        const galleryMaxZoom = 4;
 
         async function findGalleryImage(index) {
             for (const extension of galleryExtensions) {
@@ -1420,7 +1427,60 @@
             return items;
         }
 
+        function getGalleryImageBounds(scale = galleryZoom) {
+            const rect = galleryImage.parentElement.getBoundingClientRect();
+            const imageRatio = galleryImage.naturalWidth && galleryImage.naturalHeight
+                ? galleryImage.naturalWidth / galleryImage.naturalHeight
+                : 3600 / 1948;
+            const frameRatio = rect.width / Math.max(rect.height, 1);
+            const baseWidth = frameRatio > imageRatio ? rect.height * imageRatio : rect.width;
+            const baseHeight = frameRatio > imageRatio ? rect.height : rect.width / imageRatio;
+            return {
+                rect,
+                maxX: Math.max(0, (baseWidth * scale - rect.width) / 2),
+                maxY: Math.max(0, (baseHeight * scale - rect.height) / 2)
+            };
+        }
+
+        function applyGalleryZoom() {
+            const bounds = getGalleryImageBounds();
+            galleryPanX = Math.max(-bounds.maxX, Math.min(bounds.maxX, galleryPanX));
+            galleryPanY = Math.max(-bounds.maxY, Math.min(bounds.maxY, galleryPanY));
+            galleryImage.style.setProperty("--gallery-zoom", String(galleryZoom));
+            galleryImage.style.setProperty("--gallery-pan-x", `${galleryPanX}px`);
+            galleryImage.style.setProperty("--gallery-pan-y", `${galleryPanY}px`);
+            galleryStage.classList.toggle("is-zoomed", galleryZoom > 1.01);
+        }
+
+        function resetGalleryZoom() {
+            galleryZoom = 1;
+            galleryPanX = 0;
+            galleryPanY = 0;
+            galleryGesture = null;
+            gallerySwipeStartX = null;
+            gallerySwipeCurrentX = null;
+            galleryPointers.clear();
+            galleryStage.classList.remove("is-zooming", "is-zoomed");
+            applyGalleryZoom();
+        }
+
+        function getGalleryPointerPair() {
+            return Array.from(galleryPointers.values()).slice(0, 2);
+        }
+
+        function getPointerDistance(points) {
+            return Math.hypot(points[1].x - points[0].x, points[1].y - points[0].y);
+        }
+
+        function getPointerMidpoint(points, rect) {
+            return {
+                x: ((points[0].x + points[1].x) / 2) - (rect.left + rect.width / 2),
+                y: ((points[0].y + points[1].y) / 2) - (rect.top + rect.height / 2)
+            };
+        }
+
         function setGalleryMaximized(isMaximized) {
+            resetGalleryZoom();
             galleryDialog.classList.toggle("is-maximized", isMaximized);
             if (isMaximized) galleryDialog.setAttribute("aria-label", "Lumify precision image viewer");
             else galleryDialog.removeAttribute("aria-label");
@@ -1457,6 +1517,7 @@
 
         function renderGalleryImage() {
             if (!galleryItems.length) return;
+            resetGalleryZoom();
             const item = galleryItems[galleryCurrent];
             galleryStage.classList.add("is-switching");
             galleryImage.onload = () => galleryStage.classList.remove("is-switching");
@@ -1549,16 +1610,104 @@
         });
 
         galleryStage.addEventListener("pointerdown", (event) => {
-            gallerySwipeStartX = event.clientX;
+            if (event.pointerType !== "touch") return;
+            galleryPointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+            try { galleryStage.setPointerCapture(event.pointerId); } catch { }
+
+            if (galleryPointers.size >= 2) {
+                event.preventDefault();
+                const points = getGalleryPointerPair();
+                const bounds = getGalleryImageBounds();
+                galleryGesture = {
+                    type: "pinch",
+                    distance: Math.max(getPointerDistance(points), 1),
+                    zoom: galleryZoom,
+                    panX: galleryPanX,
+                    panY: galleryPanY,
+                    midpoint: getPointerMidpoint(points, bounds.rect)
+                };
+                gallerySwipeStartX = null;
+                gallerySwipeCurrentX = null;
+                galleryStage.classList.add("is-zooming");
+            } else if (galleryZoom > 1.01) {
+                galleryGesture = {
+                    type: "pan",
+                    pointerId: event.pointerId,
+                    x: event.clientX,
+                    y: event.clientY,
+                    panX: galleryPanX,
+                    panY: galleryPanY
+                };
+                galleryStage.classList.add("is-zooming");
+            } else {
+                galleryGesture = { type: "swipe", pointerId: event.pointerId };
+                gallerySwipeStartX = event.clientX;
+                gallerySwipeCurrentX = event.clientX;
+            }
         });
 
-        galleryStage.addEventListener("pointerup", (event) => {
-            if (gallerySwipeStartX === null) return;
-            const distance = event.clientX - gallerySwipeStartX;
+        galleryStage.addEventListener("pointermove", (event) => {
+            if (event.pointerType !== "touch" || !galleryPointers.has(event.pointerId)) return;
+            galleryPointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+
+            if (galleryGesture?.type === "pinch" && galleryPointers.size >= 2) {
+                event.preventDefault();
+                const points = getGalleryPointerPair();
+                const bounds = getGalleryImageBounds();
+                const midpoint = getPointerMidpoint(points, bounds.rect);
+                const ratio = getPointerDistance(points) / galleryGesture.distance;
+                galleryZoom = Math.max(1, Math.min(galleryMaxZoom, galleryGesture.zoom * ratio));
+                const zoomRatio = galleryZoom / galleryGesture.zoom;
+                galleryPanX = midpoint.x - zoomRatio * (galleryGesture.midpoint.x - galleryGesture.panX);
+                galleryPanY = midpoint.y - zoomRatio * (galleryGesture.midpoint.y - galleryGesture.panY);
+                applyGalleryZoom();
+            } else if (galleryGesture?.type === "pan" && galleryGesture.pointerId === event.pointerId) {
+                event.preventDefault();
+                galleryPanX = galleryGesture.panX + event.clientX - galleryGesture.x;
+                galleryPanY = galleryGesture.panY + event.clientY - galleryGesture.y;
+                applyGalleryZoom();
+            } else if (galleryGesture?.type === "swipe" && galleryGesture.pointerId === event.pointerId) {
+                gallerySwipeCurrentX = event.clientX;
+            }
+        }, { passive: false });
+
+        function finishGalleryPointer(event) {
+            if (event.pointerType !== "touch") return;
+            if (galleryGesture?.type === "swipe" && galleryGesture.pointerId === event.pointerId) {
+                gallerySwipeCurrentX = event.clientX;
+            }
+            galleryPointers.delete(event.pointerId);
+            try { galleryStage.releasePointerCapture(event.pointerId); } catch { }
+
+            if (galleryGesture?.type === "pinch" && galleryPointers.size === 1 && galleryZoom > 1.01) {
+                const [pointer] = galleryPointers.entries();
+                galleryGesture = {
+                    type: "pan",
+                    pointerId: pointer[0],
+                    x: pointer[1].x,
+                    y: pointer[1].y,
+                    panX: galleryPanX,
+                    panY: galleryPanY
+                };
+                return;
+            }
+
+            if (galleryPointers.size) return;
+            galleryStage.classList.remove("is-zooming");
+
+            if (event.type !== "pointercancel" && galleryGesture?.type === "swipe" && gallerySwipeStartX !== null && gallerySwipeCurrentX !== null) {
+                const distance = gallerySwipeCurrentX - gallerySwipeStartX;
+                if (Math.abs(distance) >= 48) cycleGallery(distance > 0 ? -1 : 1);
+            }
+
+            if (galleryZoom <= 1.01) resetGalleryZoom();
+            galleryGesture = null;
             gallerySwipeStartX = null;
-            if (Math.abs(distance) < 48) return;
-            cycleGallery(distance > 0 ? -1 : 1);
-        });
+            gallerySwipeCurrentX = null;
+        }
+
+        galleryStage.addEventListener("pointerup", finishGalleryPointer);
+        galleryStage.addEventListener("pointercancel", finishGalleryPointer);
 
         galleryImage.addEventListener("dragstart", (event) => event.preventDefault());
 
