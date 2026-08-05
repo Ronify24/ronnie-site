@@ -766,7 +766,8 @@ body.resume-is-open {
     white-space: nowrap;
 }
 
-.resume-document-header button {
+.resume-document-header button,
+.resume-document-download {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -785,7 +786,9 @@ body.resume-is-open {
 }
 
 .resume-document-header button:hover,
-.resume-document-header button:focus-visible {
+.resume-document-header button:focus-visible,
+.resume-document-download:hover,
+.resume-document-download:focus-visible {
     border-color: rgba(126, 243, 223, 0.75);
     background: rgba(18, 57, 66, 0.92);
     color: #fff;
@@ -794,6 +797,18 @@ body.resume-is-open {
 
 .resume-viewer-grid:not([data-resume-mode="compare"]) .resume-document-header button {
     display: none;
+}
+
+.resume-document-download {
+    display: none;
+}
+
+.resume-viewer-grid:not([data-resume-mode="compare"]) .resume-document-download {
+    display: inline-flex;
+    border-color: rgba(83, 230, 239, 0.52);
+    background: linear-gradient(145deg, rgba(18, 67, 77, 0.9), rgba(5, 24, 31, 0.96));
+    color: #efffff;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 0 18px rgba(83, 230, 239, 0.08);
 }
 
 .resume-document-frame {
@@ -2067,14 +2082,16 @@ footer .links a.is-active {
         font-size: 12px;
     }
 
-    .resume-document-header button {
+    .resume-document-header button,
+    .resume-document-download {
         width: 34px;
         height: 34px;
         min-height: 34px;
         padding: 0;
     }
 
-    .resume-document-header button span {
+    .resume-document-header button span,
+    .resume-document-download span {
         position: absolute;
         width: 1px;
         height: 1px;
