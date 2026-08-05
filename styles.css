@@ -615,7 +615,7 @@ body.resume-is-open {
     display: flex;
     align-items: center;
     gap: 9px;
-    margin: 0 0 7px;
+    margin: 0;
     color: #91eff3;
     font-family: "IBM Plex Mono", ui-monospace, monospace;
     font-size: 9px;
@@ -627,24 +627,6 @@ body.resume-is-open {
 .resume-viewer-kicker i {
     font-size: 7px;
     filter: drop-shadow(0 0 7px rgba(83, 230, 239, 0.65));
-}
-
-.resume-viewer-titleblock h2 {
-    margin: 0;
-    color: #fff8e7;
-    font-family: "Sora", Inter, system-ui, sans-serif;
-    font-size: clamp(22px, 2vw, 32px);
-    font-weight: 600;
-    letter-spacing: -0.04em;
-    line-height: 1.08;
-}
-
-.resume-viewer-titleblock > p:last-child {
-    max-width: 860px;
-    margin: 7px 0 0;
-    color: rgba(209, 228, 232, 0.76);
-    font-size: clamp(11px, 1vw, 13px);
-    line-height: 1.5;
 }
 
 .resume-viewer-close {
@@ -2044,17 +2026,8 @@ footer .links a.is-active {
     }
 
     .resume-viewer-kicker {
-        margin-bottom: 5px;
         font-size: 8px;
         letter-spacing: 0.13em;
-    }
-
-    .resume-viewer-titleblock h2 {
-        font-size: clamp(19px, 6vw, 25px);
-    }
-
-    .resume-viewer-titleblock > p:last-child {
-        display: none;
     }
 
     .resume-viewer-close {
