@@ -86,6 +86,62 @@ final result: passed
 
 ---
 
+# Resume Viewer Design QA
+
+- Source visual truth: `/var/folders/bj/mx9fyhf97hb3tf8jff8nghym0000gn/T/codex-clipboard-36941d77-c5c8-4d6e-92e3-b3313ce6e928.png`
+- Browser-rendered implementation: `/private/tmp/ronnie-resume-viewer-desktop.png`
+- Mobile implementation: browser capture reviewed at 390 × 844 CSS px
+- Masthead comparison input: `/private/tmp/ronnie-resume-masthead-comparison.png`
+- Source dimensions: 2568 × 906 px
+- Masthead implementation dimensions: 2568 × 906 px at device scale factor 1
+- Resume viewer implementation dimensions: 1440 × 1000 px at device scale factor 1
+- Viewports: 1440 × 1000 desktop viewer; 390 × 844 mobile viewer; 2568 × 906 launcher comparison
+- State: Overview active; resume dialog open in Compare mode for primary viewer capture
+
+## Full-view comparison evidence
+
+The supplied masthead reference and same-pixel implementation capture were combined into one vertical comparison input. The existing dark framed masthead, white/cyan hierarchy, compact rounded actions, and right-aligned CTA group remain intact; the requested control changes from “Download Resume” to “View Resume” without altering the surrounding composition. The modal itself intentionally extends the established Lumify Gallery language because the source screenshot contains no open resume-viewer state.
+
+## Focused-region comparison evidence
+
+The 1440 × 1000 viewer capture verifies the new interface at readable scale: two equally weighted document panels occupy the main content field, the one-page dark resume and two-page white resume preserve their native PDF rendering, and Compare / Focused / Expanded controls remain visually subordinate to the documents. A separate 390 × 844 browser pass confirms that Compare becomes a horizontally scrollable snap row while the explicit Focused and Expanded modes remain directly accessible.
+
+## Required fidelity surfaces
+
+- Fonts and typography: Sora carries the editorial viewer title and document names; IBM Plex Mono carries the system kicker, mode controls, numbering, and hints. Weights, tracking, and contrast match the existing gallery chrome.
+- Spacing and layout rhythm: the dialog uses a four-row header / mode selector / document field / footer structure with 10–20 px internal rhythm. Desktop document panels divide available width evenly; focused modes expand to the full viewer field.
+- Colors and visual tokens: the existing near-black, seafoam, cyan-line, cream-white, and restrained-glow tokens are reused. PDF pages remain visually neutral inside their frames so the documents—not decorative chrome—stay primary.
+- Image and document quality: both supplied PDFs load directly from local assets with browser-native vector rendering. No raster substitutions, placeholder pages, or forced downloads are used.
+- Copy and content: the masthead action reads “View Resume.” The viewer clearly distinguishes “Focused Resume” from “Expanded Resume” and explains the difference without changing either source document.
+- States and interactions: Compare opens by default; Focused and Expanded each hide the alternate document and use the full content field; card-level Focus View controls invoke the same states; close button, backdrop click, and Escape all close the dialog and restore body scroll and launcher `aria-expanded` state.
+- Responsive behavior: no page-level horizontal overflow was measured at 390 × 844. Compare mode uses contained horizontal scrolling and scroll snapping, while single-document modes remain one column.
+- Accessibility: the native modal traps focus, every control has a semantic button/link role and accessible name, mode state is exposed with `aria-pressed`, launcher state uses `aria-expanded`, and focus returns to the invoking control after close.
+
+## Findings and comparison history
+
+1. Initial interaction check found that a synthetic Escape key press did not close the resume dialog reliably.
+2. Fix: added an explicit document-level Escape handler scoped to the open resume viewer.
+3. Post-fix evidence: Escape closes the dialog, clears `resume-is-open`, and resets both launchers to `aria-expanded="false"`.
+4. No remaining P0, P1, or P2 visual or interaction findings.
+
+## Primary interactions tested
+
+- Masthead “View Resume” opens the viewer in Compare mode.
+- Both local PDF sources render simultaneously.
+- Focused and Expanded mode controls each promote the selected document to full width.
+- Card-level Focus View controls invoke the corresponding single-document mode.
+- Close button and Escape close the viewer and clear body scroll lock.
+- Desktop and 390 × 844 mobile layouts were captured and inspected.
+- Browser console checked. Two renderer-context `MutationObserver` errors appeared when the browser instantiated the two native PDF viewers; the site source contains no `MutationObserver`, and no application-script warnings or errors were observed.
+
+## Open questions
+
+- None.
+
+final result: passed
+
+---
+
 # Lumify Gallery Design QA
 
 - Source visual truth: `/var/folders/bj/mx9fyhf97hb3tf8jff8nghym0000gn/T/codex-clipboard-df31a6b2-e08f-4f13-8354-4d6e8c0900bc.png`

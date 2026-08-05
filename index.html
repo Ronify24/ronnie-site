@@ -866,7 +866,7 @@
                 }
 
     </style>
-    <link href="./styles.css?v=20260714-gallery7" rel="stylesheet">
+    <link href="./styles.css?v=20260805-resume-viewer1" rel="stylesheet">
 </head>
 
 <body id="top">
@@ -885,7 +885,7 @@
                             <li role="none"><a role="menuitem" href="mailto:ronnie@lumifyai.com"><i class="fa-regular fa-envelope"></i>Email</a></li>
                             <li role="none"><a role="menuitem" href="https://www.linkedin.com/public-profile/settings?trk=d_flagship3_profile_self_view_public_profile" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin"></i>LinkedIn</a></li>
                             <li role="none"><a role="menuitem" href="https://www.imdb.com/name/nm2748136/" target="_blank" rel="noopener"><i class="fa-brands fa-imdb"></i>IMDB</a></li>
-                            <li role="none"><a role="menuitem" href="./assets/RonnieCleland_2026_Resume.pdf" download="RonnieCleland_2026_Resume.pdf" rel="noopener"><i class="fa-regular fa-file-lines"></i>Résumé (PDF)</a></li>
+                            <li role="none"><a class="resume-viewer-launch" role="menuitem" href="./assets/RonnieCleland_2026_Resume.pdf" target="_blank" rel="noopener" aria-haspopup="dialog" aria-controls="resumeViewerDialog" aria-expanded="false"><i class="fa-regular fa-file-lines"></i>View Résumé</a></li>
                         </ul>
                     </details>
                 </div>
@@ -925,7 +925,7 @@
                 <div class="actions">
                     <a class="btn portfolio-btn" href="./assets/Ronnie_Cleland_Creative_AI_Platform_Architect_Portfolio.pdf" target="_blank" rel="noopener" aria-label="View portfolio PDF in a new tab"><i class="fa-solid fa-book-open" aria-hidden="true"></i> Portfolio</a>
                     <a class="btn accent" href="https://www.youtube.com/@Lumify_AI_Inc" target="_blank" rel="noopener" aria-label="Visit Lumify AI on YouTube"><i class="fa-brands fa-youtube" aria-hidden="true"></i> YouTube</a>
-                    <a class="btn resume-btn" href="./assets/RonnieCleland_2026_Resume.pdf" download="RonnieCleland_2026_Resume.pdf" rel="noopener"><i class="fa-regular fa-file-lines"></i> Download Resume</a>
+                    <a class="btn resume-btn resume-viewer-launch" href="./assets/RonnieCleland_2026_Resume.pdf" target="_blank" rel="noopener" aria-haspopup="dialog" aria-controls="resumeViewerDialog" aria-expanded="false"><i class="fa-regular fa-file-lines" aria-hidden="true"></i> View Resume</a>
                 </div>
             </div>
         </section>
@@ -1273,6 +1273,75 @@
         </footer>
     </main>
 
+    <dialog class="resume-viewer-dialog" id="resumeViewerDialog" aria-labelledby="resumeViewerTitle" aria-describedby="resumeViewerDescription">
+        <div class="resume-viewer-window">
+            <header class="resume-viewer-header">
+                <div class="resume-viewer-titleblock">
+                    <p class="resume-viewer-kicker"><i class="fa-solid fa-circle" aria-hidden="true"></i> Profile / Resume Viewer</p>
+                    <h2 id="resumeViewerTitle">Two perspectives. One body of work.</h2>
+                    <p id="resumeViewerDescription">Compare the concise career view with a deeper look at the systems, workflows, and platform thinking behind Lumify AI.</p>
+                </div>
+                <button class="resume-viewer-close" id="resumeViewerClose" type="button" aria-label="Close resume viewer" title="Close resume viewer">
+                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                </button>
+            </header>
+
+            <nav class="resume-viewer-modes" aria-label="Resume viewing options">
+                <button class="is-active" type="button" data-resume-mode="compare" aria-pressed="true">
+                    <i class="fa-solid fa-columns" aria-hidden="true"></i>
+                    <span>Compare</span>
+                </button>
+                <button type="button" data-resume-mode="focused" aria-pressed="false">
+                    <i class="fa-regular fa-file-lines" aria-hidden="true"></i>
+                    <span>Focused</span>
+                </button>
+                <button type="button" data-resume-mode="expanded" aria-pressed="false">
+                    <i class="fa-solid fa-layer-group" aria-hidden="true"></i>
+                    <span>Expanded</span>
+                </button>
+            </nav>
+
+            <div class="resume-viewer-grid" id="resumeViewerGrid" data-resume-mode="compare">
+                <article class="resume-document" data-resume-document="focused" aria-labelledby="focusedResumeTitle">
+                    <header class="resume-document-header">
+                        <div>
+                            <p><span>01</span> Focused Resume</p>
+                            <h3 id="focusedResumeTitle">Creative systems at a glance</h3>
+                        </div>
+                        <button type="button" data-focus-resume="focused" aria-label="View only the focused resume">
+                            <i class="fa-solid fa-expand" aria-hidden="true"></i>
+                            <span>Focus view</span>
+                        </button>
+                    </header>
+                    <div class="resume-document-frame">
+                        <iframe src="./assets/RonnieCleland_2026_Resume.pdf#view=FitH&toolbar=0&navpanes=0" title="Ronnie Cleland focused 2026 resume"></iframe>
+                    </div>
+                </article>
+
+                <article class="resume-document" data-resume-document="expanded" aria-labelledby="expandedResumeTitle">
+                    <header class="resume-document-header">
+                        <div>
+                            <p><span>02</span> Expanded Resume</p>
+                            <h3 id="expandedResumeTitle">Creative AI platform architecture</h3>
+                        </div>
+                        <button type="button" data-focus-resume="expanded" aria-label="View only the expanded resume">
+                            <i class="fa-solid fa-expand" aria-hidden="true"></i>
+                            <span>Focus view</span>
+                        </button>
+                    </header>
+                    <div class="resume-document-frame">
+                        <iframe src="./assets/Ronnie_Cleland_Creative_AI_Platform_Architect.pdf#view=FitH&toolbar=0&navpanes=0" title="Ronnie Cleland expanded Creative AI Platform Architect resume"></iframe>
+                    </div>
+                </article>
+            </div>
+
+            <footer class="resume-viewer-footer">
+                <p><i class="fa-solid fa-eye" aria-hidden="true"></i> Documents open in the viewer—no download required.</p>
+                <p><kbd>Esc</kbd> Close</p>
+            </footer>
+        </div>
+    </dialog>
+
     <dialog class="lumify-gallery-dialog" id="lumifyGalleryDialog" aria-labelledby="lumifyGalleryTitle" aria-describedby="lumifyGalleryDescription">
         <div class="lumify-gallery-window">
             <header class="lumify-gallery-header">
@@ -1378,6 +1447,58 @@
         document.addEventListener("keydown", (e) => { if (e.key === "Escape" && contactMenu.open) contactMenu.removeAttribute("open"); });
         document.addEventListener("scroll", () => { if (contactMenu.open) contactMenu.removeAttribute("open"); }, { passive: true });
         contactMenu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => contactMenu.removeAttribute("open")));
+
+        /* Resume viewer: compare both documents, then focus either one in place. */
+        const resumeDialog = document.getElementById("resumeViewerDialog");
+        const resumeClose = document.getElementById("resumeViewerClose");
+        const resumeGrid = document.getElementById("resumeViewerGrid");
+        const resumeLaunchers = document.querySelectorAll(".resume-viewer-launch");
+        const resumeModeButtons = document.querySelectorAll(".resume-viewer-modes [data-resume-mode]");
+        const resumeFocusButtons = document.querySelectorAll("[data-focus-resume]");
+        let resumeReturnFocus = null;
+
+        function setResumeMode(mode) {
+            const validMode = ["compare", "focused", "expanded"].includes(mode) ? mode : "compare";
+            resumeGrid.dataset.resumeMode = validMode;
+            resumeModeButtons.forEach(button => {
+                const isActive = button.dataset.resumeMode === validMode;
+                button.classList.toggle("is-active", isActive);
+                button.setAttribute("aria-pressed", isActive ? "true" : "false");
+            });
+        }
+
+        function openResumeViewer(event) {
+            event.preventDefault();
+            resumeReturnFocus = event.currentTarget;
+            setResumeMode("compare");
+            if (!resumeDialog.open) resumeDialog.showModal();
+            document.body.classList.add("resume-is-open");
+            resumeLaunchers.forEach(launcher => launcher.setAttribute("aria-expanded", "true"));
+            contactMenu.removeAttribute("open");
+            resumeClose.focus({ preventScroll: true });
+        }
+
+        resumeLaunchers.forEach(launcher => launcher.addEventListener("click", openResumeViewer));
+        resumeModeButtons.forEach(button => button.addEventListener("click", () => setResumeMode(button.dataset.resumeMode)));
+        resumeFocusButtons.forEach(button => button.addEventListener("click", () => setResumeMode(button.dataset.focusResume)));
+        resumeClose.addEventListener("click", () => resumeDialog.close());
+
+        document.addEventListener("keydown", event => {
+            if (event.key === "Escape" && resumeDialog.open) {
+                event.preventDefault();
+                resumeDialog.close();
+            }
+        });
+
+        resumeDialog.addEventListener("click", event => {
+            if (event.target === resumeDialog) resumeDialog.close();
+        });
+
+        resumeDialog.addEventListener("close", () => {
+            document.body.classList.remove("resume-is-open");
+            resumeLaunchers.forEach(launcher => launcher.setAttribute("aria-expanded", "false"));
+            if (resumeReturnFocus?.isConnected) resumeReturnFocus.focus({ preventScroll: true });
+        });
 
         /* Lumify Gallery: numbered files are discovered automatically (1_gallery.png, 2_gallery.png, ...). */
         const galleryDialog = document.getElementById("lumifyGalleryDialog");
