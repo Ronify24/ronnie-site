@@ -653,45 +653,19 @@ body.resume-is-open {
     box-shadow: 0 0 0 2px rgba(83, 230, 239, 0.11), 0 0 20px rgba(83, 230, 239, 0.1);
 }
 
-.resume-viewer-modes {
-    display: inline-flex;
-    align-items: center;
+.resume-viewer-intro {
+    position: relative;
     justify-self: start;
-    gap: 5px;
-    padding: 4px;
-    border: 1px solid rgba(83, 230, 239, 0.2);
-    border-radius: 999px;
-    background: rgba(3, 12, 18, 0.84);
-}
-
-.resume-viewer-modes button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    min-height: 36px;
-    padding: 7px 14px;
-    border: 1px solid transparent;
-    border-radius: 999px;
-    background: transparent;
-    color: var(--text-2);
-    font: 600 11px/1 "IBM Plex Mono", ui-monospace, monospace;
-    letter-spacing: 0.04em;
-    cursor: pointer;
-    transition: color 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
-}
-
-.resume-viewer-modes button:hover,
-.resume-viewer-modes button:focus-visible {
-    color: #f4ffff;
-    background: rgba(18, 55, 64, 0.66);
-}
-
-.resume-viewer-modes button.is-active {
-    border-color: rgba(83, 230, 239, 0.58);
-    background: linear-gradient(145deg, rgba(24, 89, 100, 0.82), rgba(8, 31, 39, 0.96));
-    color: #efffff;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 0 22px rgba(83, 230, 239, 0.09);
+    margin: 0;
+    padding: 2px 0 2px 13px;
+    border-left: 1px solid rgba(83, 230, 239, 0.72);
+    color: #d8f9fa;
+    font-family: "Sora", Inter, system-ui, sans-serif;
+    font-size: clamp(14px, 1.3vw, 18px);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.35;
+    text-shadow: 0 0 18px rgba(83, 230, 239, 0.12);
 }
 
 .resume-viewer-grid {
@@ -700,16 +674,6 @@ body.resume-is-open {
     gap: 14px;
     min-width: 0;
     min-height: 0;
-}
-
-.resume-viewer-grid[data-resume-mode="focused"],
-.resume-viewer-grid[data-resume-mode="expanded"] {
-    grid-template-columns: minmax(0, 1fr);
-}
-
-.resume-viewer-grid[data-resume-mode="focused"] [data-resume-document="expanded"],
-.resume-viewer-grid[data-resume-mode="expanded"] [data-resume-document="focused"] {
-    display: none;
 }
 
 .resume-document {
@@ -734,39 +698,37 @@ body.resume-is-open {
     background: linear-gradient(90deg, rgba(12, 42, 50, 0.78), rgba(5, 17, 24, 0.56));
 }
 
-.resume-document-header > div {
-    min-width: 0;
-}
-
-.resume-document-header p {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin: 0 0 3px;
-    color: #91eff3;
-    font: 600 8px/1.2 "IBM Plex Mono", ui-monospace, monospace;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-}
-
-.resume-document-header p span {
-    color: var(--accent);
-}
-
 .resume-document-header h3 {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    min-width: 0;
     margin: 0;
     overflow: hidden;
-    color: var(--text-1);
+    color: #f7fbfc;
     font-family: "Sora", Inter, system-ui, sans-serif;
-    font-size: clamp(13px, 1.15vw, 17px);
-    font-weight: 600;
-    letter-spacing: -0.025em;
+    font-size: clamp(14px, 1.2vw, 18px);
+    font-weight: 650;
+    letter-spacing: -0.02em;
     line-height: 1.25;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-.resume-document-header button,
+.resume-document-header h3 span {
+    color: #fff;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.72em;
+    font-weight: 650;
+    letter-spacing: 0.08em;
+}
+
+.resume-document-header h3 small {
+    color: #fff;
+    font: inherit;
+    font-weight: 500;
+}
+
 .resume-document-download {
     display: inline-flex;
     align-items: center;
@@ -785,8 +747,6 @@ body.resume-is-open {
     transition: color 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
 }
 
-.resume-document-header button:hover,
-.resume-document-header button:focus-visible,
 .resume-document-download:hover,
 .resume-document-download:focus-visible {
     border-color: rgba(126, 243, 223, 0.75);
@@ -795,15 +755,7 @@ body.resume-is-open {
     box-shadow: 0 0 18px rgba(83, 230, 239, 0.1);
 }
 
-.resume-viewer-grid:not([data-resume-mode="compare"]) .resume-document-header button {
-    display: none;
-}
-
 .resume-document-download {
-    display: none;
-}
-
-.resume-viewer-grid:not([data-resume-mode="compare"]) .resume-document-download {
     display: inline-flex;
     border-color: rgba(83, 230, 239, 0.52);
     background: linear-gradient(145deg, rgba(18, 67, 77, 0.9), rgba(5, 24, 31, 0.96));
@@ -811,19 +763,69 @@ body.resume-is-open {
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 0 18px rgba(83, 230, 239, 0.08);
 }
 
-.resume-document-frame {
+.resume-document-preview {
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     min-width: 0;
     min-height: 0;
     overflow: hidden;
-    background: #11171b;
+    padding: 10px;
+    background: #090f13;
+    cursor: zoom-in;
 }
 
-.resume-document-frame iframe {
-    width: 100%;
+.resume-document-preview img {
+    width: auto;
     height: 100%;
-    border: 0;
-    background: #eef1f2;
+    max-width: 100%;
+    object-fit: contain;
+    transition: transform 220ms ease, filter 220ms ease;
+}
+
+.resume-document-open-cue {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 36px;
+    padding: 8px 12px;
+    border: 1px solid rgba(126, 243, 223, 0.58);
+    border-radius: 999px;
+    background: rgba(3, 15, 21, 0.9);
+    color: #f1ffff;
+    font: 600 9px/1 "IBM Plex Mono", ui-monospace, monospace;
+    letter-spacing: 0.04em;
+    opacity: 0;
+    transform: translateY(5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.38), 0 0 20px rgba(83, 230, 239, 0.1);
+    backdrop-filter: blur(10px);
+    transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.resume-document-preview:hover img,
+.resume-document-preview:focus-visible img {
+    transform: scale(1.012);
+    filter: brightness(0.92);
+}
+
+.resume-document-preview:hover .resume-document-open-cue,
+.resume-document-preview:focus-visible .resume-document-open-cue {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (hover: none) and (pointer: coarse) {
+    .resume-document-open-cue {
+        right: 14px;
+        bottom: 14px;
+        min-height: 34px;
+        opacity: 1;
+        transform: none;
+    }
 }
 
 .resume-viewer-footer {
@@ -1811,20 +1813,29 @@ footer .links a.is-active {
         height: calc(100dvh - 24px);
     }
 
-    .resume-viewer-grid[data-resume-mode="compare"] {
-        grid-template-columns: none;
-        grid-auto-flow: column;
-        grid-auto-columns: min(82vw, 720px);
-        justify-content: start;
-        overflow-x: auto;
-        overscroll-behavior-inline: contain;
-        scroll-snap-type: inline mandatory;
-        scrollbar-color: rgba(83, 230, 239, 0.46) rgba(3, 12, 18, 0.8);
-        scrollbar-width: thin;
+    .resume-viewer-window {
+        grid-template-rows: auto auto auto auto;
+        align-content: start;
+        overflow-y: auto;
     }
 
-    .resume-viewer-grid[data-resume-mode="compare"] .resume-document {
-        scroll-snap-align: center;
+    .resume-viewer-grid {
+        grid-template-columns: minmax(0, 1fr);
+        min-height: auto;
+    }
+
+    .resume-document {
+        width: min(100%, 680px);
+        justify-self: center;
+    }
+
+    .resume-document-preview {
+        aspect-ratio: 480 / 621;
+    }
+
+    .resume-document-preview img {
+        width: 100%;
+        height: 100%;
     }
 }
 
@@ -2051,22 +2062,12 @@ footer .links a.is-active {
         border-radius: 9px;
     }
 
-    .resume-viewer-modes {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        justify-self: stretch;
-        width: 100%;
-    }
-
-    .resume-viewer-modes button {
-        min-width: 0;
-        padding-inline: 8px;
-        font-size: 9px;
-    }
-
-    .resume-viewer-grid[data-resume-mode="compare"] {
-        grid-auto-columns: calc(100vw - 42px);
+    .resume-viewer-grid {
         gap: 10px;
+    }
+
+    .resume-viewer-intro {
+        font-size: 14px;
     }
 
     .resume-document {
@@ -2079,32 +2080,19 @@ footer .links a.is-active {
     }
 
     .resume-document-header h3 {
-        font-size: 12px;
+        gap: 6px;
+        font-size: 13px;
     }
 
-    .resume-document-header button,
     .resume-document-download {
-        width: 34px;
         height: 34px;
         min-height: 34px;
-        padding: 0;
-    }
-
-    .resume-document-header button span,
-    .resume-document-download span {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        overflow: hidden;
-        clip: rect(0 0 0 0);
-        clip-path: inset(50%);
-        white-space: nowrap;
+        padding: 7px 9px;
+        font-size: 8px;
     }
 
     .resume-viewer-footer p:first-child {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        white-space: normal;
     }
 
     .resume-viewer-footer p:last-child {

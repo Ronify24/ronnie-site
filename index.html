@@ -866,7 +866,7 @@
                 }
 
     </style>
-    <link href="./styles.css?v=20260805-resume-viewer3" rel="stylesheet">
+    <link href="./styles.css?v=20260806-resume-cards2" rel="stylesheet">
 </head>
 
 <body id="top">
@@ -1284,65 +1284,40 @@
                 </button>
             </header>
 
-            <nav class="resume-viewer-modes" aria-label="Resume viewing options">
-                <button class="is-active" type="button" data-resume-mode="compare" aria-pressed="true">
-                    <i class="fa-solid fa-columns" aria-hidden="true"></i>
-                    <span>Compare</span>
-                </button>
-                <button type="button" data-resume-mode="focused" aria-pressed="false">
-                    <i class="fa-regular fa-file-lines" aria-hidden="true"></i>
-                    <span>Focused</span>
-                </button>
-                <button type="button" data-resume-mode="expanded" aria-pressed="false">
-                    <i class="fa-solid fa-layer-group" aria-hidden="true"></i>
-                    <span>Expanded</span>
-                </button>
-            </nav>
+            <p class="resume-viewer-intro">Creative AI Platform Architect</p>
 
-            <div class="resume-viewer-grid" id="resumeViewerGrid" data-resume-mode="compare">
-                <article class="resume-document" data-resume-document="focused" aria-labelledby="focusedResumeTitle">
+            <div class="resume-viewer-grid" id="resumeViewerGrid">
+                <article class="resume-document resume-document--dark" aria-labelledby="darkResumeTitle">
                     <header class="resume-document-header">
-                        <div>
-                            <p><span>01</span> Focused Resume</p>
-                            <h3 id="focusedResumeTitle">Creative systems at a glance</h3>
-                        </div>
-                        <button type="button" data-focus-resume="focused" aria-label="View only the focused resume">
-                            <i class="fa-solid fa-expand" aria-hidden="true"></i>
-                            <span>Focus view</span>
-                        </button>
-                        <a class="resume-document-download" href="./assets/RonnieCleland_2026_Resume.pdf" download="RonnieCleland_2026_Resume.pdf" aria-label="Download the focused resume PDF">
+                        <h3 id="darkResumeTitle"><span>01</span> Brief Resume <small>(1 Page)</small></h3>
+                        <a class="resume-document-download" href="./assets/RonnieCleland_2026_Resume.pdf" download="RonnieCleland_2026_Resume.pdf" aria-label="Download the one-page brief resume PDF">
                             <i class="fa-solid fa-download" aria-hidden="true"></i>
                             <span>Download PDF</span>
                         </a>
                     </header>
-                    <div class="resume-document-frame">
-                        <iframe src="./assets/RonnieCleland_2026_Resume.pdf#view=FitH&toolbar=0&navpanes=0" title="Ronnie Cleland focused 2026 resume"></iframe>
-                    </div>
+                    <a class="resume-document-preview" href="./assets/RonnieCleland_2026_Resume.pdf" target="_blank" rel="noopener" aria-label="Open the one-page brief resume in a new browser tab">
+                        <img src="./assets/RonnieCleland_2026_Resume_preview.png" alt="First page preview of Ronnie Cleland's black Creative Systems resume" width="1200" height="1552">
+                        <span class="resume-document-open-cue"><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> View full resume</span>
+                    </a>
                 </article>
 
-                <article class="resume-document" data-resume-document="expanded" aria-labelledby="expandedResumeTitle">
+                <article class="resume-document resume-document--light" aria-labelledby="lightResumeTitle">
                     <header class="resume-document-header">
-                        <div>
-                            <p><span>02</span> Expanded Resume</p>
-                            <h3 id="expandedResumeTitle">Creative AI platform architecture</h3>
-                        </div>
-                        <button type="button" data-focus-resume="expanded" aria-label="View only the expanded resume">
-                            <i class="fa-solid fa-expand" aria-hidden="true"></i>
-                            <span>Focus view</span>
-                        </button>
-                        <a class="resume-document-download" href="./assets/Ronnie_Cleland_Creative_AI_Platform_Architect.pdf" download="Ronnie_Cleland_Creative_AI_Platform_Architect.pdf" aria-label="Download the expanded resume PDF">
+                        <h3 id="lightResumeTitle"><span>02</span> Full Resume <small>(2 Pages)</small></h3>
+                        <a class="resume-document-download" href="./assets/Ronnie_Cleland_Creative_AI_Platform_Architect.pdf" download="Ronnie_Cleland_Creative_AI_Platform_Architect.pdf" aria-label="Download the two-page full resume PDF">
                             <i class="fa-solid fa-download" aria-hidden="true"></i>
                             <span>Download PDF</span>
                         </a>
                     </header>
-                    <div class="resume-document-frame">
-                        <iframe src="./assets/Ronnie_Cleland_Creative_AI_Platform_Architect.pdf#view=FitH&toolbar=0&navpanes=0" title="Ronnie Cleland expanded Creative AI Platform Architect resume"></iframe>
-                    </div>
+                    <a class="resume-document-preview" href="./assets/Ronnie_Cleland_Creative_AI_Platform_Architect.pdf" target="_blank" rel="noopener" aria-label="Open the two-page full resume in a new browser tab">
+                        <img src="./assets/Ronnie_Cleland_Creative_AI_Platform_Architect_preview.png" alt="First page preview of Ronnie Cleland's white Platform Architect resume" width="1530" height="1980">
+                        <span class="resume-document-open-cue"><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> View full resume</span>
+                    </a>
                 </article>
             </div>
 
             <footer class="resume-viewer-footer">
-                <p><i class="fa-solid fa-eye" aria-hidden="true"></i> Documents open in the viewer—no download required.</p>
+                <p><i class="fa-solid fa-arrow-pointer" aria-hidden="true"></i> Select a résumé to open the full PDF in a new browser tab.</p>
                 <p><kbd>Esc</kbd> Close</p>
             </footer>
         </div>
@@ -1454,29 +1429,15 @@
         document.addEventListener("scroll", () => { if (contactMenu.open) contactMenu.removeAttribute("open"); }, { passive: true });
         contactMenu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => contactMenu.removeAttribute("open")));
 
-        /* Resume viewer: compare both documents, then focus either one in place. */
+        /* Resume chooser: open either preview in a new tab or download it directly. */
         const resumeDialog = document.getElementById("resumeViewerDialog");
         const resumeClose = document.getElementById("resumeViewerClose");
-        const resumeGrid = document.getElementById("resumeViewerGrid");
         const resumeLaunchers = document.querySelectorAll(".resume-viewer-launch");
-        const resumeModeButtons = document.querySelectorAll(".resume-viewer-modes [data-resume-mode]");
-        const resumeFocusButtons = document.querySelectorAll("[data-focus-resume]");
         let resumeReturnFocus = null;
-
-        function setResumeMode(mode) {
-            const validMode = ["compare", "focused", "expanded"].includes(mode) ? mode : "compare";
-            resumeGrid.dataset.resumeMode = validMode;
-            resumeModeButtons.forEach(button => {
-                const isActive = button.dataset.resumeMode === validMode;
-                button.classList.toggle("is-active", isActive);
-                button.setAttribute("aria-pressed", isActive ? "true" : "false");
-            });
-        }
 
         function openResumeViewer(event) {
             event.preventDefault();
             resumeReturnFocus = event.currentTarget;
-            setResumeMode("compare");
             if (!resumeDialog.open) resumeDialog.showModal();
             document.body.classList.add("resume-is-open");
             resumeLaunchers.forEach(launcher => launcher.setAttribute("aria-expanded", "true"));
@@ -1485,8 +1446,6 @@
         }
 
         resumeLaunchers.forEach(launcher => launcher.addEventListener("click", openResumeViewer));
-        resumeModeButtons.forEach(button => button.addEventListener("click", () => setResumeMode(button.dataset.resumeMode)));
-        resumeFocusButtons.forEach(button => button.addEventListener("click", () => setResumeMode(button.dataset.focusResume)));
         resumeClose.addEventListener("click", () => resumeDialog.close());
 
         document.addEventListener("keydown", event => {
