@@ -655,17 +655,39 @@ body.resume-is-open {
 
 .resume-viewer-intro {
     position: relative;
-    justify-self: start;
+    display: grid;
+    gap: 2px;
+    justify-self: stretch;
+    width: 100%;
+    min-width: 0;
+    min-height: 26px;
+    max-width: 100%;
     margin: 0;
-    padding: 2px 0 2px 13px;
+    overflow: hidden;
+    padding: 0 0 0 13px;
     border-left: 1px solid rgba(83, 230, 239, 0.72);
-    color: #d8f9fa;
     font-family: "Sora", Inter, system-ui, sans-serif;
-    font-size: clamp(14px, 1.3vw, 18px);
-    font-weight: 500;
     letter-spacing: -0.02em;
-    line-height: 1.35;
     text-shadow: 0 0 18px rgba(83, 230, 239, 0.12);
+}
+
+.resume-viewer-intro strong {
+    color: #f6fbfc;
+    font-size: clamp(12px, 1.05vw, 15px);
+    font-weight: 650;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.resume-viewer-intro em {
+    color: rgba(196, 222, 227, 0.82);
+    font-family: Inter, system-ui, sans-serif;
+    font-size: clamp(9px, 0.78vw, 11px);
+    font-style: italic;
+    font-weight: 450;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    white-space: nowrap;
 }
 
 .resume-viewer-grid {
@@ -2056,6 +2078,25 @@ footer .links a.is-active {
         letter-spacing: 0.13em;
     }
 
+    .resume-viewer-intro strong {
+        font-size: 14px;
+        line-height: 1.2;
+        white-space: normal;
+    }
+
+    .resume-viewer-intro {
+        gap: 4px;
+        min-height: 50px;
+        padding-left: 12px;
+        overflow: visible;
+    }
+
+    .resume-viewer-intro em {
+        font-size: 12px;
+        line-height: 1.25;
+        white-space: normal;
+    }
+
     .resume-viewer-close {
         width: 38px;
         height: 38px;
@@ -2064,10 +2105,6 @@ footer .links a.is-active {
 
     .resume-viewer-grid {
         gap: 10px;
-    }
-
-    .resume-viewer-intro {
-        font-size: 14px;
     }
 
     .resume-document {
