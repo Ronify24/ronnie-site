@@ -588,48 +588,24 @@ body.resume-is-open {
 }
 
 .resume-viewer-window {
+    position: relative;
     display: grid;
-    grid-template-rows: auto auto minmax(0, 1fr) auto;
-    gap: 14px;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    gap: 18px;
     width: 100%;
     height: 100%;
-    padding: 20px;
+    padding: 26px;
     overflow: hidden;
     background:
         radial-gradient(circle at 86% 2%, rgba(56, 208, 221, 0.14), transparent 28%),
         linear-gradient(180deg, rgba(7, 18, 26, 0.99), rgba(3, 9, 14, 0.99));
 }
 
-.resume-viewer-header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 24px;
-}
-
-.resume-viewer-titleblock {
-    min-width: 0;
-}
-
-.resume-viewer-kicker {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    margin: 0;
-    color: #91eff3;
-    font-family: "IBM Plex Mono", ui-monospace, monospace;
-    font-size: 9px;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-}
-
-.resume-viewer-kicker i {
-    font-size: 7px;
-    filter: drop-shadow(0 0 7px rgba(83, 230, 239, 0.65));
-}
-
 .resume-viewer-close {
+    position: absolute;
+    z-index: 4;
+    top: 22px;
+    right: 22px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -656,38 +632,41 @@ body.resume-is-open {
 .resume-viewer-intro {
     position: relative;
     display: grid;
-    gap: 2px;
+    gap: 10px;
     justify-self: stretch;
     width: 100%;
     min-width: 0;
-    min-height: 26px;
-    max-width: 100%;
+    max-width: 1220px;
     margin: 0;
-    overflow: hidden;
-    padding: 0 0 0 13px;
-    border-left: 1px solid rgba(83, 230, 239, 0.72);
+    padding: 4px 76px 4px 22px;
+    border-left: 2px solid rgba(83, 230, 239, 0.78);
     font-family: "Sora", Inter, system-ui, sans-serif;
-    letter-spacing: -0.02em;
     text-shadow: 0 0 18px rgba(83, 230, 239, 0.12);
 }
 
-.resume-viewer-intro strong {
+.resume-viewer-intro h2 {
+    margin: 0 0 2px;
     color: #f6fbfc;
-    font-size: clamp(12px, 1.05vw, 15px);
-    font-weight: 650;
-    line-height: 1;
-    white-space: nowrap;
+    font-size: clamp(27px, 2.15vw, 36px);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    line-height: 1.05;
 }
 
-.resume-viewer-intro em {
-    color: rgba(196, 222, 227, 0.82);
+.resume-viewer-intro p {
+    max-width: 112ch;
+    margin: 0;
+    color: rgba(213, 230, 234, 0.84);
     font-family: Inter, system-ui, sans-serif;
-    font-size: clamp(9px, 0.78vw, 11px);
-    font-style: italic;
-    font-weight: 450;
-    letter-spacing: -0.01em;
-    line-height: 1;
-    white-space: nowrap;
+    font-size: clamp(12px, 0.9vw, 15px);
+    font-weight: 430;
+    letter-spacing: 0;
+    line-height: 1.5;
+}
+
+.resume-viewer-intro p:last-child {
+    color: #bff8f5;
+    font-weight: 560;
 }
 
 .resume-viewer-grid {
@@ -713,24 +692,23 @@ body.resume-is-open {
 .resume-document-header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 18px;
-    padding: 12px 14px;
+    min-height: 42px;
+    padding: 8px 14px;
     border-bottom: 1px solid rgba(83, 230, 239, 0.16);
-    background: linear-gradient(90deg, rgba(12, 42, 50, 0.78), rgba(5, 17, 24, 0.56));
+    background: linear-gradient(90deg, rgba(12, 42, 50, 0.56), rgba(5, 17, 24, 0.24));
 }
 
 .resume-document-header h3 {
     display: flex;
     align-items: baseline;
-    gap: 8px;
+    gap: 9px;
     min-width: 0;
     margin: 0;
     overflow: hidden;
     color: #f7fbfc;
     font-family: "Sora", Inter, system-ui, sans-serif;
-    font-size: clamp(14px, 1.2vw, 18px);
-    font-weight: 650;
+    font-size: clamp(13px, 1.05vw, 16px);
+    font-weight: 620;
     letter-spacing: -0.02em;
     line-height: 1.25;
     text-overflow: ellipsis;
@@ -738,51 +716,22 @@ body.resume-is-open {
 }
 
 .resume-document-header h3 span {
-    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    align-self: stretch;
+    padding-right: 10px;
+    border-right: 1px solid rgba(83, 230, 239, 0.35);
+    color: #9af4f2;
     font-family: "IBM Plex Mono", ui-monospace, monospace;
-    font-size: 0.72em;
+    font-size: 0.68em;
     font-weight: 650;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.12em;
 }
 
 .resume-document-header h3 small {
-    color: #fff;
-    font: inherit;
-    font-weight: 500;
-}
-
-.resume-document-download {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex: 0 0 auto;
-    gap: 7px;
-    min-height: 34px;
-    padding: 7px 11px;
-    border: 1px solid rgba(90, 167, 180, 0.4);
-    border-radius: 9px;
-    background: rgba(4, 15, 21, 0.9);
-    color: var(--text-2-boost);
-    font: 600 9px/1 "IBM Plex Mono", ui-monospace, monospace;
-    letter-spacing: 0.04em;
-    cursor: pointer;
-    transition: color 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
-}
-
-.resume-document-download:hover,
-.resume-document-download:focus-visible {
-    border-color: rgba(126, 243, 223, 0.75);
-    background: rgba(18, 57, 66, 0.92);
-    color: #fff;
-    box-shadow: 0 0 18px rgba(83, 230, 239, 0.1);
-}
-
-.resume-document-download {
-    display: inline-flex;
-    border-color: rgba(83, 230, 239, 0.52);
-    background: linear-gradient(145deg, rgba(18, 67, 77, 0.9), rgba(5, 24, 31, 0.96));
-    color: #efffff;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 0 18px rgba(83, 230, 239, 0.08);
+    color: rgba(222, 237, 240, 0.72);
+    font: 500 0.76em/1 "IBM Plex Mono", ui-monospace, monospace;
+    letter-spacing: 0.02em;
 }
 
 .resume-document-preview {
@@ -1836,7 +1785,7 @@ footer .links a.is-active {
     }
 
     .resume-viewer-window {
-        grid-template-rows: auto auto auto auto;
+        grid-template-rows: auto auto auto;
         align-content: start;
         overflow-y: auto;
     }
@@ -2065,39 +2014,28 @@ footer .links a.is-active {
     }
 
     .resume-viewer-window {
-        gap: 10px;
-        padding: 11px;
-    }
-
-    .resume-viewer-header {
-        gap: 12px;
-    }
-
-    .resume-viewer-kicker {
-        font-size: 8px;
-        letter-spacing: 0.13em;
-    }
-
-    .resume-viewer-intro strong {
-        font-size: 14px;
-        line-height: 1.2;
-        white-space: normal;
+        gap: 16px;
+        padding: 18px 12px 12px;
     }
 
     .resume-viewer-intro {
-        gap: 4px;
-        min-height: 50px;
-        padding-left: 12px;
-        overflow: visible;
+        gap: 11px;
+        padding: 3px 46px 5px 15px;
     }
 
-    .resume-viewer-intro em {
-        font-size: 12px;
-        line-height: 1.25;
-        white-space: normal;
+    .resume-viewer-intro h2 {
+        margin-bottom: 3px;
+        font-size: clamp(25px, 8vw, 31px);
+    }
+
+    .resume-viewer-intro p {
+        font-size: 14px;
+        line-height: 1.5;
     }
 
     .resume-viewer-close {
+        top: 12px;
+        right: 12px;
         width: 38px;
         height: 38px;
         border-radius: 9px;
@@ -2112,20 +2050,13 @@ footer .links a.is-active {
     }
 
     .resume-document-header {
-        gap: 10px;
-        padding: 10px;
+        min-height: 38px;
+        padding: 7px 10px;
     }
 
     .resume-document-header h3 {
-        gap: 6px;
+        gap: 7px;
         font-size: 13px;
-    }
-
-    .resume-document-download {
-        height: 34px;
-        min-height: 34px;
-        padding: 7px 9px;
-        font-size: 8px;
     }
 
     .resume-viewer-footer p:first-child {
