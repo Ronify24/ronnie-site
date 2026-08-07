@@ -636,7 +636,7 @@ body.resume-is-open {
     justify-self: stretch;
     width: 100%;
     min-width: 0;
-    max-width: 1220px;
+    max-width: none;
     margin: 0;
     padding: 4px 76px 4px 22px;
     border-left: 2px solid rgba(83, 230, 239, 0.78);
@@ -654,7 +654,8 @@ body.resume-is-open {
 }
 
 .resume-viewer-intro p {
-    max-width: 112ch;
+    max-width: none;
+    width: 100%;
     margin: 0;
     color: rgba(213, 230, 234, 0.84);
     font-family: Inter, system-ui, sans-serif;
