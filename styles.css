@@ -1983,3 +1983,13 @@ body:has(dialog[open]) {
 .gallery-description-row { display:flex; justify-content:space-between; align-items:center; gap:12px 24px; flex-wrap:wrap; }
 .gallery-description-row p { margin:0; font-size:11px; color:var(--muted); }
 .gallery-description-row .lumify-visit { margin:0 0 0 auto; flex-shrink:0; }
+
+/* Reserve space for the project caption and external link on wide, short screens. */
+@media (min-width:1000px) and (min-height:700px) {
+  .project-layout { grid-template-rows:minmax(0,1fr); }
+  .project-visual { min-height:0; }
+  .project-visual>button { display:flex; flex-direction:column; min-height:0; flex:0 1 auto; }
+  .project-visual img { display:block; min-height:0; flex:1 1 auto; object-fit:contain; }
+  .project-visual>button>span { flex-shrink:0; }
+  .project-visual>.eyebrow,.project-visual>.lumify-visit { flex-shrink:0; }
+}
