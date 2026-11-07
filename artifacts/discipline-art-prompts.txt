@@ -1,0 +1,4 @@
+Built-in ImageGen, two original 3:1 cinematic banners with quiet dark left half and restrained cyan/amber lighting.
+3D and Real Time: matte charcoal faceted-to-smooth stone arch, smoked glass sphere and stepped plinths, tactile realistic materials. Saved assets/3d-real-time.webp.
+Pipeline and Backend: five low glass modules connected horizontally by cyan channels carrying one amber pulse, machined charcoal bases, refined reflections, no technical diagram labels. Saved assets/pipeline-backend.webp.
+Both: no text, logos, UI, clutter or landscapes; safe central composition for shallow banner crop.

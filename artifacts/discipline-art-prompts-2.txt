@@ -1,0 +1,4 @@
+Built-in ImageGen. Three original 3:1 cinematic banners, near-black petrol teal studio, quiet left half, smoked glass and charcoal, cyan edges and restrained amber highlights, shallow center-crop safe. No text, UI or logos.
+Data Science: ordered glass rods in a low wave with an amber insight sphere. assets/data-science.webp
+Compute and Ops: three low layered machined charcoal/glass stacks with an amber central core and subtle cooling atmosphere. assets/compute-ops.webp
+Workflow Orchestration: three flowing glass ribbons converge through a charcoal oval gate and emerge aligned as one path. assets/workflow-orchestration.webp

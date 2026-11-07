@@ -1,253 +1,71 @@
-# Design QA
+# Cinematic portfolio redesign — design QA
+
+Date: 2026-11-07
+
+final result: passed
+
+## Scope and visual truth
+
+This is a portfolio redesign using the user's Lumify references as art direction, not a pixel-for-pixel recreation of a Lumify marketing site. User explicitly requested all connected site windows, replacement of the old launch artwork, and portrait placement only in Contact.
+
+Source visual truth:
+- `/Users/ronniec/Downloads/Lumify_ Artists Back in Control (1).png` — 1821 × 864; wide cinematic composition, cyan and obsidian palette, strong headline and amber image contrast.
+- `/Users/ronniec/Downloads/Lumify_ Artists Back in Control.png` — 1672 × 941; second composition reference.
+- `/var/folders/bj/mx9fyhf97hb3tf8jff8nghym0000gn/T/codex-clipboard-24f7f137-a52c-4644-be70-38b64ae9ddff.png` — supplied Batch Stills reference; organized hierarchy, panel boundaries, readable actions.
+- Existing live site `https://ronniecleland.com/#overview`, captured before edits in `artifacts/cinematic-qa/before.png`.
 
 ## Evidence
 
-- Source visual truth:
-  - `/Users/ronniec/Downloads/DeckImages/CommandLayer.png`
-  - `/Users/ronniec/Downloads/DeckImages/RunTimeAuthority.png`
-  - `/Users/ronniec/Downloads/DeckImages/ProductDefinition.png`
-  - `/Users/ronniec/Downloads/DeckImages/Mission.png`
-- Browser-rendered implementation:
-  - Desktop overview: `/Users/ronniec/Documents/GitHub/ronnie-site/artifacts/design-qa/portfolio-desktop.png`
-  - Desktop skills: `/Users/ronniec/Documents/GitHub/ronnie-site/artifacts/design-qa/portfolio-skills-desktop.png`
-  - Desktop reel: `/Users/ronniec/Documents/GitHub/ronnie-site/artifacts/design-qa/portfolio-reel-desktop.png`
-  - Desktop projects: `/Users/ronniec/Documents/GitHub/ronnie-site/artifacts/design-qa/portfolio-projects-desktop.png`
-  - Mobile overview: `/Users/ronniec/Documents/GitHub/ronnie-site/artifacts/design-qa/portfolio-mobile.png`
-- Combined comparison input: `/Users/ronniec/Documents/GitHub/ronnie-site/artifacts/design-qa/reference-implementation-comparison.png`
-- Viewports: 1440 × 1000 desktop; 390 × 844 mobile.
-- State: dark theme; overview active for primary captures; skills, reel, projects, contact menu, film-credit disclosure, and reel next control also tested.
+All implementation images were captured from the actual local app through the Codex in-app browser. Screenshot files are in `/Users/ronniec/Documents/GitHub/ronnie-site/artifacts/cinematic-qa/`:
 
-## Findings
+- `overview.png`, `skills.png`, `projects.png`, `credits.png`, `reel.png`, `resume.png`, `gallery.png`, `contact.png` — desktop evidence, primarily 1366 × 768 CSS viewport and 1366 × 768 PNG pixels (1× density).
+- `mobile-skills.png`, `mobile-projects.png` — full-page mobile captures at 390 × 844 CSS viewport; natural vertical scrolling is intentional.
+- `desktop-measurements.json` — final live DOM fit checks for all four routes at 1024 × 768, 1280 × 720, and 1366 × 768; no page overflow or clipped scene content detected in those checks.
 
-- No actionable P0, P1, or P2 issues remain.
+Full-view comparison: the original first Lumify reference and the actual Overview, Skills, and Projects screenshots were opened together in one comparison tool result. The source and implementation have different aspect ratios; compared composition and visual language at whole-frame scale, with no pixel-diff claim. The portrait screenshot supplied by the user is an organizational reference, not a desktop layout to copy. The implementation intentionally preserves portfolio identity and real navigation rather than rasterizing a marketing mockup.
 
-## Required Fidelity Surfaces
-
-- Fonts and typography: Inter carries the large, tightly tracked editorial headings seen in the deck; IBM Plex Mono supplies the spaced technical labels and compact metadata. Display weight, line height, wrapping, and mobile scale preserve the source hierarchy without clipped or truncated copy.
-- Spacing and layout rhythm: 20px desktop page insets, strong framed sections, 18px inter-section rhythm, 26px primary radii, compact capsule navigation, and consistent card padding reproduce the deck's precise framed composition. Desktop and mobile checks found no horizontal overflow or off-screen controls.
-- Colors and visual tokens: the implementation maps the source near-black/navy field, white foreground, restrained cyan emphasis, translucent teal surfaces, thin cyan rules, and limited glow into reusable CSS tokens. Active, hover, focus, and open states remain legible and visually consistent.
-- Image quality and asset fidelity: the supplied profile and room artwork remain sharp and intentionally cropped. The generated `lumify-system-field.png` is a real raster background asset with text-free micro-dots and technical arcs, matching the reference atmosphere without substituting CSS or SVG art. Font Awesome supplies all interface icons.
-- Copy and content: the original portfolio information architecture and project content are preserved. The revised headline and section micro-labels clarify hierarchy while remaining consistent with Ronnie's creative-technology positioning.
-- Icons: all visible interface icons use the existing Font Awesome family, with consistent optical sizing, cyan treatment, and alignment. No emoji, text-glyph stand-ins, inline SVGs, or custom CSS icon drawings are present.
-- States and interactions: tab navigation and deep links select the correct panel; contact opens and closes with Escape; the reel renders lazily and Next changes the Vimeo source; pager controls expose button semantics and pressed state; film credits expand; both resume controls target `RonnieCleland_2026_Resume.pdf`.
-- Accessibility: focus-visible outlines are present, reduced-motion preferences are honored, interactive controls use semantic links/buttons/summary elements, the reel dots have accessible labels and pressed states, and the mobile controls meet practical tap-target sizes.
-
-## Full-view Comparison Evidence
-
-- The first row of `reference-implementation-comparison.png` compares Command Layer with the portfolio overview. It confirms the intended black/cyan balance, oversized white/cyan type, fine perimeter rules, pill navigation, sparse technical labeling, and calm central content field.
-- The desktop overview capture shows the complete content hierarchy and verifies that the portfolio imagery remains the focal content rather than being overwhelmed by the atmospheric background.
-
-## Focused Region Comparison Evidence
-
-- The second row of `reference-implementation-comparison.png` compares Product Definition's framed capability groups with the skills panel. The implementation carries across compact outlined modules, circular cyan icon treatments, disciplined metadata type, and low-contrast glass surfaces.
-- The third row compares Runtime Authority's system cards with the projects panel. The implementation matches the reference's clear card grouping, cyan edge hierarchy, large section title, and dense-but-scannable technical metadata.
-- A separate focused mobile capture was required because the supplied references contain no mobile state. It confirms that the avatar, technical kicker, headline, CTAs, overview copy, image, and capability chips reflow into a single readable column with no overflow.
-
-## Comparison History
-
-1. First responsive pass
-   - Earlier finding: [P2] the mobile headline shared a narrow grid column with the avatar, reducing the source's large editorial impact. The inherited `height: 100%` also prevented reliable full-page mobile capture.
-   - Fix: reset document height to `auto`; use the identity wrapper as grid contents at the mobile breakpoint so the avatar and kicker share the first row while the headline and subtitle span the full card width.
-   - Post-fix evidence: `portfolio-mobile.png`; measured headline width 317px inside a 355px card, page scroll height 1562px, and no horizontal overflow at 390 × 844.
-2. Navigation verification
-   - Earlier finding: [P2] legacy panel-style hashes could reload to the overview rather than the named panel because the anchor default action overwrote application state.
-   - Fix: prevent the default data-tab anchor jump and normalize both `#skills` and `#panel-skills` forms on initialization.
-   - Post-fix evidence: direct `#skills` navigation renders `panel-skills`; subsequent `#overview` navigation renders `panel-overview`.
-
-## Primary Interactions Tested
-
-- Overview, Skills, Reel, and Projects navigation.
-- Direct hash loading for named panels.
-- Contact menu open, viewport fit, and Escape close.
-- Reel lazy render, Next source change, and five accessible pager buttons.
-- Film-credit disclosure open state.
-- Both 2026 resume link targets and download filenames.
-- Desktop and mobile horizontal-overflow checks.
-- Browser console checked: no errors.
-
-## Open Questions
-
-- None.
-
-## Implementation Checklist
-
-- [x] Preserve existing site structure and content.
-- [x] Apply the deck-derived global visual system.
-- [x] Keep real portfolio imagery and use a real raster atmospheric asset.
-- [x] Verify desktop and mobile layouts.
-- [x] Verify primary interactions, navigation, and resume actions.
-- [x] Resolve all P0/P1/P2 findings.
-
-## Follow-up Polish
-
-- No blocking polish items remain. A future content pass could add project-specific stills as the portfolio grows without changing the visual system.
-
-final result: passed
-
----
-
-# Resume Viewer Design QA
-
-- Source visual truth: `/var/folders/bj/mx9fyhf97hb3tf8jff8nghym0000gn/T/codex-clipboard-36941d77-c5c8-4d6e-92e3-b3313ce6e928.png`
-- Browser-rendered implementation: `/private/tmp/ronnie-resume-viewer-desktop.png`
-- Mobile implementation: browser capture reviewed at 390 × 844 CSS px
-- Masthead comparison input: `/private/tmp/ronnie-resume-masthead-comparison.png`
-- Source dimensions: 2568 × 906 px
-- Masthead implementation dimensions: 2568 × 906 px at device scale factor 1
-- Resume viewer implementation dimensions: 1440 × 1000 px at device scale factor 1
-- Viewports: 1440 × 1000 desktop viewer; 390 × 844 mobile viewer; 2568 × 906 launcher comparison
-- State: Overview active; resume dialog open in Compare mode for primary viewer capture
-
-## Full-view comparison evidence
-
-The supplied masthead reference and same-pixel implementation capture were combined into one vertical comparison input. The existing dark framed masthead, white/cyan hierarchy, compact rounded actions, and right-aligned CTA group remain intact; the requested control changes from “Download Resume” to “View Resume” without altering the surrounding composition. The modal itself intentionally extends the established Lumify Gallery language because the source screenshot contains no open resume-viewer state.
-
-## Focused-region comparison evidence
-
-The 1440 × 1000 viewer capture verifies the new interface at readable scale: two equally weighted document panels occupy the main content field, the one-page dark resume and two-page white resume preserve their native PDF rendering, and Compare / Focused / Expanded controls remain visually subordinate to the documents. A separate 390 × 844 browser pass confirms that Compare becomes a horizontally scrollable snap row while the explicit Focused and Expanded modes remain directly accessible.
+Focused comparison: home headline/action grouping, Skills active selection and list spacing, project artwork/action strip, Contact portrait placement, Gallery controls and thumbnails, and résumé preview sizing were inspected at their native screenshot scale. These regions are clearly readable at 1×; additional enlarged image crops were not necessary.
 
 ## Required fidelity surfaces
 
-- Fonts and typography: Sora carries the editorial viewer title and document names; IBM Plex Mono carries the system kicker, mode controls, numbering, and hints. Weights, tracking, and contrast match the existing gallery chrome.
-- Spacing and layout rhythm: the dialog uses a four-row header / mode selector / document field / footer structure with 10–20 px internal rhythm. Desktop document panels divide available width evenly; focused modes expand to the full viewer field.
-- Colors and visual tokens: the existing near-black, seafoam, cyan-line, cream-white, and restrained-glow tokens are reused. PDF pages remain visually neutral inside their frames so the documents—not decorative chrome—stay primary.
-- Image and document quality: both supplied PDFs load directly from local assets with browser-native vector rendering. No raster substitutions, placeholder pages, or forced downloads are used.
-- Copy and content: the masthead action reads “View Resume.” The viewer clearly distinguishes “Focused Resume” from “Expanded Resume” and explains the difference without changing either source document.
-- States and interactions: Compare opens by default; Focused and Expanded each hide the alternate document and use the full content field; card-level Focus View controls invoke the same states; close button, backdrop click, and Escape all close the dialog and restore body scroll and launcher `aria-expanded` state.
-- Responsive behavior: no page-level horizontal overflow was measured at 390 × 844. Compare mode uses contained horizontal scrolling and scroll snapping, while single-document modes remain one column.
-- Accessibility: the native modal traps focus, every control has a semantic button/link role and accessible name, mode state is exposed with `aria-pressed`, launcher state uses `aria-expanded`, and focus returns to the invoking control after close.
+- **Fonts and typography:** Barlow Condensed supplies the bold cinematic display treatment; Inter handles readable UI; IBM Plex Mono labels structure the views. Increased desktop detail/body text after the first pass. Removed missing whitespace caused by hiding line breaks on mobile.
+- **Spacing and layout rhythm:** one bounded desktop scene, persistent navigation and footer; related content appears beside artwork instead of beneath a repeated masthead. Modal windows use the same wide proportions and measured padding. Smaller windows and mobile retain scrolling for access.
+- **Colors and tokens:** consistent deep teal/obsidian surface colors, subdued blue-gray secondary text, thin cyan framing, and bright cyan primary actions. Amber light in imagery provides intentional contrast.
+- **Image quality:** a new 1672 × 941 WebP artwork was generated with built-in ImageGen and saved in the project. No baked-in fake UI in the home art. Original deck art is used in Projects; real existing UI screenshots remain in Gallery. Portrait has one source reference, inside Contact only. Old `WebLaunchImg.png` has no remaining site references.
+- **Copy and content:** each route leads with artistic purpose. All seven original skill groups, all original project detail entries, all 18 film/TV credits, five reel URLs, both résumé PDFs, and the portfolio PDF remain available. Project details use paging to preserve depth without a desktop scroll stack. Public LinkedIn URL comes from the existing résumé rather than the old LinkedIn account-settings destination.
 
-## Findings and comparison history
+## Interaction validation
 
-1. Initial interaction check found that a synthetic Escape key press did not close the resume dialog reliably.
-2. Fix: added an explicit document-level Escape handler scoped to the open resume viewer.
-3. Post-fix evidence: Escape closes the dialog, clears `resume-is-open`, and resets both launchers to `aria-expanded="false"`.
-4. No remaining P0, P1, or P2 visual or interaction findings.
+- All four primary routes and desktop previous/next scene controls are implemented; direct `#reel` reload verified.
+- Home CTAs navigate; Reel's “Explore the credits” opens the Film & television tab, and “Explore Lumify” selects Lumify.
+- Skill selection changes title, description and tools. Mobile select tested with Workflow Orchestration.
+- Project tabs and Stack detail pagination tested; tab groups implement ArrowLeft/ArrowRight/Home/End keyboard navigation.
+- Reel player loads, first video plays and pauses (progress observed at 8 seconds), next reel changes the player, and leaving Reel removes the iframe so playback stops.
+- Gallery loads all 11 existing images. Next image and maximize/close verified; thumbnail buttons remain real buttons. Existing touch pan, pinch and swipe behavior retained, though touch gestures were not emulated in this session.
+- Résumé chooser opens and closes; both PDF targets resolve locally, with previews visible. Mobile allows scrolling to both documents.
+- Contact opens with portrait, email, LinkedIn, IMDb, YouTube and résumé actions. Escape closes it. Focus returns to the launcher after modal close.
+- Browser error/warning log was empty on final check. JavaScript syntax checks passed for app.js, content.js and gallery.js. All 18 local src/href targets checked on disk exist.
 
-## Primary interactions tested
+## Comparison and correction history
 
-- Masthead “View Resume” opens the viewer in Compare mode.
-- Both local PDF sources render simultaneously.
-- Focused and Expanded mode controls each promote the selected document to full width.
-- Card-level Focus View controls invoke the corresponding single-document mode.
-- Close button and Escape close the viewer and clear body scroll lock.
-- Desktop and 390 × 844 mobile layouts were captured and inspected.
-- Browser console checked. Two renderer-context `MutationObserver` errors appeared when the browser instantiated the two native PDF viewers; the site source contains no `MutationObserver`, and no application-script warnings or errors were observed.
+1. First desktop pass: secondary text was too small and the Skills artwork too shallow. Increased readable content sizes and art height. Final evidence: skills.png and projects.png.
+2. Compact-height pass: overview rail had 9px internal overflow; reel grid consumed bottom padding. Adjusted rail line heights and allowed the reel grid/flex children to shrink. Rechecked every route at three desktop sizes; final measurements show no overflow.
+3. Mobile pass: seven skill buttons pushed the selected discipline down; changed to a native compact selector on phones. Corrected line-break spacing in headings and locked background scrolling while dialogs are open.
+4. Navigation pass: credit-specific links initially opened the general Projects route. Added explicit project-tab targets; verified “Explore the credits” selects Film & television.
 
-## Open questions
+## Remaining limitations
 
-- None.
-
-final result: passed
-
----
-
-# Lumify Gallery Design QA
-
-- Source visual truth: `/var/folders/bj/mx9fyhf97hb3tf8jff8nghym0000gn/T/codex-clipboard-df31a6b2-e08f-4f13-8354-4d6e8c0900bc.png`
-- Implementation screenshot: `/private/tmp/ronnie-site-lumify-gallery-refined-final-image2.png`
-- Mobile screenshot: `/private/tmp/ronnie-site-lumify-gallery-refined-mobile.png`
-- Combined comparison: `/private/tmp/ronnie-site-lumify-gallery-refinement-comparison.png`
-- Precision viewer screenshot: `/private/tmp/ronnie-site-lumify-precision-viewer.png`
-- Precision state comparison: `/private/tmp/ronnie-site-lumify-precision-viewer-states.png`
-- Precision mobile screenshot: `/private/tmp/ronnie-site-lumify-precision-viewer-mobile.png`
-- Viewports: 1280 × 720 desktop; 390 × 844 mobile
-- State: Overview active; gallery open on image 2 of 3
-
-## Full-view comparison evidence
-
-The refined gallery removes the nested stage frame visible in the source screenshot and treats each interface capture as the only visual surface. The image retains its native 3600:1948 ratio, uses the available vertical space, and sits directly against the gallery field without an extra border, inset panel, or framed background.
-
-## Focused-region comparison evidence
-
-The previous and next controls now live inside the actual image bounds and overlap the screenshot with translucent dark backing. The footer label reads “Interface Screenshots.” Keyboard arrow keys increased from 22 × 20 px text-glyph capsules to 32 × 28 px Font Awesome icon keys with stronger contrast, making the alternate navigation method legible at desktop resolutions.
-
-## Required fidelity surfaces
-
-- Fonts and typography: Sora supplies the gallery title while IBM Plex Mono carries system labels, progress, and keyboard hints, matching the site's established technical/editorial hierarchy.
-- Spacing and layout rhythm: the dialog uses a three-row header/stage/footer structure with consistent 12–18 px internal rhythm and compact 8–13 px control gaps.
-- Colors and visual tokens: deep navy-black surfaces, seafoam rules, cream foreground type, and restrained cyan glow are shared with both the Lumify reference and the portfolio theme.
-- Image quality and asset fidelity: all supplied PNG screenshots render uncropped at their native ratio with `object-fit: contain`; the image figure matches that ratio and thumbnail previews use the same local source assets.
-- States and interactions: launch, previous, next, wraparound, thumbnail selection, precision maximize, close, Escape, swipe, and backdrop close are implemented. Precision maximize is an app-level viewer state rather than browser fullscreen, consistent with Lumify.
-- Precision-view behavior: standard cycle arrows rest at zero opacity and appear only from image hover or keyboard focus. Maximized mode removes the title, description, thumbnails, progress, keyboard hint, and maximize control; the screenshot expands to the full viewport with persistent cycle arrows and a top-right close control.
-- Responsive behavior: desktop uses a spacious modal stage; mobile compacts to a 390 px-high window with overlaid navigation and a full-width 3600:1948 image stage. No horizontal overflow was found at 390 × 844.
-- Maintainability: gallery discovery probes sequential files named `N_gallery.png`, `.jpg`, `.jpeg`, or `.webp` and automatically includes future gapless additions through index 80.
-
-## Findings and comparison history
-
-1. Initial mobile capture showed the landscape image inside a tall portrait stage, making the interface screenshot unnecessarily small.
-2. Fix: switched the non-maximized mobile stage to the source image aspect ratio, overlaid the navigation controls, and constrained the dialog to a compact 390 px height.
-3. Post-fix evidence: `/private/tmp/ronnie-site-lumify-gallery-mobile.png` shows a readable full-width image, visible close/maximize controls, all three thumbnails, and no horizontal overflow.
-4. Refinement finding: the desktop carousel still presented a bordered outer stage, with navigation controls in side gutters and keyboard arrow cues too small to read reliably.
-5. Fix: removed stage and figure borders/backgrounds, anchored both cycle controls inside the aspect-ratio image figure, renamed the footer label, and enlarged the keyboard cue controls with Font Awesome arrow icons.
-6. Post-fix evidence: `/private/tmp/ronnie-site-lumify-gallery-refined-final-image2.png` shows the same second screenshot as the user reference, uncropped and borderless with both arrows inside its bounds; `/private/tmp/ronnie-site-lumify-gallery-refined-mobile.png` confirms the same geometry with no overflow at 390 × 844.
-7. Precision-view refinement: standard navigation arrows were visually redundant beside thumbnails and hotkeys, while maximize preserved too much gallery chrome to function as a detailed image viewer.
-8. Fix: made standard arrows hover/focus-only and rebuilt maximized mode as a full-viewport image canvas containing only persistent previous/next controls and a close control. Escape continues to close the dialog and resets all modal state.
-9. Post-fix evidence: `/private/tmp/ronnie-site-lumify-precision-viewer-states.png` compares the quiet standard state with the full-bleed precision viewer; `/private/tmp/ronnie-site-lumify-precision-viewer-mobile.png` confirms the same UI reduction without horizontal overflow at 390 × 844.
-
-## Primary interactions tested
-
-- Launch button opens a native modal dialog and discovers 3 local gallery images.
-- Next changes `01 / 03` to `02 / 03`; previous navigation wraps from image 1 to image 3.
-- Precision maximize fills the viewport; close or Escape exits the viewer and resets the framed-gallery state on desktop and mobile.
-- Standard arrows remain hidden at rest; maximized arrows remain visible and operable without hover.
-- Maximized mode exposes only the image, previous/next controls, and close control; Escape closes and clears the precision-view state.
-- Close clears the modal, body scroll lock, and launch `aria-expanded` state.
-- Browser console checked after desktop and mobile interaction runs: no warnings or errors.
-
-## Open questions
-
-- None.
-
-final result: passed
-
----
-
-# Projects Masthead Design QA
-
-- Source visual truth: `/var/folders/bj/mx9fyhf97hb3tf8jff8nghym0000gn/T/codex-clipboard-ac9341eb-c4f7-4b77-897f-463883365dfc.png`
-- Implementation screenshot: `/private/tmp/ronnie-site-projects-desktop-polished.png`
-- Mobile screenshot: `/private/tmp/ronnie-site-projects-mobile-refined.png`
-- Combined comparison: `/private/tmp/ronnie-site-projects-comparison-final.png`
-- Viewports: desktop browser surface 1265 × 900; mobile 375 × 844
-- State: Projects tab active (`#projects`)
-
-## Full-view comparison evidence
-
-The Projects masthead follows the mockup's two-column composition: project statement and role on the left, supplied Lumify logo on the right, and action buttons directly beneath the logo. The logo background merges into the masthead without a visible card edge. At the source's wider desktop proportion, the three actions remain on one row; at the narrower browser surface the resume action wraps cleanly beneath the first two buttons.
-
-## Focused-region comparison evidence
-
-The combined comparison isolates the masthead region. Logo scale, native aspect ratio, right alignment, and vertical relationship to the actions are consistent with the reference. The source raster is used directly with no crop, artificial background, or reconstructed logo treatment.
-
-## Required fidelity surfaces
-
-- Fonts and typography: existing site type families, weights, line heights, and white/cyan hierarchy are preserved.
-- Spacing and layout rhythm: the logo and actions form a single aligned right rail; responsive spacing remains balanced at desktop and mobile widths.
-- Colors and visual tokens: the supplied logo's corrected background blends with the existing dark masthead and cyan token system.
-- Image quality and asset fidelity: `Logo_web.png` renders at its native ratio with explicit intrinsic dimensions and no stretching or compression artifacts.
-- Copy and content: Projects headline, capability line, role, and action labels remain unchanged.
-
-## Findings
-
-No remaining P0, P1, or P2 differences.
-
-## Comparison history
-
-- Initial P2: the profile avatar shifted the Projects statement away from the mockup's left edge and competed with the new logo.
-- Fix: hide the profile avatar only in the Projects masthead and let the statement occupy the full left column.
-- Initial P2: the logo was proportionally oversized at medium desktop widths.
-- Fix: changed the responsive logo width from `31vw` to `25vw`, capped at 520 px, while retaining the full-width mobile override.
-- Post-fix evidence: desktop and mobile captures show a balanced composition, no horizontal overflow, correct tab-specific visibility, and no browser console warnings or errors.
+- Verified in the Codex in-app browser, not separate physical Windows, Safari, or Android devices.
+- Responsive sizing checked through browser viewport overrides, not OS-level text zoom. Width/height fallbacks allow natural scroll when space is limited.
+- Full playback of all five externally hosted reels was not tested; original URLs were preserved.
+- Generated artwork is a new portfolio design asset, not presented as a historical production credit.
+- PDF document contents were retained; this redesign covers their connected chooser, not a redesign of the PDFs themselves.
+- This is a local implementation. No commit, push, or production deployment was performed.
 
 ## Implementation checklist
 
-- [x] Supplied Lumify logo shown only for Projects
-- [x] Logo positioned above masthead actions
-- [x] Native aspect ratio retained
-- [x] Other tab mastheads unchanged
-- [x] Desktop and mobile tab behavior verified
-- [x] No horizontal overflow at 375 px
-- [x] No browser console warnings or errors
-
-final result: passed
+- [x] Cohesive Overview, Skills, Reel, Projects, Gallery, Résumé and Contact design.
+- [x] Old home artwork removed; portrait limited to Contact.
+- [x] Desktop content fit and mobile access checked.
+- [x] Core navigation, selection, playback and modal behavior verified.
+- [x] No actionable P0/P1/P2 findings remain in tested views.
