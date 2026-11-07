@@ -1,4 +1,4 @@
-        /* Lumify Gallery: numbered files are discovered automatically (1_gallery.png, 2_gallery.png, ...). */
+        /* Lumify Gallery: versioned screenshot collections. */
         const galleryDialog = document.getElementById("lumifyGalleryDialog");
         const galleryLaunch = document.getElementById("lumifyGalleryLaunch");
         const galleryClose = document.getElementById("lumifyGalleryClose");
@@ -15,7 +15,8 @@
         const galleryProbeLimit = 80;
         let galleryItems = [];
         let galleryCurrent = 0;
-        let galleryDiscovery = null;
+        let galleryVersion = "v2";
+        const galleryVersionButtons = document.querySelectorAll("[data-gallery-version]");
         let gallerySwipeStartX = null;
         let gallerySwipeCurrentX = null;
         let galleryZoom = 1;
@@ -25,8 +26,16 @@
         const galleryPointers = new Map();
         const galleryMaxZoom = 4;
 
-        async function discoverGalleryImages() {
+        function discoverGalleryImages() {
+            if (galleryVersion === "v2") return ["Workspace", "Shots", "Cut", "Assets", "Reference"].map((name, i) => ({src: `./gallery/v2/lumify_v2_${name}.png`, index: i + 1, name}));
             return Array.from({length: 11}, (_, i) => ({src: `./gallery/${i + 1}_gallery.webp`, index: i + 1}));
+        }
+
+        function selectGalleryVersion(version) {
+            galleryVersion = version;
+            galleryCurrent = 0;
+            galleryVersionButtons.forEach(button => button.setAttribute("aria-pressed", String(button.dataset.galleryVersion === version)));
+            ensureGalleryReady();
         }
 
         function getGalleryImageBounds(scale = galleryZoom) {
@@ -104,7 +113,7 @@
                 button.type = "button";
                 button.className = "lumify-gallery-thumb";
                 button.dataset.galleryIndex = String(index);
-                button.setAttribute("aria-label", `Show Lumify gallery image ${index + 1}`);
+                button.setAttribute("aria-label", `Show Lumify ${galleryVersion.toUpperCase()} ${item.name || "gallery image " + (index + 1)}`);
 
                 const image = document.createElement("img");
                 image.src = item.src;
@@ -128,7 +137,7 @@
                 galleryStatus.querySelector("span:last-child").textContent = "This frame could not be loaded.";
             };
             galleryImage.src = item.src;
-            galleryImage.alt = `Lumify creative platform interface, gallery view ${galleryCurrent + 1} of ${galleryItems.length}`;
+            galleryImage.alt = `Lumify ${galleryVersion.toUpperCase()} ${item.name || "creative platform interface"}, gallery view ${galleryCurrent + 1} of ${galleryItems.length}`;
             galleryCount.textContent = `${String(galleryCurrent + 1).padStart(2, "0")} / ${String(galleryItems.length).padStart(2, "0")}`;
             galleryStatus.hidden = true;
             galleryEmpty.hidden = true;
@@ -149,11 +158,10 @@
             renderGalleryImage();
         }
 
-        async function ensureGalleryReady() {
-            if (!galleryDiscovery) galleryDiscovery = discoverGalleryImages();
+        function ensureGalleryReady() {
             galleryStatus.hidden = false;
             galleryEmpty.hidden = true;
-            galleryItems = await galleryDiscovery;
+            galleryItems = discoverGalleryImages();
             if (!galleryItems.length) {
                 galleryStatus.hidden = true;
                 galleryEmpty.hidden = false;
@@ -173,10 +181,11 @@
             document.body.classList.add("gallery-is-open");
             document.querySelectorAll("[data-gallery]").forEach(button => button.setAttribute("aria-expanded", "true"));
             galleryClose.focus({ preventScroll: true });
-            await ensureGalleryReady();
+            selectGalleryVersion("v2");
         }
 
         document.querySelectorAll("[data-gallery]").forEach(button => button.addEventListener("click", openGallery));
+        galleryVersionButtons.forEach(button => button.addEventListener("click", () => selectGalleryVersion(button.dataset.galleryVersion)));
         galleryClose.addEventListener("click", () => galleryDialog.close());
         galleryMaximize.addEventListener("click", () => setGalleryMaximized(!galleryDialog.classList.contains("is-maximized")));
         galleryPrev.addEventListener("click", () => cycleGallery(-1));

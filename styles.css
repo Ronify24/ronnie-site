@@ -1960,3 +1960,10 @@ kbd {
 body:has(dialog[open]) {
   overflow:hidden;
 }
+
+/* Versioned interface gallery */
+.gallery-versions { display:flex; gap:8px; margin:10px 0; flex-wrap:wrap; }
+.gallery-versions button { border:1px solid var(--line); border-radius:7px; background:#071b23; color:var(--text); padding:7px 13px; cursor:pointer; font:inherit; font-size:12px; }
+.gallery-versions button span { margin-left:6px; opacity:.7; }
+.gallery-versions button[aria-pressed="true"] { border-color:var(--accent,#2cd4de); background:#123a43; color:#35dae3; }
+.gallery-versions button:focus-visible { outline:2px solid #35dae3; outline-offset:3px; }
