@@ -751,7 +751,7 @@ main {
   width:100%;
   aspect-ratio:1.9;
   object-fit:contain;
-  filter:saturate(0.82);
+  filter:saturate(0.77) contrast(0.94);
 }
 .project-visual>button>span {
   display:flex;
