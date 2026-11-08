@@ -50,13 +50,13 @@ contactMenu.querySelectorAll('a').forEach(link => link.addEventListener('click',
 
 // Every original skill remains available within a focused discipline view.
 const disciplineDescriptions = [
- 'Shape the image around an idea. Guide generation, refinement, segmentation, depth, and world creation with an artist’s intent.',
+ 'Shape images, motion, and worlds with guided model workflows. Model availability varies by workspace and provider connection.',
  'Find the rhythm of a story. Bring image, sound, timing, and color together through editorial and finishing.',
  'Build worlds that hold up to a closer look. Light, surface, sculpt, and assemble assets for real-time and production workflows.',
  'Make experimentation repeatable. Connect model behavior, visual understanding, and reliable evaluation to creative workflows.',
  'Keep the creative process connected. Coordinate jobs, assets, cost, and model capabilities without losing the artist’s decisions.',
  'Give the creative work room to run. Design local and cloud inference around available hardware, predictable loading, and runtime health.',
- 'Carry intent from shot to shot. Connect direction, references, review, and handoff while preserving creative control.'
+ 'Carry a project from approved references to saved shots and a selected Cut. Review costs, compare takes, and keep selection in the artist’s hands.'
 ];
 const disciplineIcons = ['wand-magic-sparkles','film','cube','brain','diagram-project','microchip','share-nodes'];
 portfolioContent.skills.forEach((skill, index) => {

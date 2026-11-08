@@ -1993,3 +1993,59 @@ body:has(dialog[open]) {
   .project-visual>button>span { flex-shrink:0; }
   .project-visual>.eyebrow,.project-visual>.lumify-visit { flex-shrink:0; }
 }
+
+/* Phone maximize is a viewport-filling image viewer, including landscape. */
+@media (max-width:999px), (max-height:500px) {
+  .lumify-gallery-dialog.is-maximized {
+    position:fixed;
+    inset:0;
+    margin:0;
+    width:100%;
+    height:100vh;
+    height:100dvh;
+    max-width:100%;
+    max-height:none;
+    border:0;
+    border-radius:0;
+    overflow:hidden;
+  }
+  .lumify-gallery-dialog.is-maximized .lumify-gallery-window {
+    min-height:0;
+    padding: max(10px,env(safe-area-inset-top)) max(10px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left));
+  }
+  .lumify-gallery-dialog.is-maximized .lumify-gallery-header { padding-bottom:8px; }
+  .lumify-gallery-dialog.is-maximized .lumify-gallery-kicker,
+  .lumify-gallery-dialog.is-maximized .lumify-gallery-titleblock h2,
+  .lumify-gallery-dialog.is-maximized .gallery-description-row { display:none; }
+  .lumify-gallery-dialog.is-maximized .gallery-versions { margin:0; padding-right:100px; }
+  .lumify-gallery-dialog.is-maximized .lumify-gallery-chrome button { width:44px; height:44px; }
+  .lumify-gallery-dialog.is-maximized .lumify-gallery-header { min-height:52px; }
+  .lumify-gallery-dialog.is-maximized .lumify-gallery-stage { min-height:0; }
+  .lumify-gallery-dialog.is-maximized .lumify-gallery-footer { padding-top:8px; }
+}
+
+/* Crisp, brighter type over cinematic artwork at every viewport size. */
+.hero-copy :is(h1,p),
+.reel-intro :is(h1,p,.text-link),
+.credits-intro :is(h2,p,.text-link),
+.discipline-art :is(h2,p) {
+  text-shadow:0 1px 3px rgba(0,8,12,.95),0 2px 10px rgba(0,8,12,.75),0 0 14px rgba(188,245,255,.16);
+}
+.hero-copy .hero-subtitle,
+.hero-copy .hero-description,
+.reel-intro>p:not(.eyebrow),
+.reel-intro .text-link,
+.credits-intro p:not(.eyebrow),
+.credits-intro .text-link {
+  color:#effbff;
+}
+.hero-copy h1 em,
+.reel-intro h1 em,
+.credits-intro h2 em,
+.discipline-art .eyebrow {
+  text-shadow:0 1px 4px #001017,0 0 14px rgba(44,212,222,.28);
+}
+.reel-scene :is(.reel-label,.reel-note) {
+  text-shadow:0 1px 3px rgba(0,8,12,.95),0 2px 10px rgba(0,8,12,.75),0 0 14px rgba(188,245,255,.16);
+}
+.reel-scene .reel-note,.reel-label .micro { color:#effbff; }

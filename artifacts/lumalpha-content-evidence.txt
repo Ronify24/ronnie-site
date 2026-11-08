@@ -1,0 +1,34 @@
+Portfolio content refresh — 2026-11-07
+Basis: local Lumalpha implementation, not a claim of live deployment readiness.
+No Lumalpha files changed and no generation submitted.
+
+Model names and provider scope:
+config/lumify/model_catalog.json
+config/lumify/provider_routing_matrix.json
+static/js/app.js (model labels and closed frontend contracts)
+fal_flux3_provider.py
+docs/architecture/fal_flux3_prompt.md — FLUX.3 image workflow is Enterprise Cloud only.
+docs/architecture/shot_kling_models.md — saved-shot Kling choices; Seedance 2.5 default; single starting still in Shots.
+
+Project capabilities and implementation:
+manual_project_generation.py — quote review and explicit charge confirmation.
+manual_project_video_runs.py, manual_project_video_models.py — saved video takes/model contracts.
+manual_project_cost_review.py (registered in app_unified.py) — approved estimates, not actual debits.
+manual_project_cut_exports.py, manual_project_cut_render.py — saved-video review MP4 assembly.
+manual_project_audio_generation.py — reviewed speech jobs; workspace gates.
+manual_project_music.py, manual_project_sound.py, manual_project_fal_audio.py — project sound/music integrations.
+docs/architecture/project_import_reference_approval.md — imported references and persisted Library lock.
+docs/architecture/project_batch_stills_models.md — batch still model/setup/review behavior.
+docs/architecture/project_window_production_take_player.md — preview distinct from explicit Use in Cut.
+docs/architecture/project_cut_video_export.md — export is a bounded review MP4, not unrestricted finishing.
+requirements-alpha.txt, requirements-sidecar.txt — runtime libraries vary; removed universal version pins.
+
+Editorial decisions:
+Updated Generative/Vision, Data Science, Pipeline/Backend, Compute/Ops, Workflow Orchestration.
+Preserved personal Video/Post and 3D/Real Time craft tools; the app repo cannot establish or disprove personal experience.
+Updated Workflows, Stack, Outcomes and project summary.
+Replaced speed, guaranteed continuity, scalable batch and department-ready claims with concrete controls.
+Added availability caveats to Generative/Vision and Stack.
+Kept cost wording as approved estimates, not actual spend or savings.
+Local port 5000 was unavailable during initial inventory; live availability not verified.
+Validation: JS syntax and git diff checks passed. Browser visual verification could not complete: preview connection failed and browser navigation policy blocked recovery.
