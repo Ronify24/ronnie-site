@@ -2065,3 +2065,26 @@ body:has(dialog[open]) {
 .credits-intro>div { background:linear-gradient(0deg,rgba(2,12,17,.75),rgba(2,12,17,.28) 80%,transparent); }
 .discipline-art:after { content:""; position:absolute; inset:0; background:linear-gradient(0deg,rgba(2,12,17,.7),transparent 80%); pointer-events:none; }
 .discipline-art>div { z-index:1; }
+
+/* Immersive image viewer: no carousel chrome consumes image space. */
+.lumify-gallery-dialog.is-maximized {
+  position:fixed; inset:0; margin:0; width:100vw; height:100dvh;
+  max-width:none; max-height:none; border:0; border-radius:0; overflow:hidden; background:#02090d;
+}
+.lumify-gallery-dialog.is-maximized .lumify-gallery-window { padding:0; min-height:0; }
+.lumify-gallery-dialog.is-maximized .lumify-gallery-header {
+  position:absolute; inset:0 0 auto; height:0; min-height:0; padding:0; z-index:5;
+}
+.lumify-gallery-dialog.is-maximized .lumify-gallery-titleblock,
+.lumify-gallery-dialog.is-maximized .lumify-gallery-footer,
+.lumify-gallery-dialog.is-maximized .lumify-gallery-nav { display:none; }
+.lumify-gallery-dialog.is-maximized .lumify-gallery-chrome {
+  top:max(10px,env(safe-area-inset-top)); right:max(10px,env(safe-area-inset-right));
+}
+.lumify-gallery-dialog.is-maximized .lumify-gallery-chrome button {
+  width:44px; height:44px; background:rgba(3,17,23,.8); border-color:#56818a;
+}
+.lumify-gallery-dialog.is-maximized .lumify-gallery-stage { flex:1; width:100%; height:100%; min-height:0; border:0; border-radius:0; }
+.lumify-gallery-dialog.is-maximized .lumify-gallery-figure { cursor:zoom-in; }
+.lumify-gallery-dialog.is-maximized .is-zoomed .lumify-gallery-figure { cursor:grab; }
+.lumify-gallery-dialog.is-maximized .is-zooming .lumify-gallery-figure { cursor:grabbing; }

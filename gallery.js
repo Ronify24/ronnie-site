@@ -223,7 +223,7 @@
         });
 
         galleryStage.addEventListener("pointerdown", (event) => {
-            if (event.pointerType !== "touch") return;
+            if (event.pointerType !== "touch" && !(galleryDialog.classList.contains("is-maximized") && galleryZoom > 1)) return;
             galleryPointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
             try { galleryStage.setPointerCapture(event.pointerId); } catch { }
 
@@ -260,7 +260,7 @@
         });
 
         galleryStage.addEventListener("pointermove", (event) => {
-            if (event.pointerType !== "touch" || !galleryPointers.has(event.pointerId)) return;
+            if (!galleryPointers.has(event.pointerId)) return;
             galleryPointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
 
             if (galleryGesture?.type === "pinch" && galleryPointers.size >= 2) {
@@ -285,7 +285,7 @@
         }, { passive: false });
 
         function finishGalleryPointer(event) {
-            if (event.pointerType !== "touch") return;
+            if (!galleryPointers.has(event.pointerId)) return;
             if (galleryGesture?.type === "swipe" && galleryGesture.pointerId === event.pointerId) {
                 gallerySwipeCurrentX = event.clientX;
             }
@@ -324,3 +324,28 @@
 
         galleryImage.addEventListener("dragstart", (event) => event.preventDefault());
 
+
+        function zoomGalleryAt(nextZoom, clientX, clientY) {
+            const bounds = getGalleryImageBounds();
+            const x = clientX - (bounds.rect.left + bounds.rect.width / 2);
+            const y = clientY - (bounds.rect.top + bounds.rect.height / 2);
+            nextZoom = Math.max(1, Math.min(galleryMaxZoom, nextZoom));
+            const ratio = nextZoom / galleryZoom;
+            galleryPanX = x - ratio * (x - galleryPanX);
+            galleryPanY = y - ratio * (y - galleryPanY);
+            galleryZoom = nextZoom;
+            applyGalleryZoom();
+        }
+        galleryStage.addEventListener("wheel", event => {
+            if (!galleryDialog.classList.contains("is-maximized")) return;
+            event.preventDefault();
+            const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? galleryStage.clientHeight : 1);
+            zoomGalleryAt(galleryZoom * Math.exp(-Math.max(-120, Math.min(120, delta)) * .006), event.clientX, event.clientY);
+        }, {passive:false});
+        galleryStage.addEventListener("dblclick", event => {
+            if (!galleryDialog.classList.contains("is-maximized") || event.target.closest("button")) return;
+            zoomGalleryAt(galleryZoom > 1 ? 1 : 2, event.clientX, event.clientY);
+        });
+        window.addEventListener("resize", () => {
+            if (galleryDialog.open) resetGalleryZoom();
+        });
