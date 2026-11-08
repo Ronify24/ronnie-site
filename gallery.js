@@ -11,8 +11,9 @@
         const galleryNext = document.getElementById("lumifyGalleryNext");
         const galleryCount = document.getElementById("lumifyGalleryCount");
         const galleryThumbs = document.getElementById("lumifyGalleryThumbs");
-        const galleryExtensions = ["png", "jpg", "jpeg", "webp"];
-        const galleryProbeLimit = 80;
+        let galleryFiles = window.lumifyGalleryFiles || [];
+        let galleryManifestRequest;
+        let galleryLoadSequence = 0;
         let galleryItems = [];
         let galleryCurrent = 0;
         let galleryVersion = "v2";
@@ -27,8 +28,21 @@
         const galleryMaxZoom = 4;
 
         function discoverGalleryImages() {
-            if (galleryVersion === "v2") return ["Workspace", "Shots", "Cut", "Assets", "Reference"].map((name, i) => ({src: `./gallery/v2/lumify_v2_${name}.png`, index: i + 1, name}));
-            return Array.from({length: 11}, (_, i) => ({src: `./gallery/${i + 1}_gallery.webp`, index: i + 1}));
+            const first = ["Workspace", "Shots", "Cut", "Assets", "Reference"];
+            return galleryFiles.filter(path => path.startsWith(`/gallery/${galleryVersion}/`) && /\.(png|jpe?g|webp|avif|gif)$/i.test(path))
+                .map(path => ({src: '.' + path.split('/').map(encodeURIComponent).join('/'), name: path.split('/').pop().replace(/\.[^.]+$/, '').replace(/^lumify_v\d+_/, '')}))
+                .sort((a, b) => {
+                    const rank = item => galleryVersion === 'v2' && first.includes(item.name) ? first.indexOf(item.name) : 100;
+                    return rank(a) - rank(b) || a.name.localeCompare(b.name, undefined, {numeric: true});
+                }).map((item, i) => ({...item, index: i + 1, name: item.name.replace(/_/g, ' ').replace(/([a-z])([A-Z])/g, '$1 $2')}));
+        }
+
+        function loadGalleryManifest() {
+            if (!galleryManifestRequest) galleryManifestRequest = fetch('./gallery/manifest.json', {cache: 'no-store'})
+                .then(response => { if (!response.ok) throw new Error('Manifest unavailable'); return response.json(); })
+                .then(paths => { if (Array.isArray(paths) && paths.every(path => typeof path === 'string')) galleryFiles = paths; })
+                .catch(() => { /* Plain local servers use the generated preview fallback. */ });
+            return galleryManifestRequest;
         }
 
         function selectGalleryVersion(version) {
@@ -158,11 +172,17 @@
             renderGalleryImage();
         }
 
-        function ensureGalleryReady() {
+        async function ensureGalleryReady() {
+            const sequence = ++galleryLoadSequence;
             galleryStatus.hidden = false;
             galleryEmpty.hidden = true;
+            await loadGalleryManifest();
+            if (sequence !== galleryLoadSequence) return;
             galleryItems = discoverGalleryImages();
             if (!galleryItems.length) {
+                galleryThumbs.innerHTML = '';
+                galleryImage.removeAttribute('src');
+                galleryCount.textContent = '00 / 00';
                 galleryStatus.hidden = true;
                 galleryEmpty.hidden = false;
                 galleryPrev.disabled = true;

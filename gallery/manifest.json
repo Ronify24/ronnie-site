@@ -1,0 +1,13 @@
+---
+layout: null
+---
+[
+{% assign emitted = false %}
+{% for file in site.static_files %}
+  {% assign folder = file.path | slice: 0, 12 %}
+  {% if folder == '/gallery/v1/' or folder == '/gallery/v2/' %}
+    {% if emitted %},{% endif %}{{ file.path | jsonify }}
+    {% assign emitted = true %}
+  {% endif %}
+{% endfor %}
+]
