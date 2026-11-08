@@ -1,3 +1,8 @@
 assets/.DS_Store
 .DS_Store
 .DS_Store
+
+# Local dependencies and generated review/build artifacts
+node_modules/
+artifacts/
+tmp/

@@ -1,0 +1,8 @@
+# Publish site assets and the generated gallery manifest, not local build tools.
+exclude:
+  - artifacts
+  - scripts
+  - tmp
+  - node_modules
+  - README.md
+  - design-qa.md
