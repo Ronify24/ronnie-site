@@ -59,18 +59,7 @@ const disciplineDescriptions = [
  'Carry a project from approved references to saved shots and a selected Cut. Review costs, compare takes, and keep selection in the artist’s hands.'
 ];
 const disciplineIcons = ['wand-magic-sparkles','film','cube','brain','diagram-project','microchip','share-nodes'];
-portfolioContent.skills.forEach((skill, index) => {
- const option = document.createElement('option'); option.value = index; option.textContent = skill.title; document.getElementById('disciplineSelect').append(option);
- const button = document.createElement('button');
- button.type = 'button'; button.dataset.discipline = index;
- button.innerHTML = `<span class="discipline-index">0${index + 1}</span><i class="fa-solid fa-${disciplineIcons[index]}" aria-hidden="true"></i><span>${skill.title}</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i>`;
- button.addEventListener('click', () => showDiscipline(index));
- document.getElementById('disciplineNav').append(button);
-});
-document.getElementById('disciplineSelect').addEventListener('change', event => showDiscipline(Number(event.target.value)));
-function showDiscipline(index) {
- const art = document.querySelector('.discipline-art img');
- const artwork = {
+const disciplineArtwork = {
   1: ['video-post.webp', 'Smoked-glass cinema frames connected by a flowing amber ribbon of light'],
   0: ['generative-vision.webp', 'Sculptural optical glass planes with cyan edges and warm refracted light'],
   2: ['3d-real-time.webp', 'Faceted stone arch and smoked-glass sphere on sculptural stepped plinths'],
@@ -79,7 +68,20 @@ function showDiscipline(index) {
   5: ['compute-ops.webp', 'Layered charcoal computing sculptures with glass spacers and an amber core'],
   6: ['workflow-orchestration.webp', 'Translucent glass ribbons converge through a sculptural gate into one aligned path']
  };
- const [file, description] = artwork[index] || ['cinematic-world.webp', 'Cinematic light and material study'];
+portfolioContent.skills.forEach((skill, index) => {
+ const option = document.createElement('option'); option.value = index; option.textContent = skill.title; document.getElementById('disciplineSelect').append(option);
+ const button = document.createElement('button');
+ button.type = 'button'; button.dataset.discipline = index;
+ button.style.setProperty('--discipline-art', `url("./assets/${disciplineArtwork[index][0]}")`);
+ button.innerHTML = `<span class="discipline-index">0${index + 1}</span><i class="fa-solid fa-${disciplineIcons[index]}" aria-hidden="true"></i><span>${skill.title}</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i>`;
+ button.addEventListener('click', () => showDiscipline(index));
+ document.getElementById('disciplineNav').append(button);
+});
+document.getElementById('disciplineSelect').addEventListener('change', event => showDiscipline(Number(event.target.value)));
+function showDiscipline(index) {
+ const art = document.querySelector('.discipline-art img');
+
+ const [file, description] = disciplineArtwork[index] || ['cinematic-world.webp', 'Cinematic light and material study'];
  art.src = './assets/' + file;
  art.alt = description;
  document.getElementById('disciplineSelect').value = index;

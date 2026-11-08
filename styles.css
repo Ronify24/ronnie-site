@@ -2171,3 +2171,33 @@ body:has(dialog[open]) {
   color:var(--cyan);
   text-shadow:0 1px 3px rgba(0,12,17,.9),0 0 8px rgba(251,241,223,.5),0 0 20px rgba(251,241,223,.28);
 }
+
+/* Each discipline carries its artwork into the right edge of its selector. */
+.discipline-nav button {
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+}
+.discipline-nav button::before {
+  content:"";
+  position:absolute;
+  inset:0 0 0 auto;
+  width:68%;
+  z-index:-1;
+  pointer-events:none;
+  background-image:var(--discipline-art);
+  background-size:235% auto;
+  background-position:right 58%;
+  opacity:.68;
+  -webkit-mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.4) 30%,#000 75%);
+  mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.4) 30%,#000 75%);
+  transition:opacity .2s ease;
+}
+.discipline-nav button:hover::before,
+.discipline-nav button.is-active::before { opacity:.92; }
+.discipline-nav button > span,
+.discipline-nav button > i { text-shadow:0 1px 3px #03161c,0 0 8px rgba(3,22,28,.9); }
+.discipline-nav button > i:last-child { color:#fbf1df; }
+@media(prefers-reduced-motion:reduce) {
+  .discipline-nav button::before { transition:none; }
+}
