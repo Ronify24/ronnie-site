@@ -2150,3 +2150,24 @@ body:has(dialog[open]) {
 
 .project-document-actions { display:flex; align-items:center; gap:10px; flex-shrink:0; flex-wrap:wrap; }
 @media(max-width:520px) { .project-document-actions { width:100%; } .project-document-actions .button { flex:1; padding:12px 14px; justify-content:center; } }
+
+/* Warm, readable accents over the launch artwork. */
+#panel-overview .scene-topline > .micro,
+#panel-overview .art-caption,
+#panel-overview .art-caption span {
+  color:#fbf1df;
+  font-weight:600;
+  text-shadow:0 1px 3px rgba(0,12,17,.95),0 2px 9px rgba(0,12,17,.85),0 0 14px rgba(251,241,223,.3);
+}
+#panel-overview .scene-topline .eyebrow {
+  color:var(--cyan);
+  text-shadow:0 1px 3px rgba(0,12,17,.9),0 0 8px rgba(251,241,223,.5),0 0 20px rgba(251,241,223,.28);
+}
+
+/* Teal eyebrows with the same warm ivory glow as the launch page. */
+#panel-skills .eyebrow,
+#panel-reel .eyebrow,
+#panel-projects .eyebrow {
+  color:var(--cyan);
+  text-shadow:0 1px 3px rgba(0,12,17,.9),0 0 8px rgba(251,241,223,.5),0 0 20px rgba(251,241,223,.28);
+}
