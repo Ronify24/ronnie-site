@@ -132,18 +132,13 @@ wireTabs('[data-project]', tab => {
  selectTab(tab);
  ['lumify','credits'].forEach(name => document.getElementById('project-' + name).hidden = name !== tab.dataset.project);
 });
-let detailGroup = 'Core workflows'; let detailPage = 0;
+let detailGroup = 'Core workflows';
 function renderDetails() {
  const items = portfolioContent.groups[detailGroup];
  const list = document.getElementById('projectDetails'); list.replaceChildren();
- items.slice(detailPage * 6, detailPage * 6 + 6).forEach(item => { const li = document.createElement('li'); li.textContent = item; list.append(li); });
- document.getElementById('detailRange').textContent = `${detailPage * 6 + 1}–${Math.min(detailPage * 6 + 6, items.length)} OF ${items.length}`;
- document.getElementById('detailPrev').disabled = detailPage === 0;
- document.getElementById('detailNext').disabled = (detailPage + 1) * 6 >= items.length;
+ items.forEach(item => { const li = document.createElement('li'); li.textContent = item; list.append(li); });
 }
-wireTabs('[data-detail]', tab => { selectTab(tab); detailGroup = tab.dataset.detail; detailPage = 0; document.getElementById('projectDetails').setAttribute('aria-labelledby', tab.id); renderDetails(); });
-document.getElementById('detailPrev').addEventListener('click', () => { if (detailPage > 0) { detailPage--; renderDetails(); } });
-document.getElementById('detailNext').addEventListener('click', () => { if ((detailPage + 1) * 6 < portfolioContent.groups[detailGroup].length) { detailPage++; renderDetails(); } });
+wireTabs('[data-detail]', tab => { selectTab(tab); detailGroup = tab.dataset.detail; document.getElementById('projectDetails').setAttribute('aria-labelledby', tab.id); renderDetails(); });
 renderDetails();
 portfolioContent.credits.forEach(credit => { const li = document.createElement('li'); li.textContent = credit; document.getElementById('creditList').append(li); });
 

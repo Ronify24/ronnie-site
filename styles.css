@@ -2088,3 +2088,38 @@ body:has(dialog[open]) {
 .lumify-gallery-dialog.is-maximized .lumify-gallery-figure { cursor:zoom-in; }
 .lumify-gallery-dialog.is-maximized .is-zoomed .lumify-gallery-figure { cursor:grab; }
 .lumify-gallery-dialog.is-maximized .is-zooming .lumify-gallery-figure { cursor:grabbing; }
+
+/* Lumify: complete detail panels, information first, cinematic showcase second. */
+#project-lumify { grid-template-columns:minmax(0,1.1fr) minmax(0,1fr); gap:24px; }
+#project-lumify .project-story { position:relative; z-index:2; justify-content:center; }
+#project-lumify .project-story h2 { font-size:clamp(26px,2.5vw,40px); margin:0 0 12px; }
+#project-lumify .project-story>p { font-size:13px; line-height:1.6; }
+#project-lumify .project-detail-tabs { gap:8px; margin-top:18px; border:0; }
+#project-lumify .project-detail-tabs button { flex:1; padding:10px 8px; font-size:14px; border:1px solid #42616a; border-radius:8px; background:#081a21; }
+#project-lumify .project-detail-tabs button[aria-selected=true] { color:#edffff; background:#17414b; border-color:var(--cyan); }
+#project-lumify .project-detail-list { gap:8px 16px; min-height:0; }
+#project-lumify .project-detail-list li { font-size:12px; line-height:1.45; color:var(--text); }
+#project-lumify .project-visual { position:relative; min-height:0; align-items:center; }
+#project-lumify .project-visual>button { display:flex; flex-direction:column; align-items:center; border:0; background:transparent; overflow:visible; width:100%; min-height:0; }
+#project-lumify .project-visual img { width:112%; max-width:112%; aspect-ratio:4/3; object-fit:contain; flex:0 1 auto; min-height:0; mask-image:radial-gradient(ellipse at center,#000 48%,transparent 74%); }
+#project-lumify .project-visual>button>span { position:relative; background:#2bd1dc; color:#03212a; border:1px solid #9afaff; border-radius:9px; gap:16px; padding:14px 22px; font-size:14px; font-weight:600; box-shadow:0 0 24px #21c9d326; }
+#project-lumify .project-visual>button>span i { color:inherit; }
+#project-lumify .project-visual>.eyebrow { display:none; }
+#project-lumify .project-visual>.lumify-visit { align-self:center; margin-top:14px; }
+@media(min-width:1000px) and (max-height:850px) {
+ #project-lumify .project-story h2 { font-size:26px; margin-bottom:8px; }
+ #project-lumify .project-story>p { font-size:12px; }
+ #project-lumify .project-detail-list { gap:5px 12px; }
+ #project-lumify .project-detail-list li { font-size:11px; }
+ #project-lumify .project-detail-tabs { margin-top:12px; }
+}
+@media(max-width:999px) {
+ #project-lumify { grid-template-columns:1fr; }
+ #project-lumify .project-story { order:0; }
+ #project-lumify .project-visual { order:1; margin-top:12px; }
+ #project-lumify .project-detail-list li { font-size:13px; }
+ #project-lumify .project-visual img { width:100%; max-width:100%; }
+}
+@media(max-width:520px) {
+ #project-lumify .project-detail-list { grid-template-columns:1fr; gap:10px; }
+}
