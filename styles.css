@@ -2101,7 +2101,7 @@ body:has(dialog[open]) {
 #project-lumify .project-detail-list li { font-size:12px; line-height:1.45; color:var(--text); }
 #project-lumify .project-visual { position:relative; min-height:0; align-items:center; }
 #project-lumify .project-visual>button { display:flex; flex-direction:column; align-items:center; border:0; background:transparent; overflow:visible; width:100%; min-height:0; }
-#project-lumify .project-visual img { width:112%; max-width:112%; aspect-ratio:4/3; object-fit:contain; flex:0 1 auto; min-height:0; mask-image:radial-gradient(ellipse at center,#000 48%,transparent 74%); }
+#project-lumify .project-visual img { width:112%; max-width:112%; aspect-ratio:4/3; object-fit:contain; flex:0 1 auto; min-height:0; -webkit-mask-image:linear-gradient(to right,transparent,#000 12%,#000 92%,transparent),linear-gradient(to bottom,transparent,#000 10%,#000 86%,transparent); -webkit-mask-composite:source-in; mask-image:linear-gradient(to right,transparent,#000 12%,#000 92%,transparent),linear-gradient(to bottom,transparent,#000 10%,#000 86%,transparent); mask-composite:intersect; }
 #project-lumify .project-visual>button>span { position:relative; background:#2bd1dc; color:#03212a; border:1px solid #9afaff; border-radius:9px; gap:16px; padding:14px 22px; font-size:14px; font-weight:600; box-shadow:0 0 24px #21c9d326; }
 #project-lumify .project-visual>button>span i { color:inherit; }
 #project-lumify .project-visual>.eyebrow { display:none; }
