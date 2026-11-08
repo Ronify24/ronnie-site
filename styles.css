@@ -2209,3 +2209,32 @@ body:has(dialog[open]) {
 .discipline-nav button.is-active > span:not(.discipline-index) {
   text-shadow:0 1px 3px #03161c,0 0 7px rgba(251,241,223,.25),0 0 15px rgba(44,212,222,.12);
 }
+
+/* The résumé opens directly to both pages; the brief is a secondary exit. */
+#resumeViewerDialog { overflow:hidden; }
+#resumeViewerDialog .resume-viewer-window {
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  grid-template-rows:auto minmax(0,1fr) auto;
+  height:100%;
+  min-height:0;
+  padding:26px;
+  gap:18px;
+}
+.resume-full-heading { display:flex; align-items:center; justify-content:space-between; gap:16px; padding-right:40px; }
+.resume-full-heading .eyebrow { margin:0 0 7px; }
+.resume-full-heading h2 { margin:0; font-size:26px; line-height:1.2; }
+.resume-full-heading small { color:var(--muted); font-size:12px; font-weight:400; margin-left:8px; }
+.resume-full-pages { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; min-height:0; overflow:auto; align-items:start; padding:3px; }
+.resume-full-pages a { display:block; min-width:0; }
+.resume-full-pages img { display:block; width:100%; height:auto; }
+#resumeViewerDialog .resume-viewer-footer { align-items:center; padding-top:14px; gap:16px; }
+#resumeViewerDialog .resume-viewer-footer .text-link { font-size:13px; }
+@media(max-width:700px) {
+  #resumeViewerDialog .resume-viewer-window { padding:20px 16px; gap:14px; }
+  .resume-full-heading { flex-wrap:wrap; padding-right:30px; gap:12px; }
+  .resume-full-heading h2 { font-size:22px; }
+  .resume-full-heading .button { padding:9px 12px; font-size:12px; }
+  .resume-full-pages { grid-template-columns:1fr; gap:14px; }
+  .resume-close-hint { display:none; }
+}

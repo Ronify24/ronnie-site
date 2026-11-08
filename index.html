@@ -12,7 +12,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 <link rel="preload" href="./assets/cinematic-world.webp" as="image">
-<link href="./styles.css?v=20261108-discipline-soft-glow" rel="stylesheet">
+<link href="./styles.css?v=20261108-resume-full" rel="stylesheet">
 <script src="./content.js?v=20261108-stack-models" defer></script><script src="./app.js?v=20261108-discipline-art" defer></script><script src="./gallery/local-manifest.js?v=20261108" defer></script><script src="./gallery.js?v=20261108-folders" defer></script>
 </head>
 <body>
@@ -73,38 +73,17 @@
                 <i class="fa-solid fa-xmark" aria-hidden="true"></i>
             </button>
 
-            <section class="resume-viewer-intro">
-                <p class="eyebrow">THE PERSON BEHIND THE WORK</p><h2 id="resumeViewerTitle">The craft.<br> The context.</h2>
-                <p>My work sits at the intersection of production craft and creative technology. The brief résumé offers a focused view of my current work building artist-facing AI tools across image, video, 3D, and real-time workflows.</p>
-                <p>The detailed résumé provides the broader context: 20+ years of animation, VFX, and real-time production experience that shaped the visual judgment, workflow thinking, and collaborative approach behind that work.</p>
-                <a class="text-link" href="mailto:ronnie@lumifyai.com">Let’s connect <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
-            </section>
-
-            <div class="resume-viewer-grid" id="resumeViewerGrid">
-                <article class="resume-document resume-document--dark" aria-labelledby="darkResumeTitle">
-                    <header class="resume-document-header">
-                        <h3 id="darkResumeTitle"><span>01</span> Brief Resume <small>(1 Page)</small></h3>
-                    </header>
-                    <a class="resume-document-preview" href="./assets/RonnieCleland_2026_Resume.pdf?v=20261108-brief" target="_blank" rel="noopener" aria-label="Open the one-page brief resume in a new browser tab">
-                        <img src="./assets/RonnieCleland_2026_Resume_preview.png?v=20261108-brief" alt="First page preview of Ronnie Cleland's black Creative Systems resume" width="1200" height="1552">
-                        <span class="resume-document-open-cue"><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> View full resume</span>
-                    </a>
-                </article>
-
-                <article class="resume-document resume-document--light" aria-labelledby="lightResumeTitle">
-                    <header class="resume-document-header">
-                        <h3 id="lightResumeTitle"><span>02</span> Full Resume <small>(2 Pages)</small></h3>
-                    </header>
-                    <a class="resume-document-preview" href="./assets/Ronnie_Cleland_Creative_AI_Platform_Architect.pdf?v=20261108" target="_blank" rel="noopener" aria-label="Open the two-page full resume in a new browser tab">
-                        <img src="./assets/Ronnie_Cleland_Creative_AI_Platform_Architect_preview.png?v=20261108" alt="First page preview of Ronnie Cleland's white Platform Architect resume" width="1530" height="1980">
-                        <span class="resume-document-open-cue"><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> View full resume</span>
-                    </a>
-                </article>
+            <header class="resume-full-heading">
+                <div><p class="eyebrow">RONNIE CLELAND</p><h2 id="resumeViewerTitle">Full résumé <small>2 pages</small></h2></div>
+                <a class="button quiet" href="./assets/Ronnie_Cleland_Creative_AI_Platform_Architect.pdf?v=20261108" target="_blank" rel="noopener">Open full PDF <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+            </header>
+            <div class="resume-full-pages" id="resumeViewerGrid" tabindex="0" role="region" aria-label="Full résumé page previews">
+                <a href="./assets/Ronnie_Cleland_Creative_AI_Platform_Architect.pdf?v=20261108#page=1" target="_blank" rel="noopener" aria-label="Open full résumé at page 1 in a new tab"><img src="./assets/Ronnie_Cleland_Creative_AI_Platform_Architect_preview.png?v=20261108" alt="Full résumé page 1: profile, current Lumify experience, product systems, and technical practice" width="1530" height="1980"></a>
+                <a href="./assets/Ronnie_Cleland_Creative_AI_Platform_Architect.pdf?v=20261108#page=2" target="_blank" rel="noopener" aria-label="Open full résumé at page 2 in a new tab"><img src="./assets/Ronnie_Cleland_Creative_AI_Platform_Architect_page2_preview.png?v=20261108" alt="Full résumé page 2: production career history and education" width="1530" height="1980"></a>
             </div>
-
             <footer class="resume-viewer-footer">
-                <p><i class="fa-solid fa-arrow-pointer" aria-hidden="true"></i> Select a résumé to open the full PDF in a new browser tab.</p>
-                <p><kbd>Esc</kbd> Close</p>
+                <a class="text-link" href="./assets/RonnieCleland_2026_Resume.pdf?v=20261108-brief" target="_blank" rel="noopener">Brief résumé <span class="muted">· 1 page</span> <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+                <span class="resume-close-hint"><kbd>Esc</kbd> Close</span>
             </footer>
         </div>
     </dialog>
