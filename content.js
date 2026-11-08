@@ -138,7 +138,7 @@ const portfolioContent = {
       "Durable Jobs + Retained Media",
       "Deployment Capability Policies",
       "Reviewed Quotes + Credit Controls",
-      "Docker + GPU / Sidecar Runtimes",
+      "AI Toolkit",
       "Revision + Source-Lineage Records"
     ],
     "Outcomes": [

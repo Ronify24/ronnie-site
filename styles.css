@@ -2123,3 +2123,27 @@ body:has(dialog[open]) {
 @media(max-width:520px) {
  #project-lumify .project-detail-list { grid-template-columns:1fr; gap:10px; }
 }
+
+/* One continuous studio atmosphere behind the story and floating workspace. */
+#project-lumify { position:relative; isolation:isolate; }
+#project-lumify::before {
+  content:"";
+  position:absolute;
+  inset:-20px -32px -28px;
+  z-index:-1;
+  pointer-events:none;
+  background:radial-gradient(ellipse at 74% 48%,rgba(0,10,14,.88) 0%,rgba(0,10,14,.6) 35%,rgba(0,10,14,.24) 65%,transparent 90%);
+}
+#project-lumify .project-visual { overflow:visible; }
+#project-lumify .project-visual::before {
+  content:"";
+  position:absolute;
+  inset:0 -8% 0 -65%;
+  z-index:-1;
+  pointer-events:none;
+  background:radial-gradient(ellipse at 65% 48%,rgba(0,12,17,.6),transparent 72%);
+}
+@media(max-width:999px) {
+  #project-lumify::before { inset:0 -25px -25px; }
+  #project-lumify .project-visual::before { inset:-20% -10%; }
+}
