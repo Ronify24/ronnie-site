@@ -2147,3 +2147,6 @@ body:has(dialog[open]) {
   #project-lumify::before { inset:0 -25px -25px; }
   #project-lumify .project-visual::before { inset:-20% -10%; }
 }
+
+.project-document-actions { display:flex; align-items:center; gap:10px; flex-shrink:0; flex-wrap:wrap; }
+@media(max-width:520px) { .project-document-actions { width:100%; } .project-document-actions .button { flex:1; padding:12px 14px; justify-content:center; } }
