@@ -2201,3 +2201,11 @@ body:has(dialog[open]) {
 @media(prefers-reduced-motion:reduce) {
   .discipline-nav button::before { transition:none; }
 }
+
+/* A restrained glow identifies the selected discipline. */
+.discipline-nav button.is-active > i:first-of-type {
+  text-shadow:0 0 5px rgba(44,212,222,.65),0 0 13px rgba(44,212,222,.4),0 1px 3px #03161c;
+}
+.discipline-nav button.is-active > span:not(.discipline-index) {
+  text-shadow:0 1px 3px #03161c,0 0 7px rgba(251,241,223,.25),0 0 15px rgba(44,212,222,.12);
+}
