@@ -38,6 +38,7 @@ const portfolioContent = {
       "items": [
         "Unreal Engine",
         "Houdini",
+        "Blender",
         "USD",
         "ZBrush",
         "Substance Suite",
