@@ -12,7 +12,8 @@ const portfolioContent = {
         "SAM Segmentation + Depth Anything",
         "Vision Captioning + Reference Analysis",
         "Relighting + Material / Time-of-Day",
-        "Image + Video Upscaling",
+        "Magnific Precision Upscaler V2",
+        "Seedream 5.0 Flash + Pro",
         "Hunyuan3D + Marble Worlds"
       ]
     },
@@ -23,7 +24,13 @@ const portfolioContent = {
         "Premiere Pro",
         "After Effects",
         "Photoshop",
-        "Ableton Live"
+        "Ableton Live",
+        "MiniMax H3 Max + HappyHorse 1.1",
+        "Hailuo 3.0 + Gemini Omni Flash",
+        "Aleph 2.0 Video Editing",
+        "Act-Two Performance Transfer",
+        "Magnific Video Upscaler",
+        "Runway Ruby HDR"
       ]
     },
     {
@@ -140,7 +147,12 @@ const portfolioContent = {
       "Reviewed Quotes + Credit Controls",
       "Deployment Capability Policies",
       "Revision + Source-Lineage Records",
-      "AI Toolkit"
+      "AI Toolkit",
+      "MiniMax H3 Max + HappyHorse 1.1",
+      "Hailuo 3.0 + Gemini Omni Flash",
+      "Aleph 2.0 + Act-Two",
+      "Magnific Image + Video Upscalers",
+      "Runway Ruby HDR"
     ],
     "Outcomes": [
       "Review Costs Before Generating",
