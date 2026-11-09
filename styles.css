@@ -2238,3 +2238,17 @@ body:has(dialog[open]) {
   .resume-full-pages { grid-template-columns:1fr; gap:14px; }
   .resume-close-hint { display:none; }
 }
+
+/* Larger project entries retain the original open, underlined tab style. */
+#panel-projects .project-tabs { gap:32px; flex-shrink:0; }
+#panel-projects .project-tabs > button {
+  min-height:48px;
+  padding:14px 0;
+  font-size:16px;
+  font-weight:500;
+  line-height:1.4;
+}
+@media(max-width:520px) {
+  #panel-projects .project-tabs { gap:24px; }
+  #panel-projects .project-tabs > button { font-size:15px; }
+}
