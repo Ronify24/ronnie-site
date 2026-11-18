@@ -2457,3 +2457,9 @@ body:has(dialog[open]) {
 }
 @media(max-width:999px) { #panel-reel .reel-range-reserved { min-height:36px; } }
 @media(max-width:999px) and (orientation:landscape) { #panel-reel .reel-range-reserved { min-height:30px; } }
+
+/* Navigation must not shrink with an embed during its first layout pass. */
+@media(max-width:999px) {
+ .screening-room > .reel-controls { width:100%; }
+ .reel-stage.has-passive-frame > .reel { width:100%; height:auto; aspect-ratio:16/9; }
+}

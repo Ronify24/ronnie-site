@@ -314,7 +314,7 @@ function renderReel(resume = null) {
   addReelScrubber(video, slot);
  } else {
   const frame = document.createElement('iframe');
-  const url = new URL(reel.src); url.searchParams.set('dnt','1'); url.searchParams.set('transparent','0'); url.searchParams.set('color','34dce4');
+  const url = new URL(reel.src); url.searchParams.set('playsinline','1'); url.searchParams.set('dnt','1'); url.searchParams.set('transparent','0'); url.searchParams.set('color','34dce4');
   frame.src = url.toString(); frame.title = reel.title;
   frame.allow = 'autoplay; fullscreen; picture-in-picture; encrypted-media'; frame.allowFullscreen = true;
   frame.referrerPolicy = 'strict-origin-when-cross-origin'; slot.append(frame);
@@ -324,12 +324,16 @@ function renderReel(resume = null) {
   stage.classList.add('has-passive-frame');
   const fit = () => {
    const horizontal = window.matchMedia('(max-width:999px)').matches;
-   const width = Math.min(Math.max(1, stage.clientWidth - (horizontal ? 0 : 64)), Math.max(1, stage.clientHeight - (horizontal ? 52 : 0)) * 16 / 9);
+   // Wait for the portrait flex layout to settle before sizing the embed.
+   // Never let a transient zero-height stage collapse the navigation width.
+   if (stage.clientWidth < 2 || stage.clientHeight < 54) return;
+   const width = Math.min(stage.clientWidth - (horizontal ? 0 : 64), (stage.clientHeight - (horizontal ? 52 : 0)) * 16 / 9);
    slot.style.width = width + 'px'; slot.style.height = width * 9 / 16 + 'px';
    stage.parentElement.style.setProperty('--fitted-player-width', (width + (horizontal ? 0 : 64)) + 'px');
   };
-  const observer = new ResizeObserver(fit); observer.observe(stage); fit();
-  cleanupReelLayout = () => { observer.disconnect(); stage.classList.remove('has-passive-frame'); slot.style.removeProperty('width'); slot.style.removeProperty('height'); stage.parentElement.style.removeProperty('--fitted-player-width'); };
+  const observer = new ResizeObserver(fit); observer.observe(stage);
+  const layoutFrame = requestAnimationFrame(fit);
+  cleanupReelLayout = () => { cancelAnimationFrame(layoutFrame); observer.disconnect(); stage.classList.remove('has-passive-frame'); slot.style.removeProperty('width'); slot.style.removeProperty('height'); stage.parentElement.style.removeProperty('--fitted-player-width'); };
  }
  document.querySelector('.reel-note').textContent = reel.type === 'placeholder' ? reel.title : reel.title + ' · Press play. Let the work speak.';
  document.getElementById('reelCount').textContent = `${String(currentReel + 1).padStart(2,'0')} / ${String(videos.length).padStart(2,'0')}`;
