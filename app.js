@@ -255,7 +255,7 @@ function addReelScrubber(video, slot) {
  video.addEventListener('keydown', event => { if (event.key === ' ' || event.key === 'Enter') { event.preventDefault(); togglePlay(); reveal(); } }, opts);
  const fit = () => {
   const ratio = video.videoWidth && video.videoHeight ? video.videoWidth / video.videoHeight : 16/9;
-  const horizontal = window.matchMedia('(max-width:999px)').matches;
+  const horizontal = window.matchMedia('(max-width:999px) and (orientation:portrait)').matches;
   const landscapePhone = window.matchMedia('(max-width:999px) and (orientation:landscape)').matches;
   const inset = document.fullscreenElement === stage ? 24 : 0;
   const availableWidth = Math.max(1, stage.clientWidth - inset - (horizontal ? 0 : bar.offsetWidth + 12));
@@ -325,7 +325,7 @@ function renderReel(resume = null) {
   const stage = slot.parentElement;
   stage.classList.add('has-passive-frame');
   const fit = () => {
-   const horizontal = window.matchMedia('(max-width:999px)').matches;
+   const horizontal = window.matchMedia('(max-width:999px) and (orientation:portrait)').matches;
    // Wait for the portrait flex layout to settle before sizing the embed.
    // Never let a transient zero-height stage collapse the navigation width.
    if (stage.clientWidth < 2 || stage.clientHeight < 54) return;

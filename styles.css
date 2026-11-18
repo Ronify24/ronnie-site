@@ -2477,3 +2477,20 @@ body:has(dialog[open]) {
  #panel-reel .reel-controls .dots { flex-wrap:nowrap; gap:5px; }
  #panel-reel .reel-controls .dot { flex:0 1 30px; min-width:24px; }
 }
+
+/* Landscape: side docks leave the full available height to the film. */
+@media(max-width:999px) and (orientation:landscape) {
+ #panel-reel .screening-room { grid-template-columns:60px minmax(0,1fr) 76px; grid-template-rows:minmax(0,1fr); gap:10px; }
+ #panel-reel .reel-label { display:none; }
+ #panel-reel .reel-range-controls { grid-column:1; grid-row:1; padding:0; flex-direction:column; justify-content:center; align-items:stretch; gap:8px; }
+ #panel-reel .reel-range-controls button { min-height:36px; }
+ #panel-reel .reel-stage { grid-column:2; grid-row:1; flex-direction:row; align-items:center; justify-content:center; gap:12px; }
+ #panel-reel .reel-stage > .reel { align-self:center; }
+ #panel-reel .reel-stage.has-native-hub #reel-scrubber { width:44px; flex:0 0 44px; height:auto; padding:4px; align-self:center; }
+ #panel-reel .reel-stage.has-native-hub #reel-scrubber .reel-playback-actions { flex-direction:column; gap:4px; }
+ #panel-reel #reel-scrubber button,#panel-reel #reel-scrubber select { height:36px; min-height:36px; }
+ #panel-reel .reel-controls { grid-column:3; grid-row:1; width:76px; max-width:none; height:auto; display:flex; flex-direction:column; justify-content:center; gap:8px; }
+ #panel-reel .reel-controls .dots { display:grid; grid-template-columns:repeat(2,30px); gap:6px; }
+ #panel-reel .reel-controls > .icon-button { width:36px; height:32px; }
+ #panel-reel .reel-stage.has-native-hub .reel-volume-popup { left:auto; right:calc(100% + 12px); bottom:0; }
+}
