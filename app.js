@@ -257,11 +257,12 @@ function addReelScrubber(video, slot) {
   const availableHeight = constrained ? Math.max(1, stage.clientHeight - (document.fullscreenElement === stage ? 24 : 0)) : Infinity;
   const width = Math.min(availableWidth, availableHeight * ratio);
   slot.style.width = width + 'px'; slot.style.height = width / ratio + 'px';
+  stage.parentElement.style.setProperty('--fitted-player-width', (width + bar.offsetWidth + 12) + 'px');
  };
  const observer = new ResizeObserver(fit); observer.observe(stage);
  video.addEventListener('loadedmetadata', fit, opts);
  document.addEventListener('fullscreenchange', fit, opts); fit();
- cleanupReelLayout = () => { observer.disconnect(); events.abort(); stage.classList.remove('has-native-hub'); slot.style.removeProperty('width'); slot.style.removeProperty('height'); conceal(); };
+ cleanupReelLayout = () => { observer.disconnect(); events.abort(); stage.classList.remove('has-native-hub'); stage.parentElement.style.removeProperty('--fitted-player-width'); slot.style.removeProperty('width'); slot.style.removeProperty('height'); conceal(); };
 
 }
 

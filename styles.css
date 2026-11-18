@@ -2417,3 +2417,21 @@ body:has(dialog[open]) {
  #panel-reel #reel-scrubber button,#panel-reel #reel-scrubber select { min-height:30px; height:30px; min-width:36px; }
  #panel-reel #reel-scrubber { padding:3px; }
 }
+
+/* Give the native Gen AI player priority over the legacy editorial column. */
+@media(min-width:1000px) and (min-height:501px) {
+ #panel-reel:has(.has-native-hub) { grid-template-columns:minmax(190px,20%) minmax(0,1fr); gap:24px; padding:24px; }
+ #panel-reel:has(.has-native-hub) .reel-intro h1 { font-size:clamp(48px,5vw,80px); margin:18px 0; }
+ #panel-reel:has(.has-native-hub) .reel-intro > p:not(.eyebrow) { font-size:12px; }
+ #panel-reel:has(.has-native-hub) .screening-room { position:relative; }
+ #panel-reel:has(.has-native-hub) .reel-label { position:absolute; top:10px; left:0; right:auto; width:min(100%,var(--fitted-player-width,100%)); margin:0; pointer-events:none; }
+ #panel-reel:has(.has-native-hub) .reel-label .eyebrow { font-size:9px; }
+ #panel-reel:has(.has-native-hub) .reel-range-controls { min-height:40px; margin:0 0 10px; padding-left:155px; padding-right:60px; gap:6px; }
+ #panel-reel:has(.has-native-hub) .reel-range-controls button { min-height:34px; font-size:12px; padding:6px 12px; }
+ #panel-reel:has(.has-native-hub) .reel-note { display:none; }
+}
+.screening-room:has(.has-native-hub) > .reel-controls { width:min(100%,var(--fitted-player-width,100%)); }
+@media(min-width:1000px) and (max-width:1200px) {
+ #panel-reel:has(.has-native-hub) .reel-label .eyebrow { display:none; }
+ #panel-reel:has(.has-native-hub) .reel-range-controls { padding-left:0; }
+}
