@@ -10,13 +10,11 @@ const videos = [
  { type: 'mp4', src: './assets/GenAI_Animation_HDR_v2.mp4', sources: { hdr: './assets/GenAI_Animation_HDR_v2.mp4', sdr: './assets/GenAI_Animation_SDR.mp4' }, poster: './assets/Ronnie Cleland Generative Media Studio.webp', title: 'Generative Media | Animation' },
  { type: 'placeholder', title: 'Generative Media | VFX' },
  { type: 'placeholder', title: 'Generative Media | Feature Film' },
- ...[
-  'https://player.vimeo.com/video/1123301848',
-  'https://player.vimeo.com/video/462445892?h=3cdd3f57a6',
-  'https://player.vimeo.com/video/464816152?h=d1eb93eae4',
-  'https://player.vimeo.com/video/70997907?h=29ee618e70',
-  'https://player.vimeo.com/video/8502989?h=81ef88331d'
- ].map((src, index) => ({ type: 'vimeo', src, title: `Selected reel ${index + 1}` }))
+ { type: 'vimeo', src: 'https://player.vimeo.com/video/1123301848', poster: './assets/reel-1123301848.jpg', title: '2024 Locations Reel' },
+ { type: 'vimeo', src: 'https://player.vimeo.com/video/462445892?h=3cdd3f57a6', poster: './assets/reel-462445892.jpg', title: 'The Croods: A New Age | Locations Look Development' },
+ { type: 'vimeo', src: 'https://player.vimeo.com/video/464816152?h=d1eb93eae4', poster: './assets/reel-464816152.jpg', title: 'How to Train Your Dragon: The Hidden World | Locations Look Development' },
+ { type: 'vimeo', src: 'https://player.vimeo.com/video/70997907?h=29ee618e70', poster: './assets/reel-70997907.jpg', title: '2015 Locations Look Development in Animation' },
+ { type: 'vimeo', src: 'https://player.vimeo.com/video/8502989?h=81ef88331d', poster: './assets/reel-8502989.jpg', title: 'Look Development in VFX' }
 ];
 let cleanupReelLayout = () => {};
 function stopReel() {
@@ -315,11 +313,25 @@ function renderReel(resume = null) {
   slot.append(video);
   addReelScrubber(video, slot);
  } else {
-  const frame = document.createElement('iframe');
-  const url = new URL(reel.src); url.searchParams.set('playsinline','1'); url.searchParams.set('dnt','1'); url.searchParams.set('transparent','0'); url.searchParams.set('color','34dce4');
-  frame.src = url.toString(); frame.title = reel.title;
-  frame.allow = 'autoplay; fullscreen; picture-in-picture; encrypted-media'; frame.allowFullscreen = true;
-  frame.referrerPolicy = 'strict-origin-when-cross-origin'; slot.append(frame);
+  const preview = document.createElement('button');
+  preview.type = 'button';
+  preview.className = 'vimeo-preview';
+  preview.setAttribute('aria-label', 'Play ' + reel.title);
+  const image = document.createElement('img');
+  image.src = reel.poster;
+  image.alt = '';
+  const icon = document.createElement('span');
+  icon.setAttribute('aria-hidden', 'true');
+  icon.textContent = '▶';
+  preview.append(image, icon);
+  preview.addEventListener('click', () => {
+   const frame = document.createElement('iframe');
+   const url = new URL(reel.src); url.searchParams.set('autoplay','1'); url.searchParams.set('playsinline','1'); url.searchParams.set('dnt','1'); url.searchParams.set('transparent','0'); url.searchParams.set('color','34dce4');
+   frame.src = url.toString(); frame.title = reel.title;
+   frame.allow = 'autoplay; fullscreen; picture-in-picture; encrypted-media'; frame.allowFullscreen = true;
+   frame.referrerPolicy = 'strict-origin-when-cross-origin'; slot.replaceChildren(frame); frame.focus({ preventScroll: true });
+  }, { once: true });
+  slot.append(preview);
  }
  if (reel.type !== 'mp4') {
   const stage = slot.parentElement;
