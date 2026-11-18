@@ -2435,3 +2435,13 @@ body:has(dialog[open]) {
  #panel-reel:has(.has-native-hub) .reel-label .eyebrow { display:none; }
  #panel-reel:has(.has-native-hub) .reel-range-controls { padding-left:0; }
 }
+
+/* Phones use a compact horizontal transport immediately under the frame. */
+@media(max-width:999px) {
+ .reel-stage.has-native-hub { flex-direction:column; gap:8px; align-items:flex-start; }
+ .reel-stage.has-native-hub > .reel { max-width:100%; }
+ .reel-stage.has-native-hub #reel-scrubber { width:var(--video-fit-width,100%); max-width:100%; flex:0 0 auto; padding:3px 6px; border-radius:18px; }
+ #panel-reel .reel-stage.has-native-hub #reel-scrubber .reel-playback-actions { flex-direction:row; flex-wrap:nowrap; justify-content:space-around; gap:2px; }
+ .reel-stage.has-native-hub .reel-volume-popup { left:0; right:auto; bottom:calc(100% + 12px); width:180px; }
+ .reel-stage.has-native-hub:fullscreen { align-items:center; justify-content:center; }
+}

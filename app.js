@@ -252,17 +252,19 @@ function addReelScrubber(video, slot) {
  video.addEventListener('keydown', event => { if (event.key === ' ' || event.key === 'Enter') { event.preventDefault(); togglePlay(); reveal(); } }, opts);
  const fit = () => {
   const ratio = video.videoWidth && video.videoHeight ? video.videoWidth / video.videoHeight : 16/9;
-  const availableWidth = Math.max(1, stage.clientWidth - bar.offsetWidth - 12);
-  const constrained = true;
-  const availableHeight = constrained ? Math.max(1, stage.clientHeight - (document.fullscreenElement === stage ? 24 : 0)) : Infinity;
+  const horizontal = window.matchMedia('(max-width:999px)').matches;
+  const inset = document.fullscreenElement === stage ? 24 : 0;
+  const availableWidth = Math.max(1, stage.clientWidth - inset - (horizontal ? 0 : bar.offsetWidth + 12));
+  const availableHeight = Math.max(1, stage.clientHeight - inset - (horizontal ? bar.offsetHeight + 8 : 0));
   const width = Math.min(availableWidth, availableHeight * ratio);
   slot.style.width = width + 'px'; slot.style.height = width / ratio + 'px';
-  stage.parentElement.style.setProperty('--fitted-player-width', (width + bar.offsetWidth + 12) + 'px');
+  stage.style.setProperty('--video-fit-width', width + 'px');
+  stage.parentElement.style.setProperty('--fitted-player-width', (horizontal ? width : width + bar.offsetWidth + 12) + 'px');
  };
  const observer = new ResizeObserver(fit); observer.observe(stage);
  video.addEventListener('loadedmetadata', fit, opts);
  document.addEventListener('fullscreenchange', fit, opts); fit();
- cleanupReelLayout = () => { observer.disconnect(); events.abort(); stage.classList.remove('has-native-hub'); stage.parentElement.style.removeProperty('--fitted-player-width'); slot.style.removeProperty('width'); slot.style.removeProperty('height'); conceal(); };
+ cleanupReelLayout = () => { observer.disconnect(); events.abort(); stage.classList.remove('has-native-hub'); stage.style.removeProperty('--video-fit-width'); stage.parentElement.style.removeProperty('--fitted-player-width'); slot.style.removeProperty('width'); slot.style.removeProperty('height'); conceal(); };
 
 }
 
