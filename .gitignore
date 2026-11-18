@@ -1,7 +1,5 @@
-assets/.DS_Store
+# macOS Finder metadata (local only)
 .DS_Store
-.DS_Store
-
 # Local dependencies and generated review/build artifacts
 node_modules/
 artifacts/

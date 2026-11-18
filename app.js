@@ -5,13 +5,25 @@ const contactMenu = document.getElementById('contactMenu');
 let activeScene = 'overview';
 let reelRendered = false;
 let currentReel = 0;
+// Add MP4 or Vimeo entries here; the first entry is selected by default.
 const videos = [
- 'https://player.vimeo.com/video/1123301848',
- 'https://player.vimeo.com/video/462445892?h=3cdd3f57a6',
- 'https://player.vimeo.com/video/464816152?h=d1eb93eae4',
- 'https://player.vimeo.com/video/70997907?h=29ee618e70',
- 'https://player.vimeo.com/video/8502989?h=81ef88331d'
+ { type: 'mp4', src: './assets/GenAI_Animation_HDR_v2.mp4', sources: { hdr: './assets/GenAI_Animation_HDR_v2.mp4', sdr: null }, title: 'Generative Media | Animation' },
+ { type: 'placeholder', title: 'Generative Media | VFX' },
+ { type: 'placeholder', title: 'Generative Media | Feature Film' },
+ ...[
+  'https://player.vimeo.com/video/1123301848',
+  'https://player.vimeo.com/video/462445892?h=3cdd3f57a6',
+  'https://player.vimeo.com/video/464816152?h=d1eb93eae4',
+  'https://player.vimeo.com/video/70997907?h=29ee618e70',
+  'https://player.vimeo.com/video/8502989?h=81ef88331d'
+ ].map((src, index) => ({ type: 'vimeo', src, title: `Selected reel ${index + 1}` }))
 ];
+function stopReel() {
+ const video = document.querySelector('#reel-slot video');
+ if (video) { video.pause(); video.removeAttribute('src'); video.load(); }
+ document.getElementById('reel-slot').replaceChildren();
+}
+
 function setActive(name, push = false) {
  if (!sections.includes(name)) name = 'overview';
  const leavingReel = activeScene === 'reel' && name !== 'reel';
@@ -27,7 +39,7 @@ function setActive(name, push = false) {
   if (selected) link.setAttribute('aria-current', 'page'); else link.removeAttribute('aria-current');
  });
  if (push && location.hash !== '#' + name) history.pushState(null, '', '#' + name);
- if (leavingReel) { document.getElementById('reel-slot').replaceChildren(); reelRendered = false; }
+ if (leavingReel) { stopReel(); reelRendered = false; }
  if (name === 'reel' && !reelRendered) { renderReel(); reelRendered = true; }
  document.getElementById('sceneNumber').textContent = String(sections.indexOf(name) + 1).padStart(2, '0');
  document.getElementById('sceneLabel').textContent = sceneLabels[sections.indexOf(name)];
@@ -98,19 +110,98 @@ function showDiscipline(index) {
 }
 showDiscipline(0);
 
-function renderReel() {
- const slot = document.getElementById('reel-slot'); slot.replaceChildren();
- const frame = document.createElement('iframe');
- const url = new URL(videos[currentReel]); url.searchParams.set('dnt','1'); url.searchParams.set('transparent','0'); url.searchParams.set('color','34dce4');
- frame.src = url.toString(); frame.title = `Selected reel ${currentReel + 1}`;
- frame.allow = 'autoplay; fullscreen; picture-in-picture; encrypted-media'; frame.allowFullscreen = true;
- frame.referrerPolicy = 'strict-origin-when-cross-origin'; slot.append(frame);
- document.getElementById('reelCount').textContent = `${String(currentReel + 1).padStart(2,'0')} / 05`;
- const dots = document.getElementById('dots'); dots.replaceChildren();
- videos.forEach((_, index) => { const button = document.createElement('button'); button.type = 'button'; button.className = 'dot'; button.setAttribute('aria-label', `Show reel ${index + 1}`); button.setAttribute('aria-pressed', String(index === currentReel)); button.textContent = String(index + 1).padStart(2,'0'); button.addEventListener('click', () => { currentReel = index; renderReel(); }); dots.append(button); });
+function renderReelPlacard(slot, reel) {
+   const placard = document.createElement('div');
+   placard.className = 'reel-placard';
+   const kicker = document.createElement('p');
+   kicker.className = 'eyebrow'; kicker.textContent = 'RONNIE CLELAND / SELECTED MOTION';
+   const title = document.createElement('h2'); title.textContent = reel.title;
+   const detail = document.createElement('p');
+   detail.className = 'reel-placard-detail'; detail.textContent = 'A new reel is taking shape.';
+   placard.append(kicker, title, detail);
+   slot.replaceChildren(placard);
+   document.querySelector('.reel-note').textContent = reel.title;
 }
-document.getElementById('prevBtn').addEventListener('click', () => { currentReel = (currentReel + 4) % 5; renderReel(); });
-document.getElementById('nextBtn').addEventListener('click', () => { currentReel = (currentReel + 1) % 5; renderReel(); });
+
+let reelRangePreference = 'auto';
+const hdrDisplay = window.matchMedia('(dynamic-range: high)');
+function resolveReelRange(reel) {
+ if (!reel.sources) return null;
+ if (reelRangePreference !== 'auto' && reel.sources[reelRangePreference]) return reelRangePreference;
+ const hevc = document.createElement('video').canPlayType('video/mp4; codecs="hvc1"');
+ if (hdrDisplay.matches && hevc && reel.sources.hdr) return 'hdr';
+ return reel.sources.sdr ? 'sdr' : 'hdr';
+}
+function switchReelRange() {
+ const previous = document.querySelector('#reel-slot video');
+ const state = previous ? { time: previous.currentTime, playing: !previous.paused, volume: previous.volume, muted: previous.muted, rate: previous.playbackRate } : null;
+ renderReel(state);
+}
+function renderRangeControls(reel) {
+ document.getElementById('reel-range-controls')?.remove();
+ if (!reel.sources) return;
+ const group = document.createElement('div');
+ group.id = 'reel-range-controls'; group.className = 'reel-range-controls';
+ group.setAttribute('role', 'group'); group.setAttribute('aria-label', 'Video dynamic range');
+ ['auto', 'hdr', 'sdr'].forEach(mode => {
+  const button = document.createElement('button'); button.type = 'button';
+  button.textContent = mode === 'auto' ? 'Auto' : mode.toUpperCase();
+  button.disabled = mode !== 'auto' && !reel.sources[mode];
+  button.title = button.disabled ? mode.toUpperCase() + ' version coming soon' : 'Use ' + button.textContent;
+  button.setAttribute('aria-pressed', String(reelRangePreference === mode));
+  button.addEventListener('click', () => { reelRangePreference = mode; switchReelRange(); document.querySelector(`#reel-range-controls button[aria-pressed="true"]`)?.focus(); });
+  group.append(button);
+ });
+ const status = document.createElement('span');
+ status.textContent = reel.sources.sdr ? resolveReelRange(reel).toUpperCase() + ' source' : 'HDR source · SDR coming soon';
+ group.append(status);
+ document.querySelector('.reel-label').after(group);
+}
+hdrDisplay.addEventListener('change', () => {
+ if (activeScene === 'reel' && reelRangePreference === 'auto' && videos[currentReel].sources) switchReelRange();
+});
+
+function renderReel(resume = null) {
+ stopReel();
+ const slot = document.getElementById('reel-slot');
+ const reel = videos[currentReel];
+ renderRangeControls(reel);
+ if (reel.type === 'placeholder') {
+  renderReelPlacard(slot, reel);
+ } else if (reel.type === 'mp4') {
+  const video = document.createElement('video');
+  video.controls = true; video.playsInline = true; video.preload = 'metadata';
+  video.setAttribute('aria-label', reel.title);
+  video.setAttribute('controlslist', 'nodownload');
+  video.addEventListener('contextmenu', event => event.preventDefault());
+  video.src = reel.sources ? reel.sources[resolveReelRange(reel)] : reel.src;
+  if (resume) {
+   video.volume = resume.volume; video.muted = resume.muted; video.playbackRate = resume.rate;
+   video.addEventListener('loadedmetadata', () => {
+    if (!slot.contains(video)) return;
+    video.currentTime = Math.min(resume.time, Number.isFinite(video.duration) ? video.duration : resume.time);
+    if (resume.playing) video.play().catch(() => {});
+   }, { once: true });
+  }
+  video.addEventListener('error', () => {
+   if (!slot.contains(video)) return;
+   renderReelPlacard(slot, reel);
+  }, { once: true });
+  slot.append(video);
+ } else {
+  const frame = document.createElement('iframe');
+  const url = new URL(reel.src); url.searchParams.set('dnt','1'); url.searchParams.set('transparent','0'); url.searchParams.set('color','34dce4');
+  frame.src = url.toString(); frame.title = reel.title;
+  frame.allow = 'autoplay; fullscreen; picture-in-picture; encrypted-media'; frame.allowFullscreen = true;
+  frame.referrerPolicy = 'strict-origin-when-cross-origin'; slot.append(frame);
+ }
+ document.querySelector('.reel-note').textContent = reel.type === 'placeholder' ? reel.title : reel.title + ' · Press play. Let the work speak.';
+ document.getElementById('reelCount').textContent = `${String(currentReel + 1).padStart(2,'0')} / ${String(videos.length).padStart(2,'0')}`;
+ const dots = document.getElementById('dots'); dots.replaceChildren();
+ videos.forEach((_, index) => { const button = document.createElement('button'); button.type = 'button'; button.className = 'dot'; button.setAttribute('aria-label', `Show ${videos[index].title}`); button.setAttribute('aria-pressed', String(index === currentReel)); button.textContent = String(index + 1).padStart(2,'0'); button.addEventListener('click', () => { currentReel = index; renderReel(); }); dots.append(button); });
+}
+document.getElementById('prevBtn').addEventListener('click', () => { currentReel = (currentReel + videos.length - 1) % videos.length; renderReel(); });
+document.getElementById('nextBtn').addEventListener('click', () => { currentReel = (currentReel + 1) % videos.length; renderReel(); });
 
 // Keyboard support for the two compact tab groups.
 function wireTabs(selector, activate) {

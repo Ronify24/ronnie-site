@@ -2252,3 +2252,25 @@ body:has(dialog[open]) {
   #panel-projects .project-tabs { gap:24px; }
   #panel-projects .project-tabs > button { font-size:15px; }
 }
+
+/* A reusable title card for reels awaiting their media file. */
+.reel-placard {
+  width:100%; height:100%; min-height:180px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:18px; padding:clamp(20px,4vw,56px); text-align:center;
+  background:linear-gradient(110deg,rgba(3,18,24,.88),rgba(3,18,24,.55)),url('./assets/reel-light-sculpture.webp') center/cover;
+}
+.reel-placard .eyebrow { margin:0; font-size:clamp(9px,1vw,12px); }
+.reel-placard h2 { margin:0; color:#fbf1df; font-size:clamp(22px,3vw,42px); line-height:1.2; text-shadow:0 2px 14px #000,0 0 24px #fbf1df20; }
+.reel-placard-detail { margin:0; color:#c5d7da; font-size:clamp(12px,1.2vw,15px); }
+
+/* Allow the growing reel series to wrap on narrow screens. */
+.reel-controls .dots { flex-wrap:wrap; justify-content:center; min-width:0; }
+.reel-controls { gap:12px; }
+.reel-controls > .icon-button { flex-shrink:0; }
+
+.reel-range-controls { display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin:-6px 0 12px; }
+.reel-range-controls button { padding:7px 12px; border:1px solid var(--line); border-radius:6px; color:var(--muted); font-size:12px; }
+.reel-range-controls button[aria-pressed=true] { color:var(--cyan); border-color:var(--cyan); background:#153840; }
+.reel-range-controls button:disabled { opacity:.4; cursor:not-allowed; }
+.reel-range-controls span { margin-left:6px; color:var(--muted); font-size:11px; }
