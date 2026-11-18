@@ -2420,20 +2420,20 @@ body:has(dialog[open]) {
 
 /* Give the native Gen AI player priority over the legacy editorial column. */
 @media(min-width:1000px) and (min-height:501px) {
- #panel-reel:has(.has-native-hub) { grid-template-columns:minmax(190px,20%) minmax(0,1fr); gap:24px; padding:24px; }
- #panel-reel:has(.has-native-hub) .reel-intro h1 { font-size:clamp(48px,5vw,80px); margin:18px 0; }
- #panel-reel:has(.has-native-hub) .reel-intro > p:not(.eyebrow) { font-size:12px; }
- #panel-reel:has(.has-native-hub) .screening-room { position:relative; }
- #panel-reel:has(.has-native-hub) .reel-label { position:absolute; top:10px; left:0; right:auto; width:min(100%,var(--fitted-player-width,100%)); margin:0; pointer-events:none; }
- #panel-reel:has(.has-native-hub) .reel-label .eyebrow { font-size:9px; }
- #panel-reel:has(.has-native-hub) .reel-range-controls { min-height:40px; margin:0 0 10px; padding-left:155px; padding-right:60px; gap:6px; }
- #panel-reel:has(.has-native-hub) .reel-range-controls button { min-height:34px; font-size:12px; padding:6px 12px; }
- #panel-reel:has(.has-native-hub) .reel-note { display:none; }
+ #panel-reel { grid-template-columns:minmax(190px,20%) minmax(0,1fr); gap:24px; padding:24px; }
+ #panel-reel .reel-intro h1 { font-size:clamp(48px,5vw,80px); margin:18px 0; }
+ #panel-reel .reel-intro > p:not(.eyebrow) { font-size:12px; }
+ #panel-reel .screening-room { position:relative; }
+ #panel-reel .reel-label { position:absolute; top:10px; left:0; right:auto; width:min(100%,var(--fitted-player-width,100%)); margin:0; pointer-events:none; }
+ #panel-reel .reel-label .eyebrow { font-size:9px; }
+ #panel-reel .reel-range-controls { min-height:40px; margin:0 0 10px; padding-left:155px; padding-right:60px; gap:6px; }
+ #panel-reel .reel-range-controls button { min-height:34px; font-size:12px; padding:6px 12px; }
+ #panel-reel .reel-note { display:none; }
 }
-.screening-room:has(.has-native-hub) > .reel-controls { width:min(100%,var(--fitted-player-width,100%)); }
+.screening-room > .reel-controls { width:min(100%,var(--fitted-player-width,100%)); }
 @media(min-width:1000px) and (max-width:1200px) {
- #panel-reel:has(.has-native-hub) .reel-label .eyebrow { display:none; }
- #panel-reel:has(.has-native-hub) .reel-range-controls { padding-left:0; }
+ #panel-reel .reel-label .eyebrow { display:none; }
+ #panel-reel .reel-range-controls { padding-left:0; }
 }
 
 /* Phones use a compact horizontal transport immediately under the frame. */
@@ -2445,3 +2445,15 @@ body:has(dialog[open]) {
  .reel-stage.has-native-hub .reel-volume-popup { left:0; right:auto; bottom:calc(100% + 12px); width:180px; }
  .reel-stage.has-native-hub:fullscreen { align-items:center; justify-content:center; }
 }
+
+/* Stable geometry for native reels, Vimeo embeds, and future title cards. */
+.reel-range-reserved { visibility:hidden; min-height:40px; }
+.reel-stage.has-passive-frame { align-items:flex-start; justify-content:flex-start; }
+.reel-stage.has-passive-frame > .reel { flex:0 0 auto; max-height:none; aspect-ratio:auto; }
+@media(min-width:1000px) and (min-height:501px) {
+ #panel-reel .reel-intro { justify-content:flex-start; padding-top:50px; }
+ #panel-reel .reel-intro > .eyebrow { margin-top:0; }
+ #panel-reel .reel-intro h1 { flex-shrink:0; }
+}
+@media(max-width:999px) { #panel-reel .reel-range-reserved { min-height:36px; } }
+@media(max-width:999px) and (orientation:landscape) { #panel-reel .reel-range-reserved { min-height:30px; } }

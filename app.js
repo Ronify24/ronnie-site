@@ -142,9 +142,12 @@ function switchReelRange() {
 }
 function renderRangeControls(reel) {
  document.getElementById('reel-range-controls')?.remove();
- if (!reel.sources) return;
  const group = document.createElement('div');
  group.id = 'reel-range-controls'; group.className = 'reel-range-controls';
+ if (!reel.sources) {
+  group.classList.add('reel-range-reserved'); group.setAttribute('aria-hidden', 'true');
+  document.querySelector('.reel-label').after(group); return;
+ }
  group.setAttribute('role', 'group'); group.setAttribute('aria-label', 'Video dynamic range');
  ['auto', 'hdr', 'sdr'].forEach(mode => {
   const button = document.createElement('button'); button.type = 'button';
@@ -273,6 +276,9 @@ function renderReel(resume = null) {
  document.getElementById('reel-scrubber')?.remove();
  const slot = document.getElementById('reel-slot');
  const reel = videos[currentReel];
+ if (!slot.parentElement.classList.contains('reel-stage')) {
+  const stage = document.createElement('div'); stage.className = 'reel-stage'; slot.before(stage); stage.append(slot);
+ }
  renderRangeControls(reel);
  if (reel.type === 'placeholder') {
   renderReelPlacard(slot, reel);
@@ -312,6 +318,18 @@ function renderReel(resume = null) {
   frame.src = url.toString(); frame.title = reel.title;
   frame.allow = 'autoplay; fullscreen; picture-in-picture; encrypted-media'; frame.allowFullscreen = true;
   frame.referrerPolicy = 'strict-origin-when-cross-origin'; slot.append(frame);
+ }
+ if (reel.type !== 'mp4') {
+  const stage = slot.parentElement;
+  stage.classList.add('has-passive-frame');
+  const fit = () => {
+   const horizontal = window.matchMedia('(max-width:999px)').matches;
+   const width = Math.min(Math.max(1, stage.clientWidth - (horizontal ? 0 : 64)), Math.max(1, stage.clientHeight - (horizontal ? 52 : 0)) * 16 / 9);
+   slot.style.width = width + 'px'; slot.style.height = width * 9 / 16 + 'px';
+   stage.parentElement.style.setProperty('--fitted-player-width', (width + (horizontal ? 0 : 64)) + 'px');
+  };
+  const observer = new ResizeObserver(fit); observer.observe(stage); fit();
+  cleanupReelLayout = () => { observer.disconnect(); stage.classList.remove('has-passive-frame'); slot.style.removeProperty('width'); slot.style.removeProperty('height'); stage.parentElement.style.removeProperty('--fitted-player-width'); };
  }
  document.querySelector('.reel-note').textContent = reel.type === 'placeholder' ? reel.title : reel.title + ' · Press play. Let the work speak.';
  document.getElementById('reelCount').textContent = `${String(currentReel + 1).padStart(2,'0')} / ${String(videos.length).padStart(2,'0')}`;
