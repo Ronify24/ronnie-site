@@ -2274,3 +2274,110 @@ body:has(dialog[open]) {
 .reel-range-controls button[aria-pressed=true] { color:var(--cyan); border-color:var(--cyan); background:#153840; }
 .reel-range-controls button:disabled { opacity:.4; cursor:not-allowed; }
 .reel-range-controls span { margin-left:6px; color:var(--muted); font-size:11px; }
+
+.reel-range-controls button { min-height:40px; padding:9px 16px; background:#08212b; color:#fbf1df; border-color:#64848d; font-size:14px; font-weight:700; box-shadow:0 2px 8px #0005; }
+.reel-range-controls button[aria-pressed=true] { color:#03191e; background:#38dce5; border-color:#8df5f5; box-shadow:0 0 16px #38dce530; }
+.reel-range-controls button:not(:disabled):hover { border-color:#fbf1df; }
+#reel-scrubber { display:flex; align-items:center; gap:12px; padding:10px 12px; margin-top:8px; background:#061b23; border:1px solid #37616d; border-radius:7px; }
+#reel-scrubber input { flex:1; min-width:0; height:24px; accent-color:var(--cyan); cursor:pointer; }
+#reel-scrubber span { color:#fbf1df; font-size:12px; font-variant-numeric:tabular-nums; white-space:nowrap; }
+
+#reel-scrubber { flex-direction:column; gap:6px; }
+.reel-timeline { display:flex; align-items:center; gap:12px; width:100%; }
+.reel-playback-actions { display:flex; align-items:center; gap:8px; width:100%; }
+#reel-scrubber button,#reel-scrubber select { min-width:40px; min-height:40px; border:1px solid #42616a; border-radius:6px; color:#fbf1df; background:#0b2832; cursor:pointer; }
+#reel-scrubber button:hover { color:var(--cyan); border-color:var(--cyan); }
+#reel-scrubber .reel-volume { flex:0 1 90px; width:90px; }
+#reel-scrubber select { margin-left:auto; padding:0 8px; }
+.reel-stage { min-width:0; min-height:0; }
+.reel-stage:fullscreen { display:flex; flex-direction:column; justify-content:center; background:#000; padding:12px; }
+.reel-stage:fullscreen .reel { flex:1; min-height:0; max-height:none; aspect-ratio:auto; border:0; }
+.reel-stage:fullscreen video { object-fit:contain; }
+.reel-stage:fullscreen #reel-scrubber { flex-shrink:0; }
+@media(max-width:420px) { .reel-playback-actions { gap:5px; } #reel-scrubber .reel-volume { flex-basis:55px; width:55px; } }
+
+/* Quiet, rounded transport controls keep the film as the focal point. */
+#reel-scrubber { padding:12px 16px 10px; border-color:#31515b; border-radius:16px; background:linear-gradient(135deg,#102a33,#071b23); box-shadow:0 8px 24px #0002,inset 0 1px 0 #ffffff08; }
+#reel-scrubber button,#reel-scrubber select { min-width:44px; min-height:44px; border:1px solid transparent; border-radius:50%; background:transparent; color:#dcebed; font-size:14px; transition:background .18s ease,color .18s ease,border-color .18s ease,box-shadow .18s ease; }
+#reel-scrubber button:hover { background:#ffffff09; border-color:#8edce024; color:#7ce9ed; }
+#reel-scrubber button:active { background:#34dce41a; }
+#reel-scrubber button:first-child { background:#34dce412; color:#8cf0f1; border-color:#34dce425; }
+#reel-scrubber button:first-child:hover { background:#34dce425; box-shadow:0 0 16px #34dce412; }
+#reel-scrubber select { border-radius:20px; min-width:70px; padding:0 10px; background:#ffffff05; font-size:12px; border-color:#ffffff0d; }
+#reel-scrubber select option { background:#0b242d; color:#effbff; }
+#reel-scrubber :is(button,select,input):focus-visible { outline:2px solid #8cf0f1; outline-offset:3px; }
+#reel-scrubber input[type=range] { appearance:none; -webkit-appearance:none; background:transparent; }
+#reel-scrubber input[type=range]::-webkit-slider-runnable-track { height:4px; border-radius:4px; background:#4b6b73; }
+#reel-scrubber input[type=range]::-webkit-slider-thumb { appearance:none; -webkit-appearance:none; width:12px; height:12px; margin-top:-4px; border-radius:50%; background:#9cf2ef; box-shadow:0 0 8px #34dce430; }
+#reel-scrubber input[type=range]::-moz-range-track { height:4px; border-radius:4px; background:#4b6b73; }
+#reel-scrubber input[type=range]::-moz-range-progress { height:4px; border-radius:4px; background:#66dadd; }
+#reel-scrubber input[type=range]::-moz-range-thumb { width:12px; height:12px; border:0; border-radius:50%; background:#9cf2ef; }
+@media(prefers-reduced-motion:reduce) { #reel-scrubber button,#reel-scrubber select { transition:none; } }
+
+/* One transport row, with audio tucked into a floating frosted panel. */
+#reel-scrubber { padding:8px 12px; overflow:visible; }
+.reel-playback-actions > .reel-timeline { flex:1; width:auto; min-width:60px; margin:0 8px; }
+#reel-scrubber .reel-playback-actions > select { margin-left:0; }
+.reel-playback-actions > button,.reel-audio { flex-shrink:0; }
+.reel-audio { position:relative; }
+.reel-volume-popup { position:absolute; bottom:calc(100% + 16px); left:0; z-index:10; display:flex; align-items:center; gap:10px; width:200px; padding:10px 12px; border:1px solid #9ce9ec40; border-radius:16px; background:rgba(12,36,45,.88); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); box-shadow:0 12px 36px #0006; }
+.reel-volume-popup[hidden] { display:none; }
+#reel-scrubber .reel-volume-popup .reel-volume { flex:1; width:110px; }
+#reel-scrubber .reel-audio > button { background:transparent; border-color:transparent; color:#dcebed; }
+@media(max-width:600px) {
+ .reel-playback-actions { flex-wrap:wrap; }
+ .reel-playback-actions > .reel-timeline { order:2; flex-basis:100%; margin:0; }
+ #reel-scrubber .reel-playback-actions > select { margin-left:auto; }
+}
+
+/* Reserve each player's full height so navigation cannot slide over it. */
+.screening-room { justify-content:flex-start; overflow-y:auto; }
+.screening-room > * { flex-shrink:0; }
+.reel-stage { display:flex; flex-direction:column; flex-shrink:0; }
+.reel-stage > .reel,#reel-scrubber { flex-shrink:0; }
+.reel-controls { display:grid; grid-template-columns:44px minmax(0,1fr) 44px; align-items:center; gap:12px; margin-top:18px; padding:2px 0; }
+.reel-controls > .icon-button { width:44px; height:44px; }
+.reel-controls .dots { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; min-width:0; }
+.reel-controls .dot { flex:0 0 36px; width:36px; height:36px; }
+.reel-note { flex-shrink:0; }
+@media(max-width:520px) {
+ .reel-controls { gap:8px; }
+ .reel-controls .dots { gap:6px; }
+}
+
+/* Secondary tools share a compact settings popover. */
+.reel-settings { position:relative; flex-shrink:0; }
+.reel-settings-popup { position:absolute; right:0; bottom:calc(100% + 12px); width:220px; z-index:12; padding:12px; border:1px solid #9ce9ec40; border-radius:14px; background:rgba(12,36,45,.94); backdrop-filter:blur(20px); box-shadow:0 12px 36px #0006; }
+.reel-settings-popup[hidden] { display:none; }
+.reel-settings-popup label { display:flex; align-items:center; justify-content:space-between; gap:10px; font-size:12px; color:#effbff; }
+#reel-scrubber .reel-settings-popup button { width:100%; border-radius:8px; display:flex; align-items:center; gap:12px; padding:0 10px; margin-top:8px; }
+#reel-scrubber .reel-settings > button { background:transparent; border-color:transparent; color:#dcebed; }
+.screening-room { overflow:visible; }
+.reel-stage .reel video { object-fit:contain; }
+@media(min-width:1000px) and (min-height:501px) {
+ .screening-room { height:100%; min-height:0; }
+ .screening-room > .reel-stage { flex:1 1 0; min-height:0; }
+ .reel-stage > .reel { flex:1 1 0; min-height:0; height:0; max-height:none; aspect-ratio:auto; }
+ .screening-room > .reel-controls { margin-top:10px; }
+ .screening-room > .reel-note { margin-top:8px; margin-bottom:0; }
+}
+
+/* Cinematic frame with a separate, always-accessible vertical control hub. */
+.reel-stage.has-native-hub { flex-direction:row; align-items:flex-start; justify-content:space-between; gap:12px; }
+.reel-stage.has-native-hub > .reel { position:relative; flex:0 0 auto; max-width:calc(100% - 64px); max-height:none; aspect-ratio:auto; align-self:flex-start; }
+.reel-stage.has-native-hub #reel-scrubber { width:52px; flex:0 0 52px; padding:6px 3px; margin:0; border-radius:26px; }
+.reel-stage.has-native-hub .reel-playback-actions { flex-direction:column; flex-wrap:nowrap; gap:6px; }
+.reel-stage.has-native-hub .reel-volume-popup { left:auto; right:calc(100% + 14px); bottom:0; }
+.reel-stage.has-native-hub .reel-settings-popup { right:calc(100% + 14px); bottom:0; }
+.reel > .reel-timeline { position:absolute; bottom:0; left:0; width:100%; padding:20px 14px 12px; gap:12px; background:linear-gradient(transparent,rgba(2,14,20,.9)); opacity:0; pointer-events:none; transition:opacity .18s ease; z-index:2; }
+.reel.show-timeline > .reel-timeline,.reel > .reel-timeline:focus-within { opacity:1; pointer-events:auto; }
+.reel > .reel-timeline input { min-width:0; flex:1; height:28px; accent-color:#8cf0f1; cursor:pointer; }
+.reel > .reel-timeline span { color:#fbf1df; white-space:nowrap; font-size:12px; font-variant-numeric:tabular-nums; }
+.reel-stage.has-native-hub:fullscreen { align-items:center; }
+.reel-stage.has-native-hub:fullscreen > .reel { align-self:center; }
+@media(max-width:520px) { .reel > .reel-timeline { gap:6px; padding:16px 8px 6px; } .reel > .reel-timeline span { font-size:10px; } }
+@media(prefers-reduced-motion:reduce) { .reel > .reel-timeline { transition:none; } }
+
+/* Keep the rail attached to the fitted frame, with tools directly accessible. */
+.reel-stage.has-native-hub { justify-content:flex-start; }
+#reel-scrubber .reel-playback-actions > select { margin:0; min-width:44px; width:44px; padding:0 2px; border-radius:12px; font-size:11px; }

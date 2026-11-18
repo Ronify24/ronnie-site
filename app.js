@@ -7,7 +7,7 @@ let reelRendered = false;
 let currentReel = 0;
 // Add MP4 or Vimeo entries here; the first entry is selected by default.
 const videos = [
- { type: 'mp4', src: './assets/GenAI_Animation_HDR_v2.mp4', sources: { hdr: './assets/GenAI_Animation_HDR_v2.mp4', sdr: null }, title: 'Generative Media | Animation' },
+ { type: 'mp4', src: './assets/GenAI_Animation_HDR_v2.mp4', sources: { hdr: './assets/GenAI_Animation_HDR_v2.mp4', sdr: './assets/GenAI_Animation_SDR.mp4' }, title: 'Generative Media | Animation' },
  { type: 'placeholder', title: 'Generative Media | VFX' },
  { type: 'placeholder', title: 'Generative Media | Feature Film' },
  ...[
@@ -18,7 +18,9 @@ const videos = [
   'https://player.vimeo.com/video/8502989?h=81ef88331d'
  ].map((src, index) => ({ type: 'vimeo', src, title: `Selected reel ${index + 1}` }))
 ];
+let cleanupReelLayout = () => {};
 function stopReel() {
+ cleanupReelLayout(); cleanupReelLayout = () => {};
  const video = document.querySelector('#reel-slot video');
  if (video) { video.pause(); video.removeAttribute('src'); video.load(); }
  document.getElementById('reel-slot').replaceChildren();
@@ -132,9 +134,10 @@ function resolveReelRange(reel) {
  if (hdrDisplay.matches && hevc && reel.sources.hdr) return 'hdr';
  return reel.sources.sdr ? 'sdr' : 'hdr';
 }
+const pendingReelResume = new WeakMap();
 function switchReelRange() {
  const previous = document.querySelector('#reel-slot video');
- const state = previous ? { time: previous.currentTime, playing: !previous.paused, volume: previous.volume, muted: previous.muted, rate: previous.playbackRate } : null;
+ const state = previous ? pendingReelResume.get(previous) || { time: previous.currentTime, playing: !previous.paused, volume: previous.volume, muted: previous.muted, rate: previous.playbackRate } : null;
  renderReel(state);
 }
 function renderRangeControls(reel) {
@@ -161,8 +164,110 @@ hdrDisplay.addEventListener('change', () => {
  if (activeScene === 'reel' && reelRangePreference === 'auto' && videos[currentReel].sources) switchReelRange();
 });
 
+function addReelScrubber(video, slot) {
+ const bar = document.createElement('div'); bar.id = 'reel-scrubber';
+ const range = document.createElement('input'); range.type = 'range'; range.min = '0'; range.max = '0'; range.step = '.1'; range.value = '0'; range.disabled = true;
+ range.setAttribute('aria-label', 'Seek video');
+ const time = document.createElement('span'); time.textContent = '0:00 / 0:00';
+ const stamp = seconds => `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`;
+ const update = () => {
+  if (!Number.isFinite(video.duration)) return;
+  range.max = video.duration; range.disabled = false; range.value = video.currentTime;
+  time.textContent = `${stamp(video.currentTime)} / ${stamp(video.duration)}`;
+  range.setAttribute('aria-valuetext', time.textContent);
+ };
+ range.addEventListener('input', () => { pendingReelResume.delete(video); video.currentTime = Number(range.value); update(); });
+ ['loadedmetadata', 'durationchange', 'timeupdate', 'seeked'].forEach(event => video.addEventListener(event, update));
+ const makeButton = (label, icon, action) => {
+  const button = document.createElement('button'); button.type = 'button';
+  button.setAttribute('aria-label', label); button.title = label;
+  button.innerHTML = `<i class="fa-solid ${icon}" aria-hidden="true"></i>`;
+  button.addEventListener('click', action); return button;
+ };
+ const togglePlay = () => { if (video.paused) video.play().catch(() => {}); else video.pause(); };
+ const play = makeButton('Play', 'fa-play', togglePlay);
+ const syncPlay = () => {
+  const label = video.paused ? 'Play' : 'Pause';
+  play.setAttribute('aria-label', label); play.title = label;
+  play.firstElementChild.className = 'fa-solid ' + (video.paused ? 'fa-play' : 'fa-pause');
+ };
+ ['play','pause','ended'].forEach(event => video.addEventListener(event, syncPlay));
+ video.addEventListener('click', togglePlay);
+ const audio = document.createElement('div'); audio.className = 'reel-audio';
+ const popup = document.createElement('div'); popup.className = 'reel-volume-popup'; popup.id = 'reel-volume-popup'; popup.hidden = true;
+ const audioButton = makeButton('Audio controls', 'fa-volume-high', () => { popup.hidden = !popup.hidden; audioButton.setAttribute('aria-expanded', String(!popup.hidden)); });
+ audioButton.setAttribute('aria-expanded', 'false'); audioButton.setAttribute('aria-controls', popup.id);
+ const closeAudio = () => { popup.hidden = true; audioButton.setAttribute('aria-expanded','false'); };
+ audio.addEventListener('keydown', event => { if (event.key === 'Escape') { closeAudio(); audioButton.focus(); } });
+ audio.addEventListener('focusout', event => { if (!audio.contains(event.relatedTarget)) closeAudio(); });
+ bar.addEventListener('click', event => { if (!audio.contains(event.target)) closeAudio(); });
+ const mute = makeButton('Mute', 'fa-volume-high', () => { video.muted = !video.muted; });
+ const volume = document.createElement('input'); volume.type = 'range'; volume.min = '0'; volume.max = '1'; volume.step = '.05'; volume.className = 'reel-volume'; volume.setAttribute('aria-label','Volume');
+ volume.addEventListener('input', () => { video.volume = Number(volume.value); video.muted = video.volume === 0; });
+ const syncVolume = () => {
+  const silent = video.muted || video.volume === 0;
+  mute.setAttribute('aria-label', silent ? 'Unmute' : 'Mute'); mute.title = silent ? 'Unmute' : 'Mute';
+  mute.firstElementChild.className = 'fa-solid ' + (silent ? 'fa-volume-xmark' : 'fa-volume-high');
+  audioButton.firstElementChild.className = mute.firstElementChild.className;
+  volume.value = video.muted ? 0 : video.volume;
+ };
+ video.addEventListener('volumechange', syncVolume); syncVolume();
+ popup.append(mute, volume); audio.append(audioButton, popup);
+ const speed = document.createElement('select'); speed.setAttribute('aria-label','Playback speed');
+ [.5,.75,1,1.25,1.5,2].forEach(rate => { const option = document.createElement('option'); option.value = rate; option.textContent = rate + '×'; speed.append(option); });
+ speed.value = video.playbackRate;
+ speed.addEventListener('change', () => { video.playbackRate = Number(speed.value); });
+ let stage = slot.parentElement;
+ if (!stage.classList.contains('reel-stage')) {
+  stage = document.createElement('div'); stage.className = 'reel-stage'; slot.before(stage); stage.append(slot);
+ }
+ const fullscreen = makeButton('Toggle fullscreen', 'fa-expand', async () => {
+  try {
+   if (document.fullscreenElement) await document.exitFullscreen();
+   else if (stage.requestFullscreen) await stage.requestFullscreen();
+   else if (video.webkitEnterFullscreen) video.webkitEnterFullscreen();
+  } catch (_) { /* Keep playback available if fullscreen is denied. */ }
+ });
+ const timeline = document.createElement('div'); timeline.className = 'reel-timeline'; timeline.append(range,time);
+ speed.title = 'Playback speed';
+ const actions = document.createElement('div'); actions.className = 'reel-playback-actions'; actions.append(fullscreen,play,audio,speed);
+ if (document.pictureInPictureEnabled && video.requestPictureInPicture) {
+  const pip = makeButton('Picture in picture', 'fa-clone', async () => {
+   try { if (document.pictureInPictureElement) await document.exitPictureInPicture(); else await video.requestPictureInPicture(); } catch (_) {}
+  });
+  actions.append(pip);
+ }
+ bar.append(actions); slot.after(bar); slot.append(timeline);
+ stage.classList.add('has-native-hub');
+ video.tabIndex = 0;
+ const events = new AbortController(); const opts = { signal: events.signal };
+ const reveal = () => slot.classList.add('show-timeline');
+ const conceal = () => slot.classList.remove('show-timeline');
+ slot.addEventListener('pointerenter', event => { if (event.pointerType === 'mouse') reveal(); }, opts);
+ stage.addEventListener('pointerleave', conceal, opts);
+ slot.addEventListener('pointerdown', reveal, opts);
+ slot.addEventListener('focusin', reveal, opts);
+ stage.addEventListener('focusout', event => { if (!stage.contains(event.relatedTarget)) conceal(); }, opts);
+ document.addEventListener('pointerdown', event => { if (!stage.contains(event.target)) { conceal(); closeAudio(); } }, opts);
+ video.addEventListener('keydown', event => { if (event.key === ' ' || event.key === 'Enter') { event.preventDefault(); togglePlay(); reveal(); } }, opts);
+ const fit = () => {
+  const ratio = video.videoWidth && video.videoHeight ? video.videoWidth / video.videoHeight : 16/9;
+  const availableWidth = Math.max(1, stage.clientWidth - bar.offsetWidth - 12);
+  const constrained = document.fullscreenElement === stage || window.matchMedia('(min-width:1000px) and (min-height:501px)').matches;
+  const availableHeight = constrained ? Math.max(1, stage.clientHeight - (document.fullscreenElement === stage ? 24 : 0)) : Infinity;
+  const width = Math.min(availableWidth, availableHeight * ratio);
+  slot.style.width = width + 'px'; slot.style.height = width / ratio + 'px';
+ };
+ const observer = new ResizeObserver(fit); observer.observe(stage);
+ video.addEventListener('loadedmetadata', fit, opts);
+ document.addEventListener('fullscreenchange', fit, opts); fit();
+ cleanupReelLayout = () => { observer.disconnect(); events.abort(); stage.classList.remove('has-native-hub'); slot.style.removeProperty('width'); slot.style.removeProperty('height'); conceal(); };
+
+}
+
 function renderReel(resume = null) {
  stopReel();
+ document.getElementById('reel-scrubber')?.remove();
  const slot = document.getElementById('reel-slot');
  const reel = videos[currentReel];
  renderRangeControls(reel);
@@ -170,17 +275,25 @@ function renderReel(resume = null) {
   renderReelPlacard(slot, reel);
  } else if (reel.type === 'mp4') {
   const video = document.createElement('video');
-  video.controls = true; video.playsInline = true; video.preload = 'metadata';
+  video.controls = false; video.playsInline = true; video.preload = 'metadata';
   video.setAttribute('aria-label', reel.title);
   video.setAttribute('controlslist', 'nodownload');
   video.addEventListener('contextmenu', event => event.preventDefault());
   video.src = reel.sources ? reel.sources[resolveReelRange(reel)] : reel.src;
   if (resume) {
+   pendingReelResume.set(video, resume);
    video.volume = resume.volume; video.muted = resume.muted; video.playbackRate = resume.rate;
    video.addEventListener('loadedmetadata', () => {
     if (!slot.contains(video)) return;
-    video.currentTime = Math.min(resume.time, Number.isFinite(video.duration) ? video.duration : resume.time);
-    if (resume.playing) video.play().catch(() => {});
+    const target = Math.min(resume.time, Number.isFinite(video.duration) ? video.duration : resume.time);
+    const restored = () => {
+     pendingReelResume.delete(video);
+     if (slot.contains(video) && resume.playing) video.play().catch(() => {});
+    };
+    if (Math.abs(video.currentTime - target) > .01) {
+     video.addEventListener('seeked', restored, { once: true });
+     video.currentTime = target;
+    } else restored();
    }, { once: true });
   }
   video.addEventListener('error', () => {
@@ -188,6 +301,7 @@ function renderReel(resume = null) {
    renderReelPlacard(slot, reel);
   }, { once: true });
   slot.append(video);
+  addReelScrubber(video, slot);
  } else {
   const frame = document.createElement('iframe');
   const url = new URL(reel.src); url.searchParams.set('dnt','1'); url.searchParams.set('transparent','0'); url.searchParams.set('color','34dce4');

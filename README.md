@@ -22,8 +22,7 @@ The `videos` array near the top of `app.js` supports both local MP4 and Vimeo
 entries. The first entry is the default selection (playback starts on Play).
 The Generative Media reel uses `assets/GenAI_Animation_HDR_v2.mp4` in the native
 HTML video player. This is a 59.7 MB HEVC/HDR file; playback requires browser
-HEVC support, and HDR presentation depends on the device/display. An SDR source
-can be added later for broader compatibility. Keep uploaded files below GitHub's
+HEVC support, and HDR presentation depends on the device/display. The SDR alternative is `assets/GenAI_Animation_SDR.mp4` (H.264/BT.709). Keep uploaded files below GitHub's
 100 MiB per-file push limit and publish files over 25 MiB using Git/Desktop.
 
 To migrate another reel, replace its Vimeo entry with:
@@ -34,8 +33,7 @@ use `{ type: 'vimeo', src: 'https://player.vimeo.com/video/ID', title: 'Title' }
 VFX and Feature Film follow Animation as `placeholder` entries. Replace their
 type with `vimeo` or `mp4` and add a `src` to connect each finished reel.
 
-Animation has a `sources` map for HDR/SDR selection. Keep `sdr: null` until the
-SDR file is published, then set it to the relative MP4 URL. Auto prefers HDR
+Animation has a `sources` map for HDR/SDR selection. Both sources are connected. Publish both MP4 files with the player update. Auto prefers HDR
 when the display reports high dynamic range and the browser reports HEVC
 support; otherwise it prefers SDR. While SDR is absent, only HDR is served.
 Manual switching retains playback position. Download controls are hidden where
