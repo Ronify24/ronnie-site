@@ -2463,3 +2463,17 @@ body:has(dialog[open]) {
  .screening-room > .reel-controls { width:100%; }
  .reel-stage.has-passive-frame > .reel { width:100%; height:auto; aspect-ratio:16/9; }
 }
+
+/* A stable, centered phone-landscape stage for every reel source. */
+@media(max-width:999px) and (orientation:landscape) {
+ #panel-reel .screening-room { display:grid; grid-template-columns:minmax(0,1fr); grid-template-rows:30px minmax(0,1fr) 32px; gap:6px; min-width:0; }
+ #panel-reel .reel-range-controls { grid-row:1; margin:0; min-height:30px; justify-content:center; padding:0 54px; flex-wrap:nowrap; }
+ #panel-reel .reel-range-controls span { display:none; }
+ #panel-reel .reel-label { top:6px; right:0; }
+ #panel-reel .reel-stage { grid-row:2; height:100%; width:100%; min-height:0; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; gap:8px; }
+ #panel-reel .reel-stage > .reel { align-self:center; flex:0 0 auto; min-height:0; max-width:100%; }
+ #panel-reel .reel-stage #reel-scrubber { align-self:center; height:36px; min-height:36px; box-sizing:border-box; }
+ #panel-reel .reel-controls { grid-row:3; margin:0; width:100%; max-width:580px; justify-self:center; padding:0; }
+ #panel-reel .reel-controls .dots { flex-wrap:nowrap; gap:5px; }
+ #panel-reel .reel-controls .dot { flex:0 1 30px; min-width:24px; }
+}

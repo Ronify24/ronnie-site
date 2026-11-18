@@ -256,9 +256,11 @@ function addReelScrubber(video, slot) {
  const fit = () => {
   const ratio = video.videoWidth && video.videoHeight ? video.videoWidth / video.videoHeight : 16/9;
   const horizontal = window.matchMedia('(max-width:999px)').matches;
+  const landscapePhone = window.matchMedia('(max-width:999px) and (orientation:landscape)').matches;
   const inset = document.fullscreenElement === stage ? 24 : 0;
   const availableWidth = Math.max(1, stage.clientWidth - inset - (horizontal ? 0 : bar.offsetWidth + 12));
-  const availableHeight = Math.max(1, stage.clientHeight - inset - (horizontal ? bar.offsetHeight + 8 : 0));
+  const availableHeight = Math.max(1, stage.clientHeight - inset - (horizontal ? (landscapePhone ? 44 : bar.offsetHeight + 8) : 0));
+  if (stage.clientWidth < 2 || stage.clientHeight < 54) return;
   const width = Math.min(availableWidth, availableHeight * ratio);
   slot.style.width = width + 'px'; slot.style.height = width / ratio + 'px';
   stage.style.setProperty('--video-fit-width', width + 'px');
@@ -327,7 +329,7 @@ function renderReel(resume = null) {
    // Wait for the portrait flex layout to settle before sizing the embed.
    // Never let a transient zero-height stage collapse the navigation width.
    if (stage.clientWidth < 2 || stage.clientHeight < 54) return;
-   const width = Math.min(stage.clientWidth - (horizontal ? 0 : 64), (stage.clientHeight - (horizontal ? 52 : 0)) * 16 / 9);
+   const width = Math.min(stage.clientWidth - (horizontal ? 0 : 64), (stage.clientHeight - (horizontal ? (window.matchMedia('(orientation:landscape)').matches ? 44 : 52) : 0)) * 16 / 9);
    slot.style.width = width + 'px'; slot.style.height = width * 9 / 16 + 'px';
    stage.parentElement.style.setProperty('--fitted-player-width', (width + (horizontal ? 0 : 64)) + 'px');
   };
