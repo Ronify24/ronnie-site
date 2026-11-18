@@ -2381,3 +2381,39 @@ body:has(dialog[open]) {
 /* Keep the rail attached to the fitted frame, with tools directly accessible. */
 .reel-stage.has-native-hub { justify-content:flex-start; }
 #reel-scrubber .reel-playback-actions > select { margin:0; min-width:44px; width:44px; padding:0 2px; border-radius:12px; font-size:11px; }
+
+/* Phone screening mode reserves the viewport for the player and its controls. */
+@media(max-width:999px) {
+ body:has(#panel-reel.active) .site-footer { display:none; }
+ #panel-reel { height:calc(100dvh - 160px); min-height:0; padding:14px; gap:10px; grid-template-rows:auto minmax(0,1fr); }
+ #panel-reel .reel-intro { display:block; }
+ #panel-reel .reel-intro > :not(.eyebrow) { display:none; }
+ #panel-reel .reel-intro .eyebrow { margin:0; font-size:10px; }
+ #panel-reel .screening-room { height:100%; min-height:0; }
+ #panel-reel .reel-label { margin-bottom:10px; }
+ #panel-reel .reel-range-controls { margin:0 0 10px; }
+ #panel-reel .reel-range-controls button { padding:6px 12px; min-height:36px; font-size:12px; }
+ #panel-reel .reel-stage { flex:1 1 0; min-height:0; }
+ #panel-reel .reel-note { display:none; }
+ #panel-reel .reel-controls { margin-top:10px; }
+ .reel-stage.has-native-hub > .reel { flex:none; }
+}
+@media(max-width:999px) and (orientation:landscape) {
+ body:has(#panel-reel.active) .site-header { min-height:0; height:48px; padding-top:0; flex-wrap:nowrap; gap:12px; }
+ body:has(#panel-reel.active) .primary-nav { order:0; width:auto; height:40px; flex:1; }
+ body:has(#panel-reel.active) .brand { display:none; }
+ body:has(#panel-reel.active) main { margin:6px 12px 0; }
+ #panel-reel.active { height:calc(100dvh - 62px); padding:10px 14px; display:flex; }
+ #panel-reel .reel-intro { display:none; }
+ #panel-reel .screening-room { flex:1; position:relative; }
+ #panel-reel .reel-label { position:absolute; right:0; top:6px; margin:0; }
+ #panel-reel .reel-label .eyebrow { display:none; }
+ #panel-reel .reel-range-controls { margin-bottom:6px; }
+ #panel-reel .reel-range-controls button { min-height:30px; padding:4px 10px; }
+ #panel-reel .reel-controls { margin-top:6px; grid-template-columns:32px minmax(0,1fr) 32px; }
+ #panel-reel .reel-controls > .icon-button,#panel-reel .reel-controls .dot { width:30px; height:30px; }
+ #panel-reel .reel-controls .dot { flex-basis:30px; }
+ #panel-reel #reel-scrubber .reel-playback-actions { gap:2px; }
+ #panel-reel #reel-scrubber button,#panel-reel #reel-scrubber select { min-height:30px; height:30px; min-width:36px; }
+ #panel-reel #reel-scrubber { padding:3px; }
+}

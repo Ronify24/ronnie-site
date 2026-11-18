@@ -7,7 +7,7 @@ let reelRendered = false;
 let currentReel = 0;
 // Add MP4 or Vimeo entries here; the first entry is selected by default.
 const videos = [
- { type: 'mp4', src: './assets/GenAI_Animation_HDR_v2.mp4', sources: { hdr: './assets/GenAI_Animation_HDR_v2.mp4', sdr: './assets/GenAI_Animation_SDR.mp4' }, title: 'Generative Media | Animation' },
+ { type: 'mp4', src: './assets/GenAI_Animation_HDR_v2.mp4', sources: { hdr: './assets/GenAI_Animation_HDR_v2.mp4', sdr: './assets/GenAI_Animation_SDR.mp4' }, poster: './assets/Ronnie Cleland Generative Media Studio.webp', title: 'Generative Media | Animation' },
  { type: 'placeholder', title: 'Generative Media | VFX' },
  { type: 'placeholder', title: 'Generative Media | Feature Film' },
  ...[
@@ -253,7 +253,7 @@ function addReelScrubber(video, slot) {
  const fit = () => {
   const ratio = video.videoWidth && video.videoHeight ? video.videoWidth / video.videoHeight : 16/9;
   const availableWidth = Math.max(1, stage.clientWidth - bar.offsetWidth - 12);
-  const constrained = document.fullscreenElement === stage || window.matchMedia('(min-width:1000px) and (min-height:501px)').matches;
+  const constrained = true;
   const availableHeight = constrained ? Math.max(1, stage.clientHeight - (document.fullscreenElement === stage ? 24 : 0)) : Infinity;
   const width = Math.min(availableWidth, availableHeight * ratio);
   slot.style.width = width + 'px'; slot.style.height = width / ratio + 'px';
@@ -277,6 +277,7 @@ function renderReel(resume = null) {
   const video = document.createElement('video');
   video.controls = false; video.playsInline = true; video.preload = 'metadata';
   video.setAttribute('aria-label', reel.title);
+  if (reel.poster) video.poster = reel.poster;
   video.setAttribute('controlslist', 'nodownload');
   video.addEventListener('contextmenu', event => event.preventDefault());
   video.src = reel.sources ? reel.sources[resolveReelRange(reel)] : reel.src;
