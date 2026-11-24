@@ -2075,7 +2075,11 @@ body:has(dialog[open]) {
 
 /* Immersive image viewer: no carousel chrome consumes image space. */
 .lumify-gallery-dialog.is-maximized {
-  position:fixed; inset:0; margin:0; width:100vw; height:100dvh;
+  position:fixed;
+  inset:var(--gallery-viewport-top,0px) auto auto var(--gallery-viewport-left,0px);
+  margin:0;
+  width:var(--gallery-viewport-width,100vw);
+  height:var(--gallery-viewport-height,100dvh);
   max-width:none; max-height:none; border:0; border-radius:0; overflow:hidden; background:#02090d;
 }
 .lumify-gallery-dialog.is-maximized .lumify-gallery-window { padding:0; min-height:0; }
