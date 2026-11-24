@@ -12,8 +12,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 <link rel="preload" href="./assets/cinematic-world.webp" as="image">
-<link href="./styles.css?v=20261118-reel-posters" rel="stylesheet">
-<script src="./content.js?v=20261109-blender" defer></script><script src="./app.js?v=20261118-reel-posters" defer></script><script src="./gallery/local-manifest.js?v=20261108" defer></script><script src="./gallery.js?v=20261108-folders" defer></script>
+<link href="./styles.css?v=20261124-gallery-viewer" rel="stylesheet">
+<script src="./content.js?v=20261109-blender" defer></script><script src="./app.js?v=20261118-reel-posters" defer></script><script src="./gallery/local-manifest.js?v=20261108" defer></script><script src="./gallery.js?v=20261124-gallery-viewer" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -100,7 +100,7 @@
                     </div>
                     <div class="gallery-description-row"><p id="lumifyGalleryDescription">A closer look at the artist-led workspaces shaping image, motion, and generated worlds.</p><a class="lumify-visit" href="https://www.lumifyai.com/" target="_blank" rel="noopener noreferrer">Experience Lumify for yourself <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div>
                 </div>
-                <div class="lumify-gallery-chrome" aria-label="Gallery window controls">
+                <div class="lumify-gallery-chrome" id="lumifyGalleryChrome" aria-label="Gallery window controls">
                     <button id="lumifyGalleryMaximize" type="button" aria-label="Maximize gallery window" aria-pressed="false" title="Maximize window">
                         <i class="fa-solid fa-expand" aria-hidden="true"></i>
                     </button>
@@ -117,6 +117,7 @@
                 </div>
                 <figure class="lumify-gallery-figure">
                     <img id="lumifyGalleryImage" src="" alt="">
+                    <button class="lumify-gallery-image-toggle" id="lumifyGalleryImageToggle" type="button" aria-label="View image fullscreen" aria-controls="lumifyGalleryChrome" hidden></button>
                     <button class="lumify-gallery-nav lumify-gallery-nav--prev" id="lumifyGalleryPrev" type="button" aria-label="Previous gallery image">
                         <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
                     </button>
