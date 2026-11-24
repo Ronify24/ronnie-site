@@ -618,11 +618,12 @@ main {
   padding-top:3px;
 }
 .reel-scene {
+  --reel-art:url('./assets/reel-light-sculpture.webp');
   display:grid;
   grid-template-columns:28% 1fr;
   gap:34px;
   padding:36px;
-  background:linear-gradient(90deg,rgba(4,18,24,.66),rgba(4,18,24,.24) 55%,rgba(4,18,24,.38)),url('./assets/reel-light-sculpture.webp') center / cover no-repeat #071b23;
+  background:linear-gradient(90deg,rgba(4,18,24,.66),rgba(4,18,24,.24) 55%,rgba(4,18,24,.38)),var(--reel-art) center / cover no-repeat #071b23;
 }
 .reel-intro {
   display:flex;
@@ -2491,6 +2492,20 @@ body:has(dialog[open]) {
 
 /* Landscape: side docks leave the full available height to the film. */
 @media(max-width:999px) and (orientation:landscape) {
+ #panel-reel {
+  isolation:isolate;
+  background:#07141b;
+ }
+ #panel-reel::before {
+  content:"";
+  position:absolute;
+  inset:-24px;
+  z-index:-1;
+  pointer-events:none;
+  background:var(--reel-art) center / cover no-repeat;
+  filter:blur(12px) saturate(.5) brightness(.65);
+  opacity:.45;
+ }
  #panel-reel .screening-room { grid-template-columns:60px minmax(0,1fr) 76px; grid-template-rows:minmax(0,1fr); gap:10px; }
  #panel-reel .reel-label { display:none; }
  #panel-reel .reel-range-controls { grid-column:1; grid-row:1; padding:0; flex-direction:column; justify-content:center; align-items:stretch; gap:8px; }
