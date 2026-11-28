@@ -16,6 +16,8 @@ window.lumifyGalleryFiles = [
   "/gallery/v2/lumify_v2_Batch.webp",
   "/gallery/v2/lumify_v2_Cut.webp",
   "/gallery/v2/lumify_v2_DirectorDesk.webp",
+  "/gallery/v2/lumify_v2_GShaded.webp",
+  "/gallery/v2/lumify_v2_Layers.webp",
   "/gallery/v2/lumify_v2_Reference.webp",
   "/gallery/v2/lumify_v2_Shots.webp",
   "/gallery/v2/lumify_v2_Workspace.webp",
@@ -24,6 +26,8 @@ window.lumifyGalleryFiles = [
   "/gallery/v2/thumbnails/lumify_v2_Batch.webp",
   "/gallery/v2/thumbnails/lumify_v2_Cut.webp",
   "/gallery/v2/thumbnails/lumify_v2_DirectorDesk.webp",
+  "/gallery/v2/thumbnails/lumify_v2_GShaded.webp",
+  "/gallery/v2/thumbnails/lumify_v2_Layers.webp",
   "/gallery/v2/thumbnails/lumify_v2_Reference.webp",
   "/gallery/v2/thumbnails/lumify_v2_Shots.webp",
   "/gallery/v2/thumbnails/lumify_v2_Workspace.webp"
