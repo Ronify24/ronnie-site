@@ -36,8 +36,16 @@
 
         function discoverGalleryImages() {
             const first = ["Workspace", "Shots", "Cut", "Assets", "Reference"];
-            return galleryFiles.filter(path => path.startsWith(`/gallery/${galleryVersion}/`) && /\.(png|jpe?g|webp|avif|gif)$/i.test(path))
-                .map(path => ({src: '.' + path.split('/').map(encodeURIComponent).join('/'), name: path.split('/').pop().replace(/\.[^.]+$/, '').replace(/^lumify_v\d+_/, '')}))
+            const folder = `/gallery/${galleryVersion}/`;
+            const paths = new Set(galleryFiles);
+            const url = path => '.' + path.split('/').map(encodeURIComponent).join('/');
+            return galleryFiles.filter(path => path.startsWith(folder) && !path.slice(folder.length).includes('/') && /\.(png|jpe?g|webp|avif|gif)$/i.test(path))
+                .map(path => {
+                    const stem = path.slice(folder.length).replace(/\.[^.]+$/, '');
+                    const thumbnail = `${folder}thumbnails/${stem}.webp`;
+                    const src = url(path);
+                    return {src, thumbnail: paths.has(thumbnail) ? url(thumbnail) : src, name: stem.replace(/^lumify_v\d+_/, '')};
+                })
                 .sort((a, b) => {
                     const rank = item => galleryVersion === 'v2' && first.includes(item.name) ? first.indexOf(item.name) : 100;
                     return rank(a) - rank(b) || a.name.localeCompare(b.name, undefined, {numeric: true});
@@ -177,7 +185,7 @@
                 button.setAttribute("aria-label", `Show Lumify ${galleryVersion.toUpperCase()} ${item.name || "gallery image " + (index + 1)}`);
 
                 const image = document.createElement("img");
-                image.src = item.src;
+                image.src = item.thumbnail;
                 image.alt = "";
                 image.loading = "eager";
                 image.fetchPriority = "low";
@@ -260,7 +268,7 @@
             if (sequence !== galleryLoadSequence || galleryPanel.hidden) return;
             const updated = discoverGalleryImages();
             if (!updated.length || updated.length !== items.length ||
-                updated.some((item, index) => item.src !== items[index].src)) {
+                updated.some((item, index) => item.src !== items[index].src || item.thumbnail !== items[index].thumbnail)) {
                 const currentSrc = galleryItems[galleryCurrent]?.src;
                 galleryCurrent = Math.max(0, updated.findIndex(item => item.src === currentSrc));
                 renderGalleryCollection(updated);

@@ -11,6 +11,11 @@ list needs editing. Removed or renamed images are reflected on the next publish.
 V2 opens by default. Workspace, Shots, Cut, Assets, and Reference stay first;
 other images follow in natural filename order. V1 uses natural filename order.
 
+V2 uses full-resolution, lossless WebP screenshots. Keep the original PNGs in
+`gallery/masters/v2/`, which GitHub Pages excludes. Put WebP thumbnails in
+`gallery/v2/thumbnails/` with the same filename stem as their screenshots.
+The gallery uses the full screenshot as a fallback for entries without a thumbnail.
+
 For the plain local preview server, run `python3 scripts/build_gallery_manifest.py`
 after adding/moving images, then refresh the page. Commit its generated fallback
 (`gallery/local-manifest.js`) too. The published site uses the automatic manifest.
