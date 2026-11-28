@@ -1,10 +1,16 @@
 'use strict';
 const sections = ['overview', 'skills', 'reel', 'projects'];
+const scenes = [...sections, 'workspace'];
 const sceneLabels = ['THE VISION', 'THE CRAFT', 'THE MOTION', 'THE WORK'];
 const contactMenu = document.getElementById('contactMenu');
+const main = document.getElementById('main');
 let activeScene = 'overview';
+let workspaceLauncher;
 let reelRendered = false;
 let currentReel = 0;
+function getSceneIndex() {
+ return sections.indexOf(activeScene === 'workspace' ? 'projects' : activeScene);
+}
 // Add MP4 or Vimeo entries here; the first entry is selected by default.
 const videos = [
  { type: 'mp4', src: './assets/GenAI_Animation_HDR_v2.mp4', sources: { hdr: './assets/GenAI_Animation_HDR_v2.mp4', sdr: './assets/GenAI_Animation_SDR.mp4' }, poster: './assets/Ronnie Cleland Generative Media Studio.webp', title: 'Generative Media | Animation' },
@@ -25,10 +31,13 @@ function stopReel() {
 }
 
 function setActive(name, push = false) {
- if (!sections.includes(name)) name = 'overview';
- const leavingReel = activeScene === 'reel' && name !== 'reel';
+ if (!scenes.includes(name)) name = 'overview';
+ const previousScene = activeScene;
+ const enteringWorkspace = name === 'workspace' && previousScene !== name;
+ const leavingWorkspace = previousScene === 'workspace' && name !== previousScene;
+ if (leavingWorkspace) setGalleryMaximized(false);
  activeScene = name;
- sections.forEach(section => {
+ scenes.forEach(section => {
   const panel = document.getElementById('panel-' + section);
   panel.hidden = section !== name;
   panel.classList.toggle('active', section === name);
@@ -38,23 +47,47 @@ function setActive(name, push = false) {
   link.classList.toggle('is-active', selected);
   if (selected) link.setAttribute('aria-current', 'page'); else link.removeAttribute('aria-current');
  });
- if (push && location.hash !== '#' + name) history.pushState(null, '', '#' + name);
- if (leavingReel) { stopReel(); reelRendered = false; }
+ if (push && location.hash !== '#' + name) {
+  history.pushState(enteringWorkspace ? { workspaceEntry: true } : null, '', '#' + name);
+ }
+ if (previousScene === 'reel' && name !== 'reel') { stopReel(); reelRendered = false; }
  if (name === 'reel' && !reelRendered) { renderReel(); reelRendered = true; }
- document.getElementById('sceneNumber').textContent = String(sections.indexOf(name) + 1).padStart(2, '0');
- document.getElementById('sceneLabel').textContent = sceneLabels[sections.indexOf(name)];
+ if (enteringWorkspace) selectGalleryVersion('v2');
+ const sceneIndex = getSceneIndex();
+ document.getElementById('sceneNumber').textContent = String(sceneIndex + 1).padStart(2, '0');
+ document.getElementById('sceneLabel').textContent = name === 'workspace' ? 'LUMIFY WORKSPACE' : sceneLabels[sceneIndex];
  contactMenu.open = false;
- if (push) { document.getElementById('main').focus({preventScroll: true}); window.scrollTo(0, 0); }
+ if (push || enteringWorkspace) { main.focus({preventScroll: true}); window.scrollTo(0, 0); }
+ else if (leavingWorkspace) {
+  const returnTarget = workspaceLauncher?.getClientRects().length ? workspaceLauncher : main;
+  returnTarget.focus({preventScroll: true});
+ }
 }
 document.querySelectorAll('[data-tab]').forEach(link => link.addEventListener('click', event => {
- event.preventDefault(); setActive(link.dataset.tab, true);
+ if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+ event.preventDefault();
+ if (link.dataset.tab === 'workspace' && activeScene !== 'workspace') workspaceLauncher = link;
+ setActive(link.dataset.tab, true);
  if (link.dataset.projectTarget) document.getElementById('project-' + link.dataset.projectTarget + '-tab').click();
 }));
-document.querySelector('.skip-link').addEventListener('click', event => { event.preventDefault(); document.getElementById('main').focus(); });
+function closeWorkspace() {
+ if (history.state?.workspaceEntry) history.back();
+ else {
+  history.replaceState(null, '', '#projects');
+  setActive('projects', true);
+ }
+}
+document.getElementById('lumifyGalleryClose').addEventListener('click', closeWorkspace);
+main.addEventListener('keydown', event => {
+ if (activeScene !== 'workspace' || event.key !== 'Escape' || event.defaultPrevented) return;
+ event.preventDefault();
+ closeWorkspace();
+});
+document.querySelector('.skip-link').addEventListener('click', event => { event.preventDefault(); main.focus(); });
 window.addEventListener('hashchange', () => setActive(location.hash.slice(1).replace(/^panel-/, '')));
 window.addEventListener('popstate', () => setActive(location.hash.slice(1).replace(/^panel-/, '')));
-document.getElementById('scenePrev').addEventListener('click', () => setActive(sections[(sections.indexOf(activeScene) + 3) % 4], true));
-document.getElementById('sceneNext').addEventListener('click', () => setActive(sections[(sections.indexOf(activeScene) + 1) % 4], true));
+document.getElementById('scenePrev').addEventListener('click', () => setActive(sections[(getSceneIndex() + sections.length - 1) % sections.length], true));
+document.getElementById('sceneNext').addEventListener('click', () => setActive(sections[(getSceneIndex() + 1) % sections.length], true));
 document.getElementById('year').textContent = new Date().getFullYear();
 document.addEventListener('click', event => { if (!contactMenu.contains(event.target)) contactMenu.open = false; });
 document.addEventListener('keydown', event => { if (event.key === 'Escape' && contactMenu.open) { contactMenu.open = false; contactMenu.querySelector('summary').focus(); } });

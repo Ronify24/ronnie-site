@@ -1,9 +1,7 @@
         /* Lumify Gallery: versioned screenshot collections. */
-        const galleryDialog = document.getElementById("lumifyGalleryDialog");
-        const galleryWindow = galleryDialog.querySelector(".lumify-gallery-window");
-        const galleryLaunch = document.getElementById("lumifyGalleryLaunch");
+        const galleryPanel = document.getElementById("panel-workspace");
+        const galleryWindow = galleryPanel.querySelector(".lumify-gallery-window");
         const galleryChrome = document.getElementById("lumifyGalleryChrome");
-        const galleryClose = document.getElementById("lumifyGalleryClose");
         const galleryMaximize = document.getElementById("lumifyGalleryMaximize");
         const galleryStage = document.getElementById("lumifyGalleryStage");
         const galleryImage = document.getElementById("lumifyGalleryImage");
@@ -14,8 +12,10 @@
         const galleryEmpty = document.getElementById("lumifyGalleryEmpty");
         const galleryPrev = document.getElementById("lumifyGalleryPrev");
         const galleryNext = document.getElementById("lumifyGalleryNext");
+        const galleryFrame = document.getElementById("lumifyGalleryFrame");
         const galleryCount = document.getElementById("lumifyGalleryCount");
         const galleryThumbs = document.getElementById("lumifyGalleryThumbs");
+        const gallerySiteChrome = document.querySelectorAll(".site-header, .site-footer, .skip-link");
         let galleryFiles = window.lumifyGalleryFiles || [];
         let galleryManifestRequest;
         let galleryLoadSequence = 0;
@@ -112,7 +112,7 @@
         }
 
         function updateGalleryImageToggle() {
-            const maximized = galleryDialog.classList.contains("is-maximized");
+            const maximized = galleryPanel.classList.contains("is-maximized");
             const imageReady = galleryImage.complete && galleryImage.naturalWidth > 0;
             galleryImageToggle.hidden = !maximized && !(imageReady && galleryPhoneLandscape.matches);
             galleryImageToggle.setAttribute("aria-expanded", String(!galleryChrome.hidden));
@@ -132,8 +132,8 @@
         }
 
         function fitGalleryViewport() {
-            const useVisualViewport = galleryDialog.open &&
-                galleryDialog.classList.contains("is-maximized") &&
+            const useVisualViewport = !galleryPanel.hidden &&
+                galleryPanel.classList.contains("is-maximized") &&
                 galleryPhoneLandscape.matches && document.fullscreenElement !== galleryWindow &&
                 galleryViewport?.width > 0 && galleryViewport.height > 0;
             const bounds = {
@@ -144,28 +144,27 @@
             };
             for (const [edge, pixels] of Object.entries(bounds)) {
                 const property = `--gallery-viewport-${edge}`;
-                if (useVisualViewport) galleryDialog.style.setProperty(property, `${pixels}px`);
-                else galleryDialog.style.removeProperty(property);
+                if (useVisualViewport) galleryPanel.style.setProperty(property, `${pixels}px`);
+                else galleryPanel.style.removeProperty(property);
             }
         }
 
         function setGalleryMaximized(isMaximized, controlsHidden = false) {
             resetGalleryZoom();
-            galleryDialog.classList.toggle("is-maximized", isMaximized);
+            galleryPanel.classList.toggle("is-maximized", isMaximized);
             fitGalleryViewport();
             setGalleryControlsHidden(controlsHidden);
-            if (isMaximized) galleryDialog.setAttribute("aria-label", "Lumify precision image viewer");
-            else galleryDialog.removeAttribute("aria-label");
-            galleryMaximize.innerHTML = isMaximized
-                ? '<i class="fa-solid fa-compress" aria-hidden="true"></i>'
-                : '<i class="fa-solid fa-expand" aria-hidden="true"></i>';
+            gallerySiteChrome.forEach(element => { element.inert = isMaximized; });
             galleryMaximize.setAttribute("aria-pressed", isMaximized ? "true" : "false");
-            galleryMaximize.setAttribute("aria-label", isMaximized ? "Restore gallery window" : "Maximize gallery window");
-            galleryMaximize.title = isMaximized ? "Restore window" : "Maximize window";
-            galleryClose.setAttribute("aria-label", isMaximized ? "Close precision viewer" : "Close Lumify Gallery");
-            galleryClose.title = isMaximized ? "Close precision viewer" : "Close gallery";
-            if (isMaximized && !controlsHidden) galleryClose.focus({ preventScroll: true });
-            if (!isMaximized) return exitGalleryFullscreen();
+            const maximizeLabel = isMaximized ? "Exit image fullscreen" : "View image fullscreen";
+            galleryMaximize.setAttribute("aria-label", maximizeLabel);
+            galleryMaximize.title = maximizeLabel;
+            if (isMaximized) {
+                const focusTarget = controlsHidden ? galleryImageToggle : galleryMaximize;
+                focusTarget.focus({ preventScroll: true });
+            } else {
+                exitGalleryFullscreen();
+            }
         }
 
         function renderGalleryThumbs() {
@@ -181,6 +180,7 @@
                 image.src = item.src;
                 image.alt = "";
                 image.loading = "eager";
+                image.fetchPriority = "low";
                 image.decoding = "async";
                 button.appendChild(image);
                 galleryThumbs.appendChild(button);
@@ -192,8 +192,11 @@
             resetGalleryZoom();
             const item = galleryItems[galleryCurrent];
             galleryStage.classList.add("is-switching");
+            galleryStatus.hidden = galleryImage.naturalWidth > 0;
+            if (!galleryStatus.hidden) galleryStatus.querySelector("span").textContent = "Loading screenshot…";
             galleryImage.onload = () => {
                 galleryStage.classList.remove("is-switching");
+                galleryStatus.hidden = true;
                 updateGalleryImageToggle();
             };
             galleryImage.onerror = () => {
@@ -205,8 +208,8 @@
             galleryImage.src = item.src;
             galleryImage.alt = `Lumify ${galleryVersion.toUpperCase()} ${item.name || "creative platform interface"}, gallery view ${galleryCurrent + 1} of ${galleryItems.length}`;
             updateGalleryImageToggle();
+            galleryFrame.textContent = item.name;
             galleryCount.textContent = `${String(galleryCurrent + 1).padStart(2, "0")} / ${String(galleryItems.length).padStart(2, "0")}`;
-            galleryStatus.hidden = true;
             galleryEmpty.hidden = true;
             galleryPrev.disabled = galleryItems.length < 2;
             galleryNext.disabled = galleryItems.length < 2;
@@ -225,46 +228,50 @@
             renderGalleryImage();
         }
 
-        async function ensureGalleryReady() {
-            const sequence = ++galleryLoadSequence;
-            galleryStatus.hidden = false;
-            galleryEmpty.hidden = true;
-            await loadGalleryManifest();
-            if (sequence !== galleryLoadSequence) return;
-            galleryItems = discoverGalleryImages();
-            if (!galleryItems.length) {
-                galleryThumbs.innerHTML = '';
-                galleryImage.removeAttribute('src');
+        function renderGalleryCollection(items) {
+            galleryItems = items;
+            if (!items.length) {
+                galleryThumbs.innerHTML = "";
+                galleryImage.removeAttribute("src");
                 updateGalleryImageToggle();
-                galleryCount.textContent = '00 / 00';
+                galleryFrame.textContent = "Interface screenshots";
+                galleryCount.textContent = "00 / 00";
                 galleryStatus.hidden = true;
                 galleryEmpty.hidden = false;
                 galleryPrev.disabled = true;
                 galleryNext.disabled = true;
                 return;
             }
-            galleryCurrent = Math.min(galleryCurrent, galleryItems.length - 1);
+            galleryCurrent = Math.min(galleryCurrent, items.length - 1);
             renderGalleryThumbs();
             renderGalleryImage();
         }
 
-        let galleryReturnFocus;
-        async function openGallery(event) {
-            galleryReturnFocus = event?.currentTarget;
-            if (!galleryDialog.open) galleryDialog.showModal();
-            document.body.classList.add("gallery-is-open");
-            document.querySelectorAll("[data-gallery]").forEach(button => button.setAttribute("aria-expanded", "true"));
-            galleryClose.focus({ preventScroll: true });
-            selectGalleryVersion("v2");
+        async function ensureGalleryReady() {
+            const sequence = ++galleryLoadSequence;
+            const items = discoverGalleryImages();
+            if (items.length) renderGalleryCollection(items);
+            else {
+                galleryStatus.querySelector("span").textContent = "Preparing the gallery…";
+                galleryStatus.hidden = false;
+                galleryEmpty.hidden = true;
+            }
+            await loadGalleryManifest();
+            if (sequence !== galleryLoadSequence || galleryPanel.hidden) return;
+            const updated = discoverGalleryImages();
+            if (!updated.length || updated.length !== items.length ||
+                updated.some((item, index) => item.src !== items[index].src)) {
+                const currentSrc = galleryItems[galleryCurrent]?.src;
+                galleryCurrent = Math.max(0, updated.findIndex(item => item.src === currentSrc));
+                renderGalleryCollection(updated);
+            }
         }
 
-        document.querySelectorAll("[data-gallery]").forEach(button => button.addEventListener("click", openGallery));
         galleryVersionButtons.forEach(button => button.addEventListener("click", () => selectGalleryVersion(button.dataset.galleryVersion)));
-        galleryClose.addEventListener("click", () => galleryDialog.close());
-        galleryMaximize.addEventListener("click", () => setGalleryMaximized(!galleryDialog.classList.contains("is-maximized")));
+        galleryMaximize.addEventListener("click", () => setGalleryMaximized(!galleryPanel.classList.contains("is-maximized")));
         galleryImageToggle.addEventListener("click", event => {
             if (event.detail && galleryImageDragged) return;
-            const maximized = galleryDialog.classList.contains("is-maximized");
+            const maximized = galleryPanel.classList.contains("is-maximized");
             if (maximized && galleryChrome.hidden) {
                 setGalleryControlsHidden(false);
                 return;
@@ -281,7 +288,7 @@
         });
         galleryWindow.addEventListener("fullscreenchange", () => {
             fitGalleryViewport();
-            if (!galleryDialog.open || !galleryDialog.classList.contains("is-maximized")) exitGalleryFullscreen();
+            if (galleryPanel.hidden || !galleryPanel.classList.contains("is-maximized")) exitGalleryFullscreen();
             else if (document.fullscreenElement !== galleryWindow) setGalleryControlsHidden(false);
         });
         galleryPhoneLandscape.addEventListener("change", () => {
@@ -300,28 +307,17 @@
             renderGalleryImage();
         });
 
-        galleryDialog.addEventListener("click", (event) => {
-            if (event.target === galleryDialog) galleryDialog.close();
-        });
-
-        galleryDialog.addEventListener("close", async () => {
-            const returnFocus = galleryReturnFocus;
-            document.body.classList.remove("gallery-is-open");
-            document.querySelectorAll("[data-gallery]").forEach(button => button.setAttribute("aria-expanded", "false"));
-            await setGalleryMaximized(false);
-            if (!galleryDialog.open) returnFocus?.focus({preventScroll:true});
-        });
-
-        galleryDialog.addEventListener("keydown", (event) => {
+        galleryPanel.addEventListener("keydown", (event) => {
             if (event.key === "ArrowLeft") {
                 event.preventDefault();
                 cycleGallery(-1);
             } else if (event.key === "ArrowRight") {
                 event.preventDefault();
                 cycleGallery(1);
-            } else if (event.key === "Escape") {
+            } else if (event.key === "Escape" && galleryPanel.classList.contains("is-maximized")) {
                 event.preventDefault();
-                galleryDialog.close();
+                setGalleryMaximized(false);
+                galleryMaximize.focus({ preventScroll: true });
             }
         });
 
@@ -332,7 +328,7 @@
                 galleryImagePress = imagePressed ? { x: event.clientX, y: event.clientY } : null;
                 galleryImageDragged = false;
             }
-            if (event.pointerType !== "touch" && !(galleryDialog.classList.contains("is-maximized") && galleryZoom > 1)) return;
+            if (event.pointerType !== "touch" && !(galleryPanel.classList.contains("is-maximized") && galleryZoom > 1)) return;
             galleryPointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
             // Keep the image button as the click target for a captured tap.
             try { (imagePressed ? galleryImageToggle : galleryStage).setPointerCapture(event.pointerId); } catch { }
@@ -456,15 +452,15 @@
             applyGalleryZoom();
         }
         galleryStage.addEventListener("wheel", event => {
-            if (!galleryDialog.classList.contains("is-maximized")) return;
+            if (!galleryPanel.classList.contains("is-maximized")) return;
             event.preventDefault();
             const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? galleryStage.clientHeight : 1);
             zoomGalleryAt(galleryZoom * Math.exp(-Math.max(-120, Math.min(120, delta)) * .006), event.clientX, event.clientY);
         }, {passive:false});
         galleryStage.addEventListener("dblclick", event => {
-            if (!galleryDialog.classList.contains("is-maximized") || galleryPhoneLandscape.matches || galleryImageDragged) return;
+            if (!galleryPanel.classList.contains("is-maximized") || galleryPhoneLandscape.matches || galleryImageDragged) return;
             zoomGalleryAt(galleryZoom > 1 ? 1 : 2, event.clientX, event.clientY);
         });
         window.addEventListener("resize", () => {
-            if (galleryDialog.open) resetGalleryZoom();
+            if (!galleryPanel.hidden) resetGalleryZoom();
         });
